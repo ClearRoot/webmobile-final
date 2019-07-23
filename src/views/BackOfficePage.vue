@@ -2,7 +2,7 @@
   <div>
     <ImgBanner>
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">
-        Portfolio
+        BackOffice
       </div>
     </ImgBanner>
     <v-container>
@@ -11,7 +11,7 @@
       <!-- Portfolio -->
       <v-layout>
         <v-flex xs12>
-          <PortfolioList :limits="6" :load-more="true"></PortfolioList>
+          <!-- PortfolioList -->
         </v-flex>
       </v-layout>
       <v-layout>
@@ -23,6 +23,7 @@
 
 <script>
 import ImgBanner from "../components/ImgBanner";
+import firebase from "firebase/app";
 
 export default {
   name: "BackOfficePage",
