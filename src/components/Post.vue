@@ -8,25 +8,43 @@
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ thisBody }}
       </p>
+      <p class="mb-1 color-666 font-weight-light subheading bodyText">
+        {{ thisId }}
+      </p>
+      <router-link :to="{ name: 'board', params: { postId: thisId } }"
+        >go</router-link
+      >
+      <v-btn @click="getPost()">dddddd</v-btn>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import FirebaseService from "@/services/FirebaseService";
+
 export default {
   name: "Post",
   props: {
     date: { type: Date },
     title: { type: String },
-    body: { type: String }
+    body: { type: String },
+    id: { type: String }
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
-      thisBody: ""
+      thisBody: "",
+      thisId: ""
     };
+  },
+  methods: {
+    async getPost(){
+      console.log(this.thisId);
+      var result = await FirebaseService.getPost(this.thisId);
+      console.log(result);
+    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
@@ -60,6 +78,7 @@ export default {
   mounted() {
     this.thisTitle = this.title;
     this.thisBody = this.body;
+    this.thisId = this.id;
   },
 
   computed: {

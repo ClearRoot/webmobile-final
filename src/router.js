@@ -7,6 +7,7 @@ import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./views/SignIn.vue";
 import Comment from "./views/Comment.vue";
+import Board from "./views/Board.vue";
 
 Vue.use(Router);
 
@@ -48,7 +49,13 @@ export default new Router({
       path: "/comment",
       name: "comment",
       component: Comment
+    },
+    {
+      path: "/post/:postId",
+      name: "board",
+      component: Board
     }
+
   ],
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };

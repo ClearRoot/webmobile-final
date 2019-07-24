@@ -55,9 +55,21 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
+          data.id = doc.id;
+          console.log(data);
           return data;
         });
       });
+  },
+  getPost(id){
+    const postsCollection = firestore.collection(POSTS).doc(id).get();
+    return postsCollection.then(docSnapshots => {
+      let data = docSnapshots.data();
+      data.created_at = new Date(data.created_at.toDate());
+      data.id = docSnapshots.id;
+      console.log(data);
+      return data;
+    });
   },
   postPost(title, body) {
     return firestore.collection(POSTS).add({
