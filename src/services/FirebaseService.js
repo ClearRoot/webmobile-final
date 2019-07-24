@@ -63,6 +63,7 @@ export default {
     return firestore.collection(POSTS).add({
       title,
       body,
+      ownerId: firebase.auth().currentUser.uid,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
@@ -88,6 +89,7 @@ export default {
       title,
       body,
       img,
+      ownerId: firebase.auth().currentUser.uid,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
