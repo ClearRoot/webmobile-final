@@ -1,4 +1,6 @@
 <template>
+
+  <router-link to="/portfoliodetail" style="text-decoration: none;">
   <v-card>
     <v-img :src="imgSrc" height="200px"> </v-img>
     <v-card-title primary-title>
@@ -8,6 +10,8 @@
       </div>
     </v-card-title>
   </v-card>
+  </router-link>
+
 </template>
 
 <script>

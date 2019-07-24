@@ -2,35 +2,43 @@
   <div>
     <ImgBanner>
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">
-        Portfolio
+        PortfolioDetail
       </div>
     </ImgBanner>
-    <v-container>
-      <!-- Portfolio -->
-      <PortfolioWriter></PortfolioWriter>
-      <v-layout>
-        <v-flex xs12>
-          <PortfolioList :limits="6" :load-more="true"></PortfolioList>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex xs12></v-flex>
-      </v-layout>
-    </v-container>
+
+    <div>
+      <table>
+
+        <tr v-for="p in paginatedData" :key="p.no">
+
+
+        </tr>
+      </table>
+      <div class="btn-cover">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+          이전
+        </button>
+        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+          다음
+        </button>
+      </div>
+    </div>
+
+
+
+
+
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
-import PortfolioList from "../components/PortfolioList";
-import PortfolioWriter from "../components/PortfolioWriter";
 
 export default {
   name: "PortfolioPage",
   components: {
-    ImgBanner,
-    PortfolioList,
-    PortfolioWriter
+    ImgBanner
   },
   data() {
     return {
@@ -60,7 +68,6 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-          console.log(translateUrl.title)
         }).catch(e => {
           console.error(e)
         });
