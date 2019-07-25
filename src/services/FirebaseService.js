@@ -56,7 +56,6 @@ export default {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
-          console.log(data);
           return data;
         });
       });
@@ -67,7 +66,6 @@ export default {
       let data = docSnapshots.data();
       data.created_at = new Date(data.created_at.toDate());
       data.id = docSnapshots.id;
-      console.log(data);
       return data;
     });
   },

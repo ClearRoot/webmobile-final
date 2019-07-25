@@ -51,9 +51,10 @@ export default new Router({
       component: Comment
     },
     {
-      path: "/post/:postId",
+      path: "/post/board/",
       name: "board",
-      component: Board
+      component: Board,
+      props: true
     }
 
   ],

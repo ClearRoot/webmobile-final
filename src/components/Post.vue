@@ -11,10 +11,10 @@
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ thisId }}
       </p>
-      <router-link :to="{ name: 'board', params: { postId: thisId } }"
+      <router-link :to="{ name: 'board', params: { id: thisId } }"
         >go</router-link
       >
-      <v-btn @click="getPost()">dddddd</v-btn>
+      <v-btn @click="go()">dddddd</v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -40,10 +40,10 @@ export default {
     };
   },
   methods: {
-    async getPost(){
-      console.log(this.thisId);
-      var result = await FirebaseService.getPost(this.thisId);
-      console.log(result);
+    go(){
+      // console.log(this.thisId);
+      this.$router.push("/post/" + this.thisId);
+      // console.log(result);
     }
   },
   created() {
