@@ -1,6 +1,19 @@
 <template>
   <div>
+    <v-card>
+    <v-card-title>
+   Nutrition
+   <v-spacer></v-spacer>
+   <v-text-field
+     v-model="search"
+     append-icon="search"
+     label="Search"
+     single-line
+     hide-details
+   ></v-text-field>
+ </v-card-title>
     <v-data-table
+    :search="search"
       v-model="selected"
       :headers="headers"
       :items="items"
@@ -8,7 +21,6 @@
       hide-actions
       :pagination.sync="pagination"
       select-all
-      search
       item-key="id"
       class="elevation-1"
       expand
@@ -49,16 +61,47 @@
 
           ></v-checkbox>
         </td>
-        <td class="text-xs-left " @click="props.expanded = !props.expanded">{{ props.item.title }}</td>
+        <td class="text-xs-left " @click="props.expanded = !props.expanded"><div class="titleText">
+          {{ props.item.title }}
+        </div></td>
         <td class="text-xs-right">{{ props.item.created_at }}</td>
         <td class="justify-center layout px-0">
-<v-icon
-  small
-  class="mr-2"
-  @click="editItem(props.item)"
->
-  edit
-</v-icon>
+
+
+          <v-dialog v-model="dialog" max-width="500px">
+                  <template v-slot:activator="{ on }">
+                    <v-icon  class="mr-2" v-on="on"   small
+                      >edit</v-icon>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">수정</span>
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-container grid-list-md>
+                        <v-layout wrap>
+                          <v-flex xs10>
+                            <v-text-field v-model="props.item.title" label="제목"></v-text-field>
+                          </v-flex>
+                          <v-flex xs10>
+                            <v-textarea v-model="props.item.body" label="내용"></v-textarea>
+                          </v-flex>
+                        </v-layout>
+                      </v-container>
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" flat @click="dialog=false" >Cancel</v-btn>
+                      <v-btn color="blue darken-1" flat @click="editItem(props.item)">Save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
+
+
+
 <v-icon
   small
   @click="removeItem(props.item)"
@@ -74,14 +117,15 @@
 </v-card>
 </template>
   </v-data-table>
+  <v-btn class="text-xs-right">선택삭제</v-btn>
   <div class="text-xs-center">
       <v-pagination
         v-model="pagination.page"
         :length="pages"
          :total-visible="7"
-         style="vertical-align:none !important"
       ></v-pagination>
   </div>
+</v-card>
  </div>
 </template>
 
@@ -96,7 +140,7 @@ export default {
   },
   data() {
     return {
-
+      dialog: false,
       ddlSource: "ko",
       ddlTarget: "en",
       singleSelect: false,
@@ -138,6 +182,17 @@ export default {
     }
   },
   methods: {
+      cancel () {
+        this.dialog = false;
+      },
+      open () {
+        this.snack = true
+        this.snackColor = 'info'
+        this.snackText = 'Dialog opened'
+      },
+      close () {
+        console.log('Dialog closed')
+      },
 
     toggleAll () {
             if (this.selected.length) this.selected = []
@@ -153,7 +208,8 @@ export default {
           },
 
     async getItems(){
-      this.loading = true
+      this.loading = true;
+      this.search = '';
       if(this.tab==="post"){
         this.items = await FirebaseService.getPosts();
       } else if (this.tab === "portfolio") {
@@ -229,7 +285,38 @@ export default {
       }
     })
 
+  },
+
+  editItem(item){
+
+    const index = this.items.indexOf(item)
+    // let flag =
+    const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: true,
+  })
+
+  swalWithBootstrapButtons.fire({
+    title: '수정 확인',
+    text: "수정하시겠습니까?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오',
+  }).then((result) => {
+    if (result.value) {
+      this.items.splice(index, 1)
+     // FirebaseService.removeItem(item.id);
+      swalWithBootstrapButtons.fire(
+        '수정되었습니다'
+      )
     }
+  })
+
+  }
   }
 };
 </script>

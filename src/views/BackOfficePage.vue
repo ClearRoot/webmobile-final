@@ -15,7 +15,7 @@
 
 
       <!-- Portfolio -->
-      <!-- <v-layout> -->
+      <v-layout>
         <v-flex xs12>
           <template>
             <v-tabs fixed-tabs v-model="active">
@@ -23,24 +23,21 @@
                 {{ tab }}
               </v-tab>
             </v-tabs>
-
           </template>
 
           <v-tabs-items >
             <v-tab-item
             >
-              <v-card flat>
                 <Tab :tab="tabs[active]"></Tab>
-              </v-card>
             </v-tab-item>
           </v-tabs-items>
 
         </v-flex>
-      <!-- </v-layout> -->
-      <v-layout>
-        <v-flex xs12></v-flex>
       </v-layout>
     </v-container>
+    <div style="height:1000px">
+
+    </div>
   </div>
 </template>
 
@@ -92,7 +89,25 @@ export default {
     goURL(url){
       // window.open(url);
       console.log(this.posts);
-    }
+    },
+    save () {
+        this.snack = true
+        this.snackColor = 'success'
+        this.snackText = 'Data saved'
+      },
+      cancel () {
+        this.snack = true
+        this.snackColor = 'error'
+        this.snackText = 'Canceled'
+      },
+      open () {
+        this.snack = true
+        this.snackColor = 'info'
+        this.snackText = 'Dialog opened'
+      },
+      close () {
+        console.log('Dialog closed')
+      }
   }
 };
 </script>

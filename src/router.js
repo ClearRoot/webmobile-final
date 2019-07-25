@@ -5,7 +5,7 @@ import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
-import SignIn from "./views/SignIn.vue";
+import SignIn from "./components/SignIn.vue";
 import BackOfficePage from "./views/BackOfficePage.vue";
 
 Vue.use(Router);
