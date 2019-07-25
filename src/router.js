@@ -42,8 +42,10 @@ export default new Router({
     {
       path: "/portfoliodetail",
       name: "portfoliodetail",
-      component: PortfolioDetail
+      component: PortfolioDetail,
+      props:true
     },
+    
     {
       path: "/signin",
       name: "signin",

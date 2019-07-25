@@ -60,7 +60,7 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-          console.log(translateUrl.title)
+
         }).catch(e => {
           console.error(e)
         });

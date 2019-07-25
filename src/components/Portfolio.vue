@@ -1,11 +1,15 @@
 <template>
 
-  <router-link to="/portfoliodetail" style="text-decoration: none;">
+  <router-link :to="{name: 'portfoliodetail', params:{id: thisTitle ,id2: thisBody, id3: imgSrc }}" style="text-decoration: none;">
   <v-card>
+
     <v-img :src="imgSrc" height="200px"> </v-img>
+
     <v-card-title primary-title>
       <div>
+
         <div class="headline titleText">{{ thisTitle }}</div>
+
         <span class="grey--text bodyText">{{ thisBody }}</span>
       </div>
     </v-card-title>
@@ -22,6 +26,8 @@ export default {
     title: { type: String },
     body: { type: String },
     imgSrc: { type: String }
+
+
   },
   data() {
     return {

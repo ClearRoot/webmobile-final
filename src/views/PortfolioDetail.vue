@@ -5,49 +5,52 @@
         PortfolioDetail
       </div>
     </ImgBanner>
+        <v-container>
 
-    <div>
-      <table>
+  <div>
+      <v-img :src="imgSrc" height="200px">{{ thisImg}} </v-img>
+          <div class="headline titleText">{{ thisTitle }}</div>
 
-        <tr v-for="p in paginatedData" :key="p.no">
-
-
-        </tr>
-      </table>
-      <div class="btn-cover">
-        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-          이전
-        </button>
-        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
-          다음
-        </button>
-      </div>
-    </div>
+          <span class="grey--text bodyText">{{ thisBody }}</span>
+        </div>
 
 
 
-
-
+        </v-container>
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
-
+import PortfolioList from "../components/PortfolioList";
 export default {
   name: "PortfolioPage",
   components: {
-    ImgBanner
+    ImgBanner,
+    PortfolioList
   },
+  props: {
+    date: { type: String },
+    title: { type: String },
+    body: { type: String },
+    imgSrc: { type:  String }
+
+
+  },
+
+
   data() {
     return {
       ddlSource: "ko",
-      ddlTarget: "en"
+      ddlTarget: "en",
+      thisTitle: this.$route.params.id,
+      thisBody : this.$route.params.id2,
+      thisImg :this.$route.params.id3
     };
   },
-  methods: {
-    translate() {
+created(){
+
+      this.$EventBus.$on("click-icon_detail", async () => {
       const axios = require("axios");
       var translateUrl =
         "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
@@ -68,10 +71,21 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
+          console.log(this.ddlSource)
         }).catch(e => {
           console.error(e)
         });
-    }
-  }
+    });
+  },
+
+
+  // created(){
+  //   console.log(this.thisBody)
+  // }
+
+
+
+
+
 };
 </script>
