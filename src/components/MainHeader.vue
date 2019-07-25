@@ -17,8 +17,10 @@
           <v-btn flat to="/repository">Repository</v-btn>
           <v-btn flat to="/portfolio">Portfolio</v-btn>
           <v-btn flat to="/post">Post</v-btn>
-          <v-btn flat v-if="!loginState" @click="dialog = true">Login</v-btn>
-          <v-btn flat v-if="loginState" @click="logOut">Logout</v-btn>
+          <v-btn flat v-if="!loginUserStatus" @click="dialog = true">
+            Login
+          </v-btn>
+          <v-btn flat v-if="loginUserStatus" @click="logOut">Logout</v-btn>
           <v-btn flat @click="trans">Translation</v-btn>
           <v-icon medium @click="triggerBookmark">star_border</v-icon>
           <v-dialog
@@ -77,7 +79,7 @@
             </v-list-tile-content>
           </router-link>
 
-          <v-list-tile v-if="!loginState" @click="dialog = true">
+          <v-list-tile v-if="!loginUserStatus" @click="dialog = true">
             <v-list-tile-action>
               <v-icon>lock</v-icon>
             </v-list-tile-action>
@@ -86,7 +88,7 @@
             </v-list-tile-content>
           </v-list-tile>
 
-          <v-list-tile v-if="loginState" @click="logOut">
+          <v-list-tile v-if="loginUserStatus" @click="logOut">
             <v-list-tile-action>
               <v-icon>lock_open</v-icon>
             </v-list-tile-action>
@@ -101,20 +103,17 @@
 </template>
 
 <script>
-import { GventBus } from "../main.js";
 import FirebaseService from "@/services/FirebaseService";
-import SignIn from "../views/SignIn";
+import SignIn from "../components/SignIn";
 import Swal from "sweetalert2";
 
 export default {
   name: "MainHeader",
   data() {
     return {
-      userEmail: "Guest",
       btnShow: false,
       drawer: false,
       dialog: false,
-      loginState: false,
       headerColor: "#00002288",
       items: [
         { title: "Home", icon: "home", route: "/" },
@@ -124,6 +123,18 @@ export default {
         { title: "Comment", icon: "lock_open", route: "/comment" }
       ]
     };
+  },
+  computed: {
+    loginUserStatus() {
+      return this.$store.state.user;
+    },
+    userEmail() {
+      if (this.$store.state.user) {
+        return this.$store.state.user.email;
+      } else {
+        return "Guest";
+      }
+    }
   },
   components: {
     SignIn
@@ -138,7 +149,7 @@ export default {
       this.btnShow = window.scrollY > 300;
       if (window.scrollY > 300) {
         this.headerColor = "#000022ff";
-      } else if (window.scrollY < 250){
+      } else if (window.scrollY < 250) {
         this.headerColor = "#00002288";
       }
     },
@@ -152,8 +163,8 @@ export default {
     async logOut() {
       FirebaseService.logOut();
       this.swal_alert();
-      this.loginState = false;
-      this.userEmail = "Guest";
+      this.$store.state.user = "";
+      this.$store.state.accessToken = "";
     },
     swal_alert: function() {
       Swal.fire({
@@ -172,11 +183,6 @@ export default {
     }
   },
   created() {
-    FirebaseService.loginChk();
-    GventBus.$on("userLogin", userEmail => {
-      this.userEmail = userEmail;
-      this.loginState = true;
-    });
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

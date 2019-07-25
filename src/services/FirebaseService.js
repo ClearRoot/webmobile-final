@@ -2,7 +2,6 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/auth";
-import { GventBus } from "../main.js";
 
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
@@ -73,6 +72,7 @@ export default {
     return firestore.collection(POSTS).add({
       title,
       body,
+      ownerId: firebase.auth().currentUser.uid,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
@@ -98,6 +98,7 @@ export default {
       title,
       body,
       img,
+      ownerId: firebase.auth().currentUser.uid,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
@@ -108,8 +109,8 @@ export default {
       .signInWithPopup(provider)
       .then(function(result) {
         loginUser({}).then(function() {});
-        let accessToken = result.credential.accessToken;
-        let user = result.user;
+        // let accessToken = result.credential.accessToken;
+        // let user = result.user;
         return result;
       })
       .catch(function(error) {
@@ -123,8 +124,8 @@ export default {
       .signInWithPopup(provider)
       .then(function(result) {
         loginUser({}).then(function() {});
-        let accessToken = result.credential.accessToken;
-        let user = result.user;
+        // let accessToken = result.credential.accessToken;
+        // let user = result.user;
         return result;
       })
       .catch(function(error) {
@@ -135,24 +136,15 @@ export default {
     return firebase
       .auth()
       .signInWithEmailAndPassword(login_email, login_password)
-      .then(user => {
+      .then(result => {
         loginUser({}).then(function() {});
-        return user;
+        // let user = result.user;
+        return result;
       })
       .catch(error => {
         console.log(error.message);
         return { user: "error", msg: error.message, code: error.code };
       });
-  },
-  loginChk() {
-    return firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        GventBus.$emit("userLogin", user.email);
-        return user.email;
-      } else {
-        return;
-      }
-    });
   },
   async logOut() {
     await logoutUser({}).then(function() {});
