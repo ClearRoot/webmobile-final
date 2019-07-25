@@ -14,7 +14,6 @@ import Gravatar from "vue-gravatar";
 Vue.component("v-gravatar", Gravatar);
 Vue.config.productionTip = false;
 Vue.prototype.$EventBus = new Vue();
-export const GventBus = new Vue();
 
 Vue.use(Vuetify, {
   iconfont: "fa",
