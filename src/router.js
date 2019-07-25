@@ -5,7 +5,6 @@ import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
-import SignIn from "./views/SignIn.vue";
 
 Vue.use(Router);
 
@@ -37,12 +36,6 @@ export default new Router({
       path: "/repository",
       name: "repository",
       component: RepositoryPage
-    },
-
-    {
-      path: "/signin",
-      name: "signin",
-      component: SignIn
     }
   ],
   scrollBehavior(to, from, savedPosition) {
