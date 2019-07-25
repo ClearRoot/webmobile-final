@@ -6,7 +6,6 @@ import PortfolioPage from "./views/PortfolioPage.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./components/SignIn.vue";
-import Comment from "./views/Comment.vue";
 import Board from "./views/Board.vue";
 
 Vue.use(Router);
@@ -44,11 +43,6 @@ export default new Router({
       path: "/signin",
       name: "signin",
       component: SignIn
-    },
-    {
-      path: "/comment",
-      name: "comment",
-      component: Comment
     },
     {
       path: "/post/board/",

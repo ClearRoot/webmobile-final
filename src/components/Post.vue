@@ -1,27 +1,20 @@
 <template>
   <v-layout py-4 h-100>
     <v-flex row>
-      <div class="caption">{{ formatedDate }}</div>
+      <router-link :to="{ name: 'board', params: { id: thisId } }"
+        tag="span"><div class="caption">{{ formatedDate }}</div>
       <h2 class="color-333 headline font-weight-light titleText">
         {{ thisTitle }}
       </h2>
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ thisBody }}
       </p>
-      <p class="mb-1 color-666 font-weight-light subheading bodyText">
-        {{ thisId }}
-      </p>
-      <router-link :to="{ name: 'board', params: { id: thisId } }"
-        >go</router-link
-      >
-      <v-btn @click="go()">dddddd</v-btn>
+      </router-link>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import FirebaseService from "@/services/FirebaseService";
-
 export default {
   name: "Post",
   props: {
@@ -38,13 +31,6 @@ export default {
       thisBody: "",
       thisId: ""
     };
-  },
-  methods: {
-    go(){
-      // console.log(this.thisId);
-      this.$router.push("/post/" + this.thisId);
-      // console.log(result);
-    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
