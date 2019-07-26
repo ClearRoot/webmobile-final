@@ -182,7 +182,6 @@ export default {
     }
   },
   created() {
-    FirebaseService.loginChk();
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });
