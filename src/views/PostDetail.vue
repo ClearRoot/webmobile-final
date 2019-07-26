@@ -1,44 +1,39 @@
 <template>
-
-  <router-link :to="{name: 'portfoliodetail', params:{id: thisTitle ,id2: thisBody, id3: imgSrc }}" style="text-decoration: none;">
-  <v-card>
-
-    <v-img :src="imgSrc" height="200px"> </v-img>
-
-    <v-card-title primary-title>
-      <div>
-
-        <div class="headline titleText">{{ thisTitle }}</div>
-
-        <span class="grey--text bodyText">{{ thisBody }}</span>
+  <div>
+    <ImgBanner>
+      <div style="line-height:1.2em;font-size:1.2em;" slot="text">
+      PostDetail
       </div>
-    </v-card-title>
-  </v-card>
-  </router-link>
-
+    </ImgBanner>
+      <div class="headline titleText">{{ thisTitle }}</div>
+          <span class="grey--text bodyText">{{ thisBody }}</span>
+  </div>
 </template>
 
 <script>
+import ImgBanner from "../components/ImgBanner";
 export default {
-  name: "Portfolio",
+  name: "PostDetail",
+  components: {
+    ImgBanner,
+  },
   props: {
     date: { type: String },
     title: { type: String },
     body: { type: String },
-    imgSrc: { type: String }
-
 
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
-      thisTitle: "",
-      thisBody: ""
+      thisTitle: this.$route.params.id,
+      thisBody : this.$route.params.id2
+
     };
   },
   created() {
-    this.$EventBus.$on("click-icon_portfolio", async () => {
+    this.$EventBus.$on("click-icon_detail", async () => {
       const axios = require("axios");
       var translateUrl =
         "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
@@ -68,22 +63,9 @@ export default {
     });
   },
   mounted() {
-    this.thisTitle = this.title;
-    this.thisBody = this.body;
+    this.$route.params.id = this.title;
+    this.$route.params.id2 = this.body;
   }
+
 };
 </script>
-
-<style>
-.titleText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bodyText {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-</style>

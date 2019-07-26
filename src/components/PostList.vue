@@ -30,7 +30,7 @@ export default {
   name: "PostList",
   props: {
     column: { type: Number, default: 1 },
-    limits: { type: Number, default: 4 },
+    limits: { type: Number, default: 6 },
     loadMore: { type: Boolean, default: false }
   },
   data() {
@@ -49,7 +49,7 @@ export default {
       this.posts = await FirebaseService.getPosts();
     },
     loadMorePosts() {
-      this.limits += 2;
+      this.limits += 6;
     }
   }
 };

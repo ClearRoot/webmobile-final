@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/auth";
+import store from "../store";
 
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
@@ -102,8 +103,6 @@ export default {
       .signInWithPopup(provider)
       .then(function(result) {
         loginUser({}).then(function() {});
-        // let accessToken = result.credential.accessToken;
-        // let user = result.user;
         return result;
       })
       .catch(function(error) {
@@ -117,8 +116,6 @@ export default {
       .signInWithPopup(provider)
       .then(function(result) {
         loginUser({}).then(function() {});
-        // let accessToken = result.credential.accessToken;
-        // let user = result.user;
         return result;
       })
       .catch(function(error) {
@@ -131,7 +128,6 @@ export default {
       .signInWithEmailAndPassword(login_email, login_password)
       .then(result => {
         loginUser({}).then(function() {});
-        // let user = result.user;
         return result;
       })
       .catch(error => {
@@ -160,7 +156,37 @@ export default {
         return user;
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.message);
+      });
+  },
+  loginChk() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // console.log(user)
+        store.state.user = user;
+      }
+    });
+  },
+  createUserRule() {
+    const uid = firebase.auth().currentUser.uid;
+    return firestore
+      .collection(USERS)
+      .doc(uid)
+      .set({
+        userEmail: firebase.auth().currentUser.email,
+        userAuth: "visitant",
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        updated_at: firebase.firestore.FieldValue.serverTimestamp()
+      });
+  },
+  updateUserRule(rule) {
+    const uid = firebase.auth().currentUser.uid;
+    return firestore
+      .collection(USERS)
+      .doc(uid)
+      .update({
+        userAuth: rule,
+        updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
   },
   async removeItem(id, table){
