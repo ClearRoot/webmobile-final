@@ -5,19 +5,14 @@
         PortfolioDetail
       </div>
     </ImgBanner>
-      
-
   <div>
       <div class="headline titleText">{{ thisTitle }}</div>
        <v-layout align-center justify-center>
-    <img v-bind:src="img" max-width="500"
-      max-height="300" aspect-ratio="1"
-      class="grey lighten-2"/>
+    <v-img v-bind:src="img" max-width="500"
+      max-height="300" aspect-ratio="1" contain/>
  </v-layout>
           <span class="grey--text bodyText">{{ thisBody }}</span>
         </div>
-
-
   </div>
 </template>
 
@@ -25,7 +20,7 @@
 import ImgBanner from "../components/ImgBanner";
 import PortfolioList from "../components/PortfolioList";
 export default {
-  name: "PortfolioPage",
+  name: "Portfolio",
   components: {
     ImgBanner,
     PortfolioList
@@ -38,8 +33,6 @@ export default {
 
 
   },
-
-
   data() {
     return {
       ddlSource: "ko",
@@ -50,22 +43,22 @@ export default {
 
     };
   },
-created(){
-
-      this.$EventBus.$on("click-icon_detail", async () => {
+  created() {
+    this.$EventBus.$on("click-icon_detail", async () => {
       const axios = require("axios");
       var translateUrl =
         "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
       translateUrl += "&source=" + this.ddlSource;
       translateUrl += "&target=" + this.ddlTarget;
-      translateUrl += "&q=" + encodeURI(this.title);
-      translateUrl += "&q=" + encodeURI(this.body);
+      translateUrl += "&q=" + encodeURI(this.thisTitle);
+      translateUrl += "&q=" + encodeURI(this.thisBody);
       axios({
         methods: "GET",
         url: translateUrl
-      }).then(res => {
-          this.title = res.data.data.translations[0].translatedText;
-          this.body = res.data.data.translations[1].translatedText;
+      })
+        .then(res => {
+          this.thisTitle = res.data.data.translations[0].translatedText;
+          this.thisBody = res.data.data.translations[1].translatedText;
           if (this.ddlSource == "en") {
             this.ddlSource = "ko";
             this.ddlTarget = "en";
@@ -73,13 +66,17 @@ created(){
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-          console.log(this.ddlSource)
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e)
+
         });
     });
   },
-
+  mounted() {
+    this.$route.params.id = this.title;
+    this.$route.params.id2 = this.body;
+  }
 
 };
 </script>
