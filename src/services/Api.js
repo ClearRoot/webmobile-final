@@ -5,9 +5,9 @@ export default baseURL => {
     baseURL: baseURL,
     withCredentials: false,
     headers: {
-			"Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
-      "PRIVATE-TOKEN": "LBkv_AX21LevjGzkjBx4"
+      "PRIVATE-TOKEN": "3RdxpbkH4CUDwt4siZMy"
     }
   });
 };

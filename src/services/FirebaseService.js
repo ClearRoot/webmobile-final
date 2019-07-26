@@ -56,7 +56,7 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
-          data.id=doc.id;
+          data.id = doc.id;
           return data;
         });
       });
@@ -77,6 +77,7 @@ export default {
       .then(docSnapshots => {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
+          data.id = doc.id;
           if (data.created_at !== null) {
             data.created_at = new Date(data.created_at.toDate());
           } else {
@@ -186,6 +187,32 @@ export default {
       .update({
         userAuth: rule,
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
+      });
+  },
+  async removeItem(id, table){
+    var rootRef = await firestore.collection(table).doc(id)
+    await rootRef.delete();
+  },
+  async updateItem(item, table){
+    var rootRef = await firestore.collection(table).doc(item.id)
+    await rootRef.update({
+      title: item.title,
+      body: item.body
+    });
+  },
+  async getUsers(){
+    const postsCollection = await firestore.collection(USERS);
+    return postsCollection
+      .orderBy("created_at", "desc")
+      .get()
+      .then(docSnapshots => {
+        return docSnapshots.docs.map(doc => {
+          let data = doc.data();
+          data.created_at = new Date(data.created_at.toDate());
+          data.title = doc.id;
+          data.id = doc.id;
+          return data;
+        });
       });
   }
 };

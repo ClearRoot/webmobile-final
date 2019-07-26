@@ -7,6 +7,8 @@ import PortfolioDetail from "./views/PortfolioDetail.vue";
 import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
+import SignIn from "./components/SignIn.vue";
+import BackOfficePage from "./views/BackOfficePage.vue";
 
 Vue.use(Router);
 
@@ -55,6 +57,12 @@ export default new Router({
       path: "/signin",
       name: "signin",
       component: SignIn
+    },
+
+    {
+      path: "/backoffice",
+      name: "backoffice",
+      component: BackOfficePage
     }
   ],
   scrollBehavior(to, from, savedPosition) {
