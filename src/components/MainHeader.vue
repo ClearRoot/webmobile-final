@@ -144,6 +144,7 @@ export default {
       this.$EventBus.$emit("click-icon_aboutme");
       this.$EventBus.$emit("click-icon_portfolio");
       this.$EventBus.$emit("click-icon_post");
+        this.$EventBus.$emit("click-icon_detail");
     },
     handleScroll() {
       this.btnShow = window.scrollY > 300;
@@ -183,6 +184,7 @@ export default {
     }
   },
   created() {
+    FirebaseService.loginChk();
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

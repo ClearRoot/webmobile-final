@@ -29,7 +29,7 @@ import FirebaseService from "@/services/FirebaseService";
 export default {
   name: "PortfoliosList",
   props: {
-    limits: { type: Number, default: 4 },
+    limits: { type: Number, default: 6 },
     loadMore: { type: Boolean, default: false }
   },
   data() {
@@ -54,7 +54,7 @@ export default {
     },
 
     loadMorePortfolios() {
-      this.limits += 2;
+      this.limits += 6;
     }
   }
 };

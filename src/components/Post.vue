@@ -1,4 +1,5 @@
 <template>
+  <router-link :to="{name: 'postdetail', params:{id: thisTitle ,id2: thisBody}}" style="text-decoration: none;">
   <v-layout py-4 h-100>
     <v-flex row>
       <router-link :to="{ name: 'boards', params: { id: thisId } }"
@@ -12,6 +13,7 @@
       </router-link>
     </v-flex>
   </v-layout>
+      </router-link>
 </template>
 
 <script>

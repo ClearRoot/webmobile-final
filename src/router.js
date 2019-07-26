@@ -3,11 +3,14 @@ import Router from "vue-router";
 import HomePage from "./views/HomePage.vue";
 import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
+import PortfolioDetail from "./views/PortfolioDetail.vue";
+import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./components/SignIn.vue";
 import Board from "./views/Board.vue";
 import Boards from "./views/Boards.vue";
+import BackOfficePage from "./views/BackOfficePage.vue";
 
 Vue.use(Router);
 
@@ -41,6 +44,18 @@ export default new Router({
       component: RepositoryPage
     },
     {
+      path: "/portfoliodetail",
+      name: "portfoliodetail",
+      component: PortfolioDetail,
+      props:true
+    },
+    {
+      path: "/postdetail",
+      name: "postdetail",
+      component: PostDetail,
+      props:true
+    },
+    {
       path: "/signin",
       name: "signin",
       component: SignIn
@@ -56,6 +71,11 @@ export default new Router({
       name: "boards",
       component: Boards,
       props: true
+    },
+    {
+      path: "/backoffice",
+      name: "backoffice",
+      component: BackOfficePage
     }
 
   ],
