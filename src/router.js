@@ -4,6 +4,7 @@ import HomePage from "./views/HomePage.vue";
 import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import PortfolioDetail from "./views/PortfolioDetail.vue";
+import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./views/SignIn.vue";
@@ -45,7 +46,12 @@ export default new Router({
       component: PortfolioDetail,
       props:true
     },
-    
+    {
+      path: "/postdetail",
+      name: "postdetail",
+      component: PostDetail,
+      props:true
+    },
     {
       path: "/signin",
       name: "signin",

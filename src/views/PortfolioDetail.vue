@@ -18,12 +18,10 @@
 
 <script>
 import ImgBanner from "../components/ImgBanner";
-import PortfolioList from "../components/PortfolioList";
 export default {
-  name: "Portfolio",
+  name: "PortfolioDeatil",
   components: {
     ImgBanner,
-    PortfolioList
   },
   props: {
     date: { type: String },
@@ -80,8 +78,3 @@ export default {
 
 };
 </script>
-<style>
-.mm { width: auto;
-  height: 100%;
-}
-</style>
