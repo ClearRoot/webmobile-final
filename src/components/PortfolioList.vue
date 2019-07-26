@@ -14,7 +14,6 @@
         :imgSrc="portfolios[i - 1].img"
       ></Portfolio>
     </v-flex>
-
     <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
       <v-btn outline color="black" dark v-on:click="loadMorePortfolios"
         ><v-icon size="25" class="mr-2">fa-plus</v-icon> 더 보기</v-btn

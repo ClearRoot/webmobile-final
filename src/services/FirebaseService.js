@@ -61,6 +61,15 @@ export default {
         });
       });
   },
+  getPost(id){
+    const postsCollection = firestore.collection(POSTS).doc(id).get();
+    return postsCollection.then(docSnapshots => {
+      let data = docSnapshots.data();
+      data.created_at = new Date(data.created_at.toDate());
+      data.id = docSnapshots.id;
+      return data;
+    });
+  },
   postPost(title, body) {
     return firestore.collection(POSTS).add({
       title,

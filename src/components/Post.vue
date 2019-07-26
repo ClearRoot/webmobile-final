@@ -2,16 +2,15 @@
   <router-link :to="{name: 'postdetail', params:{id: thisTitle ,id2: thisBody}}" style="text-decoration: none;">
   <v-layout py-4 h-100>
     <v-flex row>
-
-      <div class="caption">{{ formatedDate }}</div>
-
+      <router-link :to="{ name: 'boards', params: { id: thisId } }"
+      tag="span" :style="{ cursor: 'pointer'}"><div class="caption">{{ formatedDate }}</div>
       <h2 class="color-333 headline font-weight-light titleText">
-        {{ thisTitle }}
-      </h2>
-
+          {{ thisTitle }}
+        </h2>
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ thisBody }}
       </p>
+      </router-link>
     </v-flex>
   </v-layout>
       </router-link>
@@ -23,14 +22,16 @@ export default {
   props: {
     date: { type: Date },
     title: { type: String },
-    body: { type: String }
+    body: { type: String },
+    id: { type: String }
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
-      thisBody: ""
+      thisBody: "",
+      thisId: ""
     };
   },
   created() {
@@ -65,6 +66,7 @@ export default {
   mounted() {
     this.thisTitle = this.title;
     this.thisBody = this.body;
+    this.thisId = this.id;
   },
 
   computed: {
