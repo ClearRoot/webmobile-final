@@ -6,6 +6,7 @@ import "firebase/auth";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 const IMAGEURLS = "imageurls";
+const USERS = "users";
 
 // Setup Firebase
 const config = {
@@ -162,9 +163,30 @@ export default {
         console.log(error);
       });
   },
-  async removePost(id){
-    var rootRef = await firestore.collection(POSTS).doc(id).delete();
-    console.log(rootRef)
-    // rootRef.remove();
+  async removeItem(id, table){
+    var rootRef = await firestore.collection(table).doc(id)
+    await rootRef.delete();
+  },
+  async updateItem(item, table){
+    var rootRef = await firestore.collection(table).doc(item.id)
+    await rootRef.update({
+      title: item.title,
+      body: item.body
+    });
+  },
+  async getUsers(){
+    const postsCollection = await firestore.collection(USERS);
+    return postsCollection
+      .orderBy("created_at", "desc")
+      .get()
+      .then(docSnapshots => {
+        return docSnapshots.docs.map(doc => {
+          let data = doc.data();
+          data.created_at = new Date(data.created_at.toDate());
+          data.title = doc.id;
+          data.id = doc.id;
+          return data;
+        });
+      });
   }
 };

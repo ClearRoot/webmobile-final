@@ -12,31 +12,25 @@
         >Google Analytics</v-btn
       >
 
-
-
-      <!-- Portfolio -->
       <v-layout>
         <v-flex xs12>
           <template>
             <v-tabs fixed-tabs v-model="active">
-              <v-tab v-for="(tab, i) in tabs" :key="i" >
+              <v-tab v-for="(tab, i) in tabs" :key="i">
                 {{ tab }}
               </v-tab>
             </v-tabs>
           </template>
-
-          <v-tabs-items >
-            <v-tab-item
-            >
-                <Tab :tab="tabs[active]"></Tab>
+          <v-tabs-items>
+            <v-tab-item>
+              <Tab :tab="tabs[active]" v-if="tabs[active] != 'user'"></Tab>
+              <UserTab :tab="tabs[active]" v-if="tabs[active] == 'user'"></UserTab>
             </v-tab-item>
           </v-tabs-items>
-
         </v-flex>
       </v-layout>
     </v-container>
     <div style="height:1000px">
-
     </div>
   </div>
 </template>
@@ -44,12 +38,14 @@
 <script>
 import ImgBanner from "../components/ImgBanner";
 import Tab from "../components/Tab";
+import UserTab from "../components/UserTab";
 
 export default {
   name: "BackOfficePage",
   components: {
     ImgBanner,
-    Tab
+    Tab,
+    UserTab
   },
   data() {
     return {
@@ -89,25 +85,7 @@ export default {
     goURL(url){
       // window.open(url);
       console.log(this.posts);
-    },
-    save () {
-        this.snack = true
-        this.snackColor = 'success'
-        this.snackText = 'Data saved'
-      },
-      cancel () {
-        this.snack = true
-        this.snackColor = 'error'
-        this.snackText = 'Canceled'
-      },
-      open () {
-        this.snack = true
-        this.snackColor = 'info'
-        this.snackText = 'Dialog opened'
-      },
-      close () {
-        console.log('Dialog closed')
-      }
+    }
   }
 };
 </script>

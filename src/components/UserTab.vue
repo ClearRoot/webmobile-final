@@ -2,7 +2,7 @@
   <div>
     <v-card>
     <v-card-title>
-   Nutrition
+   User Tab
    <v-spacer></v-spacer>
    <v-text-field
      v-model="search"
@@ -25,7 +25,7 @@
       class="elevation-1"
       expand
   >
-    <!-- <template v-slot:headers="props">
+    <template v-slot:headers="props">
       <tr>
         <th>
           <v-checkbox
@@ -50,9 +50,8 @@
           {{ header.text }}
         </th>
       </tr>
-    </template> -->
+    </template>
     <template v-slot:items="props">
-
       <tr :active="props.selected" >
         <td @click="props.selected = !props.selected">
           <v-checkbox
@@ -62,30 +61,23 @@
 
           ></v-checkbox>
         </td>
-        <td class="text-xs-left " @click="props.expanded = !props.expanded">
+        <td class="text-xs-left " @click="props.expanded = !props.expanded"><div class="titleText">
           {{ props.item.title }}
-        </td>
-        <td class="text-xs-right" @click="props.expanded = !props.expanded">{{ props.item.created_at }}</td>
+        </div></td>
+        <td class="text-xs-right">{{ props.item.created_at }}</td>
         <td class="justify-center layout px-0">
-          <v-icon class="mr-2" @click="open(props.item)" small>edit</v-icon>
+<v-selector></v-selector>
 
-        <v-icon
-  small
-  @click="removeItem(props.item)"
->
-  delete
-</v-icon>
+
+
+
+
 </td>
       </tr>
-
     </template>
-    <template v-slot:expand="props">
-<v-card flat>
-<v-card-text>{{props.item.body}}</v-card-text>
-</v-card>
+    <template>
 </template>
   </v-data-table>
-  <v-btn class="text-xs-right">선택삭제</v-btn>
   <div class="text-xs-center">
       <v-pagination
         v-model="pagination.page"
@@ -94,88 +86,10 @@
       ></v-pagination>
   </div>
 </v-card>
-      <v-dialog
-             v-model="dialog"
-             fullscreen
-             hide-overlay
-             transition="dialog-bottom-transition"
-             scrollable
-           >
-             <v-card tile>
-               <v-toolbar
-                 flat
-                 dark
-                 color="primary"
-               >
-                 <v-btn
-                   icon
-                   dark
-                 >
-                   <v-icon @click="close(selItem)">close</v-icon>
-                 </v-btn>
-                 <v-toolbar-title>Settings</v-toolbar-title>
-                 <v-spacer></v-spacer>
-                 <v-toolbar-items>
-                   <v-btn
-                     dark
-                     text
-                     @click="editItem(selItem)"
-                   >
-                     수정하기
-                   </v-btn>
-                 </v-toolbar-items>
-                 <v-menu
-                   bottom
-                   right
-                   offset-y
-                 >
-                   <template v-slot:activator="{ on }">
-                     <v-btn
-                       dark
-                       icon
-                       v-on="on"
-                     >
-                       <v-icon>more_vert</v-icon>
-                     </v-btn>
-                   </template>
-                   <v-list>
-                     <!-- <v-list-item
-                       v-for="(ite, i) in item"
-                       :key="i"
-                       @click="() => {}"
-                     >
-                       <v-list-item-title>{{ ite.title }}</v-list-item-title>
-                     </v-list-item> -->
-                   </v-list>
-                 </v-menu>
-               </v-toolbar>
-               <v-card-text>
-                 <v-list
-                   three-line
-                   subheader
-                 >
-                   <v-list-item>
-                     <v-list-item-content>
-                       <v-flex xs8>
-                       <v-text-field label="제목" outlined v-model="selItem.title" required></v-text-field>
-                       </v-flex>
-                     </v-list-item-content>
-                   </v-list-item>
-                  <v-divider></v-divider>
-                   <v-list-item>
-                     <v-list-item-content>
-                       <v-textarea solo rows="20"
-          row-height="20" label="내용" v-model="selItem.body" required></v-textarea>
-                     </v-list-item-content>
-                   </v-list-item>
-                 </v-list>
-                 <v-divider></v-divider>
 
-               </v-card-text>
 
-               <div style="flex: 1 1 auto;"></div>
-             </v-card>
-           </v-dialog>
+
+
  </div>
 
 
@@ -188,7 +102,7 @@ import FirebaseService from "@/services/FirebaseService";
 import Swal from "sweetalert2";
 
 export default {
-  name: "ItemTab",
+  name: "UserTab",
   props: {
     tab: null
   },
@@ -205,19 +119,13 @@ export default {
       pagination: {},
       headers: [
         {
-          text: "Title",
+          text: "ID",
           align: "left",
           sortable: true,
-          value: "title",
-          width: "50%"
+          value: "title"
         },
-        {
-          text: "Created_at",
-          value: "created_at",
-          sortable: true,
-          width: "15%"
-        },
-        { text: "function", value: "created_at", sortable: false, width: "15%" }
+        { text: "가입일", value: "created_at", sortable: true },
+        { text: "권한", value: "created_at", sortable: false }
       ],
       items: [],
       swalWithBootstrapButtons: null
