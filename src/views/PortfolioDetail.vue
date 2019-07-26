@@ -5,18 +5,19 @@
         PortfolioDetail
       </div>
     </ImgBanner>
-        <v-container>
+      
 
   <div>
-      <v-img :src="imgSrc" height="200px">{{ thisImg}} </v-img>
-          <div class="headline titleText">{{ thisTitle }}</div>
-
+      <div class="headline titleText">{{ thisTitle }}</div>
+       <v-layout align-center justify-center>
+    <img v-bind:src="img" max-width="500"
+      max-height="300" aspect-ratio="1"
+      class="grey lighten-2"/>
+ </v-layout>
           <span class="grey--text bodyText">{{ thisBody }}</span>
         </div>
 
 
-
-        </v-container>
   </div>
 </template>
 
@@ -45,7 +46,8 @@ export default {
       ddlTarget: "en",
       thisTitle: this.$route.params.id,
       thisBody : this.$route.params.id2,
-      thisImg :this.$route.params.id3
+      img :this.$route.params.id3
+
     };
   },
 created(){
@@ -79,13 +81,10 @@ created(){
   },
 
 
-  // created(){
-  //   console.log(this.thisBody)
-  // }
-
-
-
-
-
 };
 </script>
+<style>
+.mm { width: auto;
+  height: 100%;
+}
+</style>
