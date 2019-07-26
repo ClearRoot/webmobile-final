@@ -158,6 +158,7 @@ export default {
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       if (result.user) {
+        FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -167,6 +168,7 @@ export default {
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       if (result.user) {
+        FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -177,7 +179,8 @@ export default {
         this.login_password
       );
       this.$store.state.user = result.user;
-      if (result.user.uid) {
+      if (result.user) {
+        FirebaseService.createUserRule();
         this.swal_alert("login", result.user.email);
         this.close();
       } else {
