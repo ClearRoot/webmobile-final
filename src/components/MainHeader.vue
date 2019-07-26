@@ -119,7 +119,8 @@ export default {
         { title: "Home", icon: "home", route: "/" },
         { title: "Repository", icon: "folder", route: "/repository" },
         { title: "Portfolio", icon: "art_track", route: "/portfolio" },
-        { title: "Post", icon: "create", route: "/post" }
+        { title: "Post", icon: "create", route: "/post" },
+        { title: "Comment", icon: "lock_open", route: "/comment" }
       ]
     };
   },
@@ -143,6 +144,7 @@ export default {
       this.$EventBus.$emit("click-icon_aboutme");
       this.$EventBus.$emit("click-icon_portfolio");
       this.$EventBus.$emit("click-icon_post");
+        this.$EventBus.$emit("click-icon_detail");
     },
     handleScroll() {
       this.btnShow = window.scrollY > 300;

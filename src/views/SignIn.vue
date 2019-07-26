@@ -158,7 +158,6 @@ export default {
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       if (result.user) {
-        FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -168,7 +167,6 @@ export default {
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       if (result.user) {
-        FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -178,9 +176,7 @@ export default {
         this.login_email,
         this.login_password
       );
-      this.$store.state.user = result.user;
-      if (result.user) {
-        FirebaseService.createUserRule();
+      if (result.user.uid) {
         this.swal_alert("login", result.user.email);
         this.close();
       } else {
@@ -242,14 +238,9 @@ export default {
         Swal.fire({
           title: "환영합니다.",
           text: "가입되었습니다.",
-          type: 'question',
- customClass: {
-   icon: 'swal2-arabic-question-mark'
- },
-  confirmButtonText:  '예',
-  cancelButtonText:  '아니오',
- showCancelButton: true,
- showCloseButton: true
+          type: "success",
+          showConfirmButton: false,
+          timer: 2000
         });
       } else if (code === "social_login") {
         Swal.fire({

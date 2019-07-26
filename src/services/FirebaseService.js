@@ -55,9 +55,19 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
+          data.id = doc.id;
           return data;
         });
       });
+  },
+  getPost(id){
+    const postsCollection = firestore.collection(POSTS).doc(id).get();
+    return postsCollection.then(docSnapshots => {
+      let data = docSnapshots.data();
+      data.created_at = new Date(data.created_at.toDate());
+      data.id = docSnapshots.id;
+      return data;
+    });
   },
   postPost(title, body) {
     return firestore.collection(POSTS).add({
@@ -75,6 +85,7 @@ export default {
       .then(docSnapshots => {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
+          data.id = doc.id;
           if (data.created_at !== null) {
             data.created_at = new Date(data.created_at.toDate());
           } else {
@@ -179,7 +190,6 @@ export default {
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
   },
-
   async removeItem(id, table){
     var rootRef = await firestore.collection(table).doc(id)
     await rootRef.delete();
