@@ -7,7 +7,6 @@ import PortfolioDetail from "./views/PortfolioDetail.vue";
 import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
-import SignIn from "./views/SignIn.vue";
 
 Vue.use(Router);
 

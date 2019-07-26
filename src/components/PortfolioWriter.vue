@@ -67,11 +67,11 @@ export default {
   },
   methods: {
     closeModal() {
-      (this.dialog = false),
-        (this.saveBtn = true),
-        (this.title = ""),
-        (this.body = ""),
-        (this.imageFile = "");
+      this.dialog = false;
+      this.saveBtn = true;
+      this.title = "";
+      this.body = "";
+      this.imageFile = "";
     },
     async writePortfolio() {
       if (!this.saveBtn) {
