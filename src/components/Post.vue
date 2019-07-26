@@ -1,11 +1,11 @@
 <template>
   <v-layout py-4 h-100>
     <v-flex row>
-      <router-link :to="{ name: 'board', params: { id: thisId } }"
-        tag="span"><div class="caption">{{ formatedDate }}</div>
+      <router-link :to="{ name: 'boards', params: { id: thisId } }"
+      tag="span" :style="{ cursor: 'pointer'}"><div class="caption">{{ formatedDate }}</div>
       <h2 class="color-333 headline font-weight-light titleText">
-        {{ thisTitle }}
-      </h2>
+          {{ thisTitle }}
+        </h2>
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ thisBody }}
       </p>

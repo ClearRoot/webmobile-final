@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="height:300px"></div>
+    <div style="height:300px; width:350px;"></div>
     <div id="disqus_thread"></div>
   </div>
 </template>
@@ -11,6 +11,13 @@ export default {
       this.getAddress();
       this.setBoard();
     },
+    getAddress() {
+      const self = this;
+      window.disqus_config = function() {
+        this.page.identifier = self.id;
+        this.page.url = "http://localhost/post/board/" + self.id;
+      };
+    },
     setBoard() {
       setTimeout(() => {
         const d = document,
@@ -19,13 +26,6 @@ export default {
         s.setAttribute("data-timestamp", new Date());
         (d.head || d.body).appendChild(s);
       }, 1500);
-    },
-    getAddress() {
-      const self = this;
-      window.disqus_config = function() {
-        this.page.identifier = self.id;
-        this.page.url = "http://localhost/post/board/" + self.id;
-      };
     },
     resetDisqus(disqus) {
       disqus.reset({
@@ -49,7 +49,12 @@ export default {
   },
   watch: {
     id: function(newId) {
-      this.id = newId;
+      if (this.id) {
+        localStorage.setItem("board_id", this.id)
+      }else{
+        this.id = localStorage.getItem("board_id")
+      }
+      console.log(this.id)
       this.loadComments();
     }
   },

@@ -7,6 +7,7 @@ import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./components/SignIn.vue";
 import Board from "./views/Board.vue";
+import Boards from "./views/Boards.vue";
 
 Vue.use(Router);
 
@@ -48,6 +49,12 @@ export default new Router({
       path: "/post/board/",
       name: "board",
       component: Board,
+      props: true
+    },
+    {
+      path: "/post/boards/",
+      name: "boards",
+      component: Boards,
       props: true
     }
 
