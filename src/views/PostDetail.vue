@@ -2,34 +2,36 @@
   <div>
     <ImgBanner>
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">
-      PostDetail
+        PostDetail
       </div>
     </ImgBanner>
-      <div class="headline titleText">{{ thisTitle }}</div>
-          <span class="grey--text bodyText">{{ thisBody }}</span>
+    <div class="headline titleText">{{ thisTitle }}</div>
+    <span class="grey--text bodyText">{{ thisBody }}</span>
+    <Comment></Comment>
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
+import Comment from "../components/Comment";
+
 export default {
   name: "PostDetail",
   components: {
     ImgBanner,
+    Comment
   },
   props: {
     date: { type: String },
     title: { type: String },
-    body: { type: String },
-
+    body: { type: String }
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: this.$route.params.id,
-      thisBody : this.$route.params.id2
-
+      thisBody: this.$route.params.id2
     };
   },
   created() {
@@ -66,6 +68,5 @@ export default {
     this.$route.params.id = this.title;
     this.$route.params.id2 = this.body;
   }
-
 };
 </script>

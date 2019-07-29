@@ -12,6 +12,7 @@
         :title="portfolios[i - 1].title"
         :body="portfolios[i - 1].body"
         :imgSrc="portfolios[i - 1].img"
+        :item_id="portfolios[i - 1].id"
       ></Portfolio>
     </v-flex>
     <v-flex xs12 text-xs-center round my-5 v-if="loadMore">

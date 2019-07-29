@@ -1,21 +1,27 @@
 <template>
-
-  <router-link :to="{name: 'portfoliodetail', params:{id: thisTitle ,id2: thisBody, id3: imgSrc }}" style="text-decoration: none;">
-  <v-card>
-
-    <v-img :src="imgSrc" height="200px"> </v-img>
-
-    <v-card-title primary-title>
-      <div>
-
-        <div class="headline titleText">{{ thisTitle }}</div>
-
-        <span class="grey--text bodyText">{{ thisBody }}</span>
-      </div>
-    </v-card-title>
-  </v-card>
+  <router-link
+    :to="{
+      name: 'portfoliodetail',
+      params: {
+        id: thisTitle,
+        id2: thisBody,
+        id3: imgSrc,
+        item_id: thisId,
+        board_type: 'portfolio'
+      }
+    }"
+    style="text-decoration: none;"
+  >
+    <v-card>
+      <v-img :src="imgSrc" height="200px"> </v-img>
+      <v-card-title primary-title>
+        <div>
+          <div class="headline titleText">{{ thisTitle }}</div>
+          <span class="grey--text bodyText">{{ thisBody }}</span>
+        </div>
+      </v-card-title>
+    </v-card>
   </router-link>
-
 </template>
 
 <script>
@@ -25,16 +31,16 @@ export default {
     date: { type: String },
     title: { type: String },
     body: { type: String },
-    imgSrc: { type: String }
-
-
+    imgSrc: { type: String },
+    item_id: { type: String }
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
-      thisBody: ""
+      thisBody: "",
+      thisId: ""
     };
   },
   created() {
@@ -70,6 +76,7 @@ export default {
   mounted() {
     this.thisTitle = this.title;
     this.thisBody = this.body;
+    this.thisId = this.item_id;
   }
 };
 </script>
