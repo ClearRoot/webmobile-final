@@ -14,6 +14,7 @@
         <v-toolbar-title>SamJo Blog</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-xs-only">
+          <v-btn flat to="/backoffice">BackOffice</v-btn>
           <v-btn flat to="/repository">Repository</v-btn>
           <v-btn flat to="/portfolio">Portfolio</v-btn>
           <v-btn flat to="/post">Post</v-btn>
@@ -184,7 +185,6 @@ export default {
     }
   },
   created() {
-    FirebaseService.loginChk();
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

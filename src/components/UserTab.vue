@@ -62,12 +62,18 @@
           ></v-checkbox>
         </td>
         <td class="text-xs-left " @click="props.expanded = !props.expanded"><div class="titleText">
-          {{ props.item.title }}
+          {{ props.item.userEmail }}
         </div></td>
-        <td class="text-xs-right">{{ props.item.created_at }}</td>
+        <!-- <td class="text-xs-right">{{ props.item.updated_at }}</td> -->
         <td class="justify-center layout px-0">
-<v-selector></v-selector>
-
+          <v-flex xs12 sm6 d-flex>
+                  <v-select
+                      v-model="props.item.userAuth"
+                      @change="changeEvt(props.item)"
+                    :items="auth"
+                    solo
+                  ></v-select>
+                </v-flex>
 
 
 
@@ -108,6 +114,7 @@ export default {
   },
   data() {
     return {
+      auth:["admin", "member", "visitant"],
       selItem: { title: null, body: null, origin: null },
       dialog: false,
       ddlSource: "ko",
@@ -122,10 +129,10 @@ export default {
           text: "ID",
           align: "left",
           sortable: true,
-          value: "title"
+          value: "title",
+          width: "80%"
         },
-        { text: "가입일", value: "created_at", sortable: true },
-        { text: "권한", value: "created_at", sortable: false }
+        { text: "권한", value: "created_at", sortable: false, width: "10%" }
       ],
       items: [],
       swalWithBootstrapButtons: null
@@ -156,6 +163,9 @@ export default {
     }
   },
   methods: {
+    changeEvt(item){
+      console.log(item)
+    },
     init() {
       this.swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -220,6 +230,7 @@ export default {
         this.items = await FirebaseService.getUsers();
       }
       this.dialog = false;
+      console.log(this.items)
       for (var i = 0; i < this.items.length; i++) {
         var temp = this.items[i].created_at;
         this.items[i].created_at = `${temp.getFullYear()}년 ${temp.getMonth()}월 ${temp.getDate()}일`;

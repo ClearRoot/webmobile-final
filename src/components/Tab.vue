@@ -23,7 +23,7 @@
       select-all
       item-key="id"
       class="elevation-1"
-      expand
+      :expand="false"
   >
     <!-- <template v-slot:headers="props">
       <tr>
@@ -54,12 +54,11 @@
     <template v-slot:items="props">
 
       <tr :active="props.selected" >
-        <td @click="props.selected = !props.selected">
+        <td @click="props.selected = !props.selected" >
           <v-checkbox
             :input-value="props.selected"
             primary
             hide-details
-
           ></v-checkbox>
         </td>
         <td class="text-xs-left " @click="props.expanded = !props.expanded">
@@ -68,7 +67,6 @@
         <td class="text-xs-right" @click="props.expanded = !props.expanded">{{ props.item.created_at }}</td>
         <td class="justify-center layout px-0">
           <v-icon class="mr-2" @click="open(props.item)" small>edit</v-icon>
-
         <v-icon
   small
   @click="removeItem(props.item)"
@@ -79,11 +77,21 @@
       </tr>
 
     </template>
-    <template v-slot:expand="props">
-<v-card flat>
-<v-card-text>{{props.item.body}}</v-card-text>
-</v-card>
+
+
+<template v-slot:expand="props">
+  <v-card flat>
+    <v-card-text>{{props.item.body}} </v-card-text>
+  </v-card>
 </template>
+
+
+      <template v-slot:footer>
+            <td :colspan="headers.length">
+              <strong>게시글 갯수 : {{items.length}}</strong>
+            </td>
+          </template>
+
   </v-data-table>
   <v-btn class="text-xs-right">선택삭제</v-btn>
   <div class="text-xs-center">
@@ -138,37 +146,24 @@
                        <v-icon>more_vert</v-icon>
                      </v-btn>
                    </template>
-                   <v-list>
-                     <!-- <v-list-item
+                   <!-- <v-list>
+                     <v-list-item
                        v-for="(ite, i) in item"
                        :key="i"
                        @click="() => {}"
                      >
                        <v-list-item-title>{{ ite.title }}</v-list-item-title>
-                     </v-list-item> -->
-                   </v-list>
+                     </v-list-item>
+                   </v-list> -->
                  </v-menu>
                </v-toolbar>
                <v-card-text>
-                 <v-list
-                   three-line
-                   subheader
-                 >
-                   <v-list-item>
-                     <v-list-item-content>
                        <v-flex xs8>
                        <v-text-field label="제목" outlined v-model="selItem.title" required></v-text-field>
                        </v-flex>
-                     </v-list-item-content>
-                   </v-list-item>
                   <v-divider></v-divider>
-                   <v-list-item>
-                     <v-list-item-content>
                        <v-textarea solo rows="20"
           row-height="20" label="내용" v-model="selItem.body" required></v-textarea>
-                     </v-list-item-content>
-                   </v-list-item>
-                 </v-list>
                  <v-divider></v-divider>
 
                </v-card-text>
@@ -215,9 +210,9 @@ export default {
           text: "Created_at",
           value: "created_at",
           sortable: true,
-          width: "15%"
+          width: "10%"
         },
-        { text: "function", value: "created_at", sortable: false, width: "15%" }
+        { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
       items: [],
       swalWithBootstrapButtons: null
