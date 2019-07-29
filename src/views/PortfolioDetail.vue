@@ -5,40 +5,45 @@
         PortfolioDetail
       </div>
     </ImgBanner>
-  <div>
+    <div>
       <div class="headline titleText">{{ thisTitle }}</div>
-       <v-layout align-center justify-center>
-    <v-img v-bind:src="img" max-width="500"
-      max-height="300" aspect-ratio="1" contain/>
- </v-layout>
-          <span class="grey--text bodyText">{{ thisBody }}</span>
-        </div>
+      <v-layout align-center justify-center>
+        <v-img
+          v-bind:src="img"
+          max-width="500"
+          max-height="300"
+          aspect-ratio="1"
+          contain
+        />
+      </v-layout>
+      <span class="grey--text bodyText">{{ thisBody }}</span>
+    </div>
+    <Comment></Comment>
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
+import Comment from "../components/Comment";
 export default {
   name: "PortfolioDeatil",
   components: {
     ImgBanner,
+    Comment
   },
   props: {
     date: { type: String },
     title: { type: String },
     body: { type: String },
-    imgSrc: { type:  String }
-
-
+    imgSrc: { type: String }
   },
   data() {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: this.$route.params.id,
-      thisBody : this.$route.params.id2,
-      img :this.$route.params.id3
-
+      thisBody: this.$route.params.id2,
+      img: this.$route.params.id3
     };
   },
   created() {
@@ -75,6 +80,5 @@ export default {
     this.$route.params.id = this.title;
     this.$route.params.id2 = this.body;
   }
-
 };
 </script>
