@@ -83,8 +83,7 @@ export default {
         });
     },
     goURL(url){
-      // window.open(url);
-      console.log(this.posts);
+      window.open(url);
     }
   }
 };

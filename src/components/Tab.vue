@@ -23,7 +23,7 @@
       select-all
       item-key="id"
       class="elevation-1"
-      expand
+      :expand="false"
   >
     <!-- <template v-slot:headers="props">
       <tr>
@@ -54,12 +54,11 @@
     <template v-slot:items="props">
 
       <tr :active="props.selected" >
-        <td @click="props.selected = !props.selected">
+        <td @click="props.selected = !props.selected" >
           <v-checkbox
             :input-value="props.selected"
             primary
             hide-details
-
           ></v-checkbox>
         </td>
         <td class="text-xs-left " @click="props.expanded = !props.expanded">
@@ -68,7 +67,6 @@
         <td class="text-xs-right" @click="props.expanded = !props.expanded">{{ props.item.created_at }}</td>
         <td class="justify-center layout px-0">
           <v-icon class="mr-2" @click="open(props.item)" small>edit</v-icon>
-
         <v-icon
   small
   @click="removeItem(props.item)"
@@ -79,11 +77,21 @@
       </tr>
 
     </template>
-    <template v-slot:expand="props">
-<v-card flat>
-<v-card-text>{{props.item.body}}</v-card-text>
-</v-card>
+
+
+<template v-slot:expand="props">
+  <v-card flat>
+    <v-card-text>{{props.item.body}} </v-card-text>
+  </v-card>
 </template>
+
+
+      <template v-slot:footer>
+            <td :colspan="headers.length">
+              <strong>게시글 갯수 : {{items.length}}</strong>
+            </td>
+          </template>
+
   </v-data-table>
   <v-btn class="text-xs-right">선택삭제</v-btn>
   <div class="text-xs-center">
@@ -202,9 +210,9 @@ export default {
           text: "Created_at",
           value: "created_at",
           sortable: true,
-          width: "15%"
+          width: "10%"
         },
-        { text: "function", value: "created_at", sortable: false, width: "15%" }
+        { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
       items: [],
       swalWithBootstrapButtons: null
