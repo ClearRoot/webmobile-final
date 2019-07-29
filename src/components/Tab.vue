@@ -391,7 +391,6 @@ export default {
               this.items[index].title = this.selItem.title;
               this.items[index].body = this.selItem.body;
               FirebaseService.updateItem(this.items[index], this.tab + "s");
-              this.swalWithBootstrapButtons.fire("수정되었습니다");
               this.dialog = false;
             }
           });

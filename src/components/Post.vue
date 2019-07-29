@@ -8,11 +8,18 @@
       <p class="mb-1 color-666 font-weight-light subheading bodyText">
         {{ body }}
       </p>
+      <Board
+        :item_title="title"
+        :item_content="body"
+        :item_id="item_id"
+      ></Board>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import Board from "../components/Board";
+
 export default {
   name: "Post",
   props: {
@@ -27,8 +34,12 @@ export default {
       ddlTarget: "en",
       thisTitle: "",
       thisBody: "",
-      thisId: ""
+      thisId: "",
+      dialog: false
     };
+  },
+  components: {
+    Board
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
