@@ -184,7 +184,6 @@ export default {
       .set({
         userEmail: firebase.auth().currentUser.email,
         userAuth: "visitant",
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
   },
