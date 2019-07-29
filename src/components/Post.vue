@@ -1,28 +1,15 @@
 <template>
-  <router-link
-    :to="{
-      name: 'postdetail',
-      params: {
-        id: thisTitle,
-        id2: thisBody,
-        item_id: thisId,
-        board_type: 'post'
-      }
-    }"
-    style="text-decoration: none;"
-  >
   <v-layout py-4 h-100>
-      <v-flex row>
-        <div class="caption">{{ formatedDate }}</div>
-        <h2 class="color-333 headline font-weight-light titleText">
-          {{ thisTitle }}
-        </h2>
-        <p class="mb-1 color-666 font-weight-light subheading bodyText">
-          {{ thisBody }}
-        </p>
-      </v-flex>
-    </v-layout>
-  </router-link>
+    <v-flex row>
+      <div class="caption">{{ formatedDate }}</div>
+      <h2 class="color-333 headline font-weight-light titleText">
+        {{ title }}
+      </h2>
+      <p class="mb-1 color-666 font-weight-light subheading bodyText">
+        {{ body }}
+      </p>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -72,12 +59,6 @@ export default {
         });
     });
   },
-  mounted() {
-    this.thisTitle = this.title;
-    this.thisBody = this.body;
-    this.thisId = this.item_id;
-  },
-
   computed: {
     formatedDate() {
       return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`;

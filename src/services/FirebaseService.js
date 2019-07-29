@@ -56,7 +56,6 @@ export default {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
-          data.item_id = doc.id;
           return data;
         });
       });
@@ -87,7 +86,6 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.id = doc.id;
-          data.item_id = doc.id;
           if (data.created_at !== null) {
             data.created_at = new Date(data.created_at.toDate());
           } else {

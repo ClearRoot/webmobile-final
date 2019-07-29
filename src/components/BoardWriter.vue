@@ -2,7 +2,8 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn outline color="#ff0000" dark v-on="on">NEW Portfolio</v-btn>
+        <v-btn outline color="#ff0000" dark v-on="on">
+          NEW {{ board_type }} </v-btn>
       </template>
       <v-card>
         <v-card-text>
@@ -22,14 +23,14 @@
                 ></markdown-editor>
               </v-flex>
             </v-layout>
-            <ImgList :name="name"></ImgList>
+            <ImgList v-if="board_type === 'portfolio'" :name="name"></ImgList>
             <v-img v-if="imageFile" :src="imageFile"></v-img>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="closeModal()">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="writePortfolio()">
+          <v-btn color="blue darken-1" flat @click="write()">
             Save
           </v-btn>
         </v-card-actions>
@@ -44,6 +45,7 @@ import ImgList from "@/components/ImgList";
 
 export default {
   name: "Writer",
+  props: ["board_type"],
   data() {
     return {
       name: "Writer",
@@ -73,17 +75,21 @@ export default {
       this.body = "";
       this.imageFile = "";
     },
-    async writePortfolio() {
+    async write() {
       if (!this.saveBtn) {
         return 0;
       }
       this.saveBtn = false;
-      await FirebaseService.postPortfolio(
-        this.title,
-        this.body,
-        this.imageFile
-      );
-      await this.$EventBus.$emit("refreshPortfolioList");
+      if (this.board_type === "portfolio") {
+        await FirebaseService.postPortfolio(
+          this.title,
+          this.body,
+          this.imageFile
+        );
+      } else {
+        await FirebaseService.postPost(this.title, this.body);
+      }
+      await this.$EventBus.$emit("refreshBoard");
       await this.closeModal();
     }
   }

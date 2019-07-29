@@ -39,6 +39,11 @@ export default {
       posts: []
     };
   },
+  created() {
+    this.$EventBus.$on("refreshBoard", async () => {
+      this.posts = await FirebaseService.getPosts();
+    });
+  },
   components: {
     Post
   },
