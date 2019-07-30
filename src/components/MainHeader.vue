@@ -14,7 +14,7 @@
         <v-toolbar-title>SamJo Blog</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat to="/backoffice">BackOffice</v-btn>
+          <v-btn flat v-if="adminAuthStatus" to="/backoffice">BackOffice</v-btn>
           <v-btn flat to="/repository">Repository</v-btn>
           <v-btn flat to="/portfolio">Portfolio</v-btn>
           <v-btn flat to="/post">Post</v-btn>
@@ -80,6 +80,7 @@
             </v-list-tile-content>
           </router-link>
 
+
           <v-list-tile v-if="!loginUserStatus" @click="dialog = true">
             <v-list-tile-action>
               <v-icon>lock</v-icon>
@@ -112,6 +113,9 @@ export default {
   name: "MainHeader",
   data() {
     return {
+      authLoad: false,
+      auth: false,
+      showBackOffice: false,
       btnShow: false,
       drawer: false,
       dialog: false,
@@ -135,12 +139,26 @@ export default {
       } else {
         return "Guest";
       }
+    },
+    adminAuthStatus() {
+      if (!this.authLoad) this.checkAuth();
+      if (this.authLoad && !this.auth.updated_at) this.checkAuth();
+      if(!this.auth) return;
+      if (this.auth.userAuth == "admin") return true;
+      return false;
     }
   },
   components: {
     SignIn
   },
   methods: {
+    async checkAuth() {
+      if (this.$store.state.user) {
+        const user = await FirebaseService.getUser();
+        this.authLoad = true;
+        this.auth = user;
+      }
+    },
     trans() {
       this.$EventBus.$emit("click-icon_aboutme");
       this.$EventBus.$emit("click-icon_portfolio");
@@ -167,6 +185,8 @@ export default {
       this.swal_alert();
       this.$store.state.user = "";
       this.$store.state.accessToken = "";
+      this.authLoad = false;
+      this.auth = null;
     },
     swal_alert: function() {
       Swal.fire({
@@ -185,6 +205,7 @@ export default {
     }
   },
   created() {
+    FirebaseService.loginChk();
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

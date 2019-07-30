@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/auth";
-
+import store from "../store";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 const IMAGEURLS = "imageurls";
@@ -57,6 +57,7 @@ export default {
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
           data.item_id = doc.id;
+          data.ownerId = doc.ownerId;
           return data;
         });
       });
@@ -169,6 +170,14 @@ export default {
         console.log(error.message);
       });
   },
+  async loginChk() {
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        store.state.user = user;
+      }
+    });
+  },
   createUserRule() {
     const uid = firebase.auth().currentUser.uid;
     return firestore
@@ -190,7 +199,15 @@ export default {
         userAuth: rule,
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
-  },
+  },  updateUserAuth(uid, auth) {
+      return firestore
+        .collection(USERS)
+        .doc(uid)
+        .update({
+          userAuth: auth,
+          updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    },
   async removeItem(id, table){
     var rootRef = await firestore.collection(table).doc(id)
     await rootRef.delete();
@@ -202,18 +219,44 @@ export default {
       body: item.body
     });
   },
-  async getUsers(){
-    const postsCollection = await firestore.collection(USERS);
+   getUsers(){
+    const postsCollection = firestore.collection(USERS);
     return postsCollection
-      .orderBy("created_at", "desc")
+      .orderBy("userAuth", "asc")
       .get()
       .then(docSnapshots => {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
-          data.created_at = new Date(data.created_at.toDate());
+          data.created_at = new Date(data.updated_at.toDate());
           data.id = doc.id;
           return data;
         });
       });
+  },
+  async getUser() {
+        var cur = firebase.auth().currentUser;
+        var uid;
+        uid = cur.uid;
+        var result = await firestore
+          .collection(USERS)
+          .doc(uid)
+          .get()
+          .then(docSnapshots => {
+           let data = docSnapshots.data();
+           return data;
+         });
+    return result;
+  },
+  async getEmail(uid){
+    console.log(uid);
+    var result = await firestore
+      .collection(USERS)
+      .doc(uid)
+      .get()
+      .then(docSnapshots => {
+       let data = docSnapshots.data();
+       console.log(data.userEmail)
+       return data.userEmail;
+     });
   }
 };
