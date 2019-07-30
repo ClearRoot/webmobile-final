@@ -25,7 +25,12 @@
       class="elevation-1"
       expand
   >
-    <template v-slot:headers="props">
+  <template v-slot:no-data>
+<v-alert :value="true" color="blue" icon="warning" >
+ 로딩중 입니다.
+</v-alert>
+</template>
+    <!-- <template v-slot:headers="props">
       <tr>
         <th>
           <v-checkbox
@@ -34,6 +39,7 @@
             primary
             hide-details
             @click.stop="toggleAll"
+            :headers="headers"
           ></v-checkbox>
         </th>
         <th
@@ -50,6 +56,12 @@
           {{ header.text }}
         </th>
       </tr>
+    </template> -->
+
+    <template v-slot:no-results>
+    <v-alert :value="true" color="error" icon="warning" >
+    검색 결과가 없습니다.
+    </v-alert>
     </template>
     <template v-slot:items="props">
       <tr :active="props.selected" >
@@ -67,7 +79,7 @@
         <!-- <td class="text-xs-right">{{ props.item.updated_at }}</td> -->
         <td class="justify-center layout px-0">
           <v-flex xs12 sm6 d-flex>
-                  <v-select
+                  <v-select width
                       v-model="props.item.userAuth"
                       :disabled="props.item.userEmail == 'test@test.com' ? true : false"
                       @change="changeEvt(props.item.id, props.item.userAuth)"
@@ -93,6 +105,15 @@ delete
       </tr>
     </template>
     <template>
+</template>
+
+<template v-slot:expand="props">
+  <v-card flat>
+    <v-img :src="props.item.img" width="50%"></v-img>
+  </v-card>
+  <v-card flat>
+    <v-card-text>{{props.item.body}} </v-card-text>
+  </v-card>
 </template>
   </v-data-table>
   <div class="text-xs-center">
@@ -143,7 +164,7 @@ export default {
           value: "title",
           width: "65%"
         },
-        { text: "권한", value: "created_at", sortable: false, width: "10%" },
+        { text: "권한", value: "created_at", sortable: false},
         { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
       items: [],
@@ -233,6 +254,7 @@ export default {
 
     async getItems(){
       this.loading = true;
+      this.items = [];
       this.search = "";
       if (this.tab === "post") {
         this.items = await FirebaseService.getPosts();

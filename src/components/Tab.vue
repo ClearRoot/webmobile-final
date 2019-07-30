@@ -2,7 +2,7 @@
   <div>
     <v-card>
     <v-card-title>
-   Nutrition
+   {{tab}}
    <v-spacer></v-spacer>
    <v-text-field
      v-model="search"
@@ -25,32 +25,16 @@
       class="elevation-1"
       :expand="false"
   >
-    <!-- <template v-slot:headers="props">
-      <tr>
-        <th>
-          <v-checkbox
-            :input-value="props.all"
-            :indeterminate="props.indeterminate"
-            primary
-            hide-details
-            @click.stop="toggleAll"
-          ></v-checkbox>
-        </th>
-        <th
-          v-for="header in props.headers"
-          :key="header.text"
-          :class="[
-            'column sortable',
-            pagination.descending ? 'desc' : 'asc',
-            header.value === pagination.sortBy ? 'active' : ''
-          ]"
-          @click="changeSort(header.value)"
-        >
-          <v-icon small>arrow_upward</v-icon>
-          {{ header.text }}
-        </th>
-      </tr>
-    </template> -->
+        <template v-slot:no-data>
+     <v-alert :value="true" color="blue" icon="warning" >
+       로딩중 입니다.
+     </v-alert>
+  </template>
+  <template v-slot:no-results>
+<v-alert :value="true" color="error" icon="warning" >
+ 검색 결과가 없습니다.
+</v-alert>
+</template>
     <template v-slot:items="props">
 
       <tr :active="props.selected" >
@@ -63,6 +47,9 @@
         </td>
         <td class="text-xs-left " @click="props.expanded = !props.expanded">
           {{ props.item.title }}
+        </td>
+        <td class="text-xs-left " @click="props.expanded = !props.expanded">
+          {{ props.item.author }}
         </td>
         <td class="text-xs-right" @click="props.expanded = !props.expanded">{{ props.item.created_at }}</td>
         <td class="justify-center layout px-0">
@@ -149,15 +136,6 @@
                        <v-icon>more_vert</v-icon>
                      </v-btn>
                    </template>
-                   <!-- <v-list>
-                     <v-list-item
-                       v-for="(ite, i) in item"
-                       :key="i"
-                       @click="() => {}"
-                     >
-                       <v-list-item-title>{{ ite.title }}</v-list-item-title>
-                     </v-list-item>
-                   </v-list> -->
                  </v-menu>
                </v-toolbar>
                <v-card-text>
@@ -196,7 +174,6 @@ export default {
       dialog: false,
       ddlSource: "ko",
       ddlTarget: "en",
-      // singleSelect: false,
       loading: true,
       selected: [],
       search: "",
@@ -207,7 +184,13 @@ export default {
           align: "left",
           sortable: true,
           value: "title",
-          width: "65%"
+          width: "50%"
+        },{
+          text: "Author",
+          align: "left",
+          sortable: true,
+          value: "author",
+          width: "20%"
         },
         {
           text: "Created_at",
@@ -301,26 +284,31 @@ export default {
 
     async getItems(){
       this.loading = true;
+      this.items = [];
       this.search = "";
+      let temp;
       if (this.tab === "post") {
-        this.items = await FirebaseService.getPosts();
+        temp = await FirebaseService.getPosts();
       } else if (this.tab === "portfolio") {
-        this.items = await FirebaseService.getPortfolios();
+        temp = await FirebaseService.getPortfolios();
       } else if (this.tab === "user"){
-        this.items = await FirebaseService.getUsers();
+        temp = await FirebaseService.getUsers();
       }
       this.dialog = false;
-      for (var i = 0; i < this.items.length; i++) {
-        var temp = this.items[i].created_at;
-        this.items[i].created_at = `${temp.getFullYear()}년 ${temp.getMonth()}월 ${temp.getDate()}일`;
+      for (var i = 0; i < temp.length; i++) {
+        var d = temp[i].created_at;
+        temp[i].created_at = `${d.getFullYear()}년 ${d.getMonth()}월 ${d.getDate()}일`;
+        if (this.tab !== "user") {
+          temp[i].author = await FirebaseService.getEmail(temp[i].ownerId);
+        }
       }
       this.pagination = {
 //       descending:true,
       page: 1,
       rowsPerPage: 5, // -1 for All",
-      totalItems: this.items.length
-
+      totalItems: temp.length
       }
+      this.items = temp;
       this.loading = false;
     },
     translate() {

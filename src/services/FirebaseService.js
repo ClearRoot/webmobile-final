@@ -57,7 +57,6 @@ export default {
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
           data.item_id = doc.id;
-          data.ownerId = doc.ownerId;
           return data;
         });
       });
@@ -219,16 +218,19 @@ export default {
       body: item.body
     });
   },
-   getUsers(){
+   async getUsers(){
     const postsCollection = firestore.collection(USERS);
+    // var temp = await firestore.collection(POSTS).where("ownerId", "==", "GJiAV6Iko6aUStoZZoJPhXCt5aH2").get() //작성글개수 얻기
+    console.log(temp)
     return postsCollection
       .orderBy("userAuth", "asc")
       .get()
       .then(docSnapshots => {
-        return docSnapshots.docs.map(doc => {
+        return docSnapshots.docs.map(doc => async function(){
           let data = doc.data();
           data.created_at = new Date(data.updated_at.toDate());
           data.id = doc.id;
+
           return data;
         });
       });
@@ -248,14 +250,12 @@ export default {
     return result;
   },
   async getEmail(uid){
-    console.log(uid);
-    var result = await firestore
+    return await firestore
       .collection(USERS)
       .doc(uid)
       .get()
       .then(docSnapshots => {
        let data = docSnapshots.data();
-       console.log(data.userEmail)
        return data.userEmail;
      });
   }
