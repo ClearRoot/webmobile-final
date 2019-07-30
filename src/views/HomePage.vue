@@ -72,6 +72,7 @@ import ImgBanner from "../components/ImgBanner";
 import PortfolioList from "../components/PortfolioList";
 import PostList from "../components/PostList";
 import RepositoryList from "../components/RepositoryList";
+import ApiService from "@/services/ApiService";
 
 export default {
   name: "HomePage",
@@ -124,25 +125,19 @@ export default {
 
   created() {
     this.$EventBus.$on("click-icon_aboutme", async () => {
-      const axios = require("axios");
-      var translateUrl =
-        "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
-      translateUrl += "&source=" + this.ddlSource;
-      translateUrl += "&target=" + this.ddlTarget;
-
-      translateUrl += "&q=" + encodeURI(this.items[0].aboutMe);
-      translateUrl += "&q=" + encodeURI(this.items[1].aboutMe);
-      translateUrl += "&q=" + encodeURI(this.items[2].aboutMe);
-      translateUrl += "&q=" + encodeURI(this.items[3].aboutMe);
-
-      axios({
-        methods: "GET",
-        url: translateUrl
-      }).then(res => {
-          this.items[0].aboutMe = res.data.data.translations[0].translatedText;
-          this.items[1].aboutMe = res.data.data.translations[1].translatedText;
-          this.items[2].aboutMe = res.data.data.translations[2].translatedText;
-          this.items[3].aboutMe = res.data.data.translations[3].translatedText;
+      ApiService.getTranslates(
+        this.ddlSource,
+        this.ddlTarget,
+        this.items[0].aboutMe,
+        this.items[1].aboutMe,
+        this.items[2].aboutMe,
+        this.items[3].aboutMe
+      )
+        .then(res => {
+          for (let i = 0; i < 4; i++) {
+            this.items[i].aboutMe =
+              res.data.data.translations[i].translatedText;
+          }
           if (this.ddlSource == "en") {
             this.ddlSource = "ko";
             this.ddlTarget = "en";
@@ -150,7 +145,8 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e);
         });
     });

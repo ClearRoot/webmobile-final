@@ -61,8 +61,11 @@ export default {
         });
       });
   },
-  getPost(id){
-    const postsCollection = firestore.collection(POSTS).doc(id).get();
+  getPost(id) {
+    const postsCollection = firestore
+      .collection(POSTS)
+      .doc(id)
+      .get();
     return postsCollection.then(docSnapshots => {
       let data = docSnapshots.data();
       data.created_at = new Date(data.created_at.toDate());
@@ -191,18 +194,18 @@ export default {
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
   },
-  async removeItem(id, table){
-    var rootRef = await firestore.collection(table).doc(id)
+  async removeItem(id, table) {
+    var rootRef = await firestore.collection(table).doc(id);
     await rootRef.delete();
   },
-  async updateItem(item, table){
-    var rootRef = await firestore.collection(table).doc(item.id)
+  async updateItem(item, table) {
+    var rootRef = await firestore.collection(table).doc(item.id);
     await rootRef.update({
       title: item.title,
       body: item.body
     });
   },
-  async getUsers(){
+  async getUsers() {
     const postsCollection = await firestore.collection(USERS);
     return postsCollection
       .orderBy("created_at", "desc")
