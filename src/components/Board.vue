@@ -1,78 +1,50 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-  >
-    <template v-slot:activator="{ on }">
-      <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-    </template>
-    <v-card tile>
-      <v-toolbar flat dark color="primary">
-        <v-btn icon dark>
-          <v-icon @click="dialog = false">close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Settings</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="update()">
-            수정하기
+  <v-layout justify-center>
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn @click="$emit('close')">
+            <v-icon>close</v-icon>
           </v-btn>
-        </v-toolbar-items>
-        <v-menu bottom right offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn dark icon v-on="on">
-              <v-icon>more_vert</v-icon>
-            </v-btn>
-          </template>
-        </v-menu>
-      </v-toolbar>
-      <v-card-text>
-        <v-flex xs8>
-          <v-text-field
-            label="제목"
-            outlined
-            v-model="item_title"
-            required
-          ></v-text-field>
-        </v-flex>
+          <v-toolbar-title>Settings</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="dialog = false">Save</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
         <v-divider></v-divider>
-        <v-textarea
-          solo
-          rows="20"
-          row-height="20"
-          label="내용"
-          v-model="item_content"
-          required
-        ></v-textarea>
-        <v-divider></v-divider>
-      </v-card-text>
-      <div style="flex: 1 1 auto;"></div>
-    </v-card>
-  </v-dialog>
+      </v-card>
+    </v-dialog>
+  </v-layout>
 </template>
 
 <script>
-import FirebaseService from "@/services/FirebaseService";
-
 export default {
+  name: "Board",
   data() {
     return {
-      dialog: false,
-      items: [],
-      setItem: {
-        title: this.item_title,
-        body: this.item_content,
-        id: this.item_id
-      }
-    };
+      // id: this.item_id
+    }
   },
-  props: ["item_title", "item_content"],
-  methods: {
-    update() {
-      console.log(this.title + " " + this.body + " " + this.id)
+  // watch : {
+  //   dialog_state : function(){
+  //     this.dialog = this.dialog_state;
+  //   }
+  // },
+  props: ["setBoard"],
+  // mounted(){
+  //   console.log(this.dialog + " : " + this.id)
+  // },
+  computed: {
+    dialog () {
+      return this.setBoard.dialog
     }
   }
-};
+
+}
 </script>

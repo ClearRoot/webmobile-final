@@ -194,6 +194,7 @@ export default {
     await rootRef.delete();
   },
   async updateItem(item, table){
+    console.log(item + " " + table)
     var rootRef = await firestore.collection(table).doc(item.id)
     await rootRef.update({
       title: item.title,

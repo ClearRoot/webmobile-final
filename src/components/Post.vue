@@ -1,45 +1,58 @@
 <template>
   <v-layout py-4 h-100>
-    <v-flex row>
-      <div class="caption">{{ formatedDate }}</div>
-      <h2 class="color-333 headline font-weight-light titleText">
-        {{ title }}
-      </h2>
-      <p class="mb-1 color-666 font-weight-light subheading bodyText">
-        {{ body }}
-      </p>
-      <Board
-        :item_title="title"
-        :item_content="body"
-        :item_id="item_id"
-      ></Board>
-    </v-flex>
-  </v-layout>
+      <v-flex row>
+        <div class="caption">{{ formatedDate }}</div>
+        <h2 class="color-333 headline font-weight-light titleText">
+          {{ title }}
+        </h2>
+        <p class="mb-1 color-666 font-weight-light subheading bodyText">
+          {{ body }}
+        </p>
+        <!-- <Board :item_id="id" :dialog_state="dialog"></Board>
+        <v-btn @click="evt()"></v-btn> -->
+
+        <Board :setBoard="this.setBoard" @close="boardClose"></Board>
+           <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn>
+
+         <!-- <Board :item_id="id"></Board> -->
+      </v-flex>
+    </v-layout>
 </template>
 
 <script>
 import Board from "../components/Board";
-
 export default {
   name: "Post",
   props: {
     date: { type: Date },
     title: { type: String },
     body: { type: String },
-    item_id: { type: String }
+    id: { type: String }
   },
   data() {
     return {
+      setBoard:{
+        dialog:false
+      },
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
       thisBody: "",
-      thisId: "",
-      dialog: false
+      thisId: ""
     };
   },
   components: {
     Board
+  },
+  methods: {
+    boardOpen() {
+      console.log('다이알로그 열림')
+      this.setBoard.dialog = true;
+    },
+    boardClose() {
+      console.log('다이알로그 닫음')
+      this.setBoard.dialog = false
+    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
@@ -74,7 +87,7 @@ export default {
     formatedDate() {
       return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`;
     }
-  }
+  },
 };
 </script>
 
