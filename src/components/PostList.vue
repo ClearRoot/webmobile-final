@@ -13,7 +13,11 @@
         :body="posts[i - 1].body"
         :id="posts[i - 1].id"
       ></Post>
+      <Board :setDialog="setDialog"></Board>
+      <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn>
       <v-divider></v-divider>
+
+
     </v-flex>
     <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
       <v-btn outline color="black" dark v-on:click="loadMorePosts"
@@ -26,6 +30,7 @@
 <script>
 import Post from "@/components/Post";
 import FirebaseService from "@/services/FirebaseService";
+import Board from "./Board";
 
 export default {
   name: "PostList",
@@ -36,7 +41,10 @@ export default {
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      setDialog: {
+       dialog: false
+      }
     };
   },
   created() {
@@ -45,7 +53,8 @@ export default {
     });
   },
   components: {
-    Post
+    Post,
+    Board
   },
   mounted() {
     this.getPosts();
@@ -56,6 +65,14 @@ export default {
     },
     loadMorePosts() {
       this.limits += 6;
+    },
+    boardOpen() {
+      console.log('다이알로그 열림')
+      this.setDialog.dialog = true;
+    },
+    boardClose() {
+      console.log('다이알로그 닫음')
+      this.setDialog.dialog = false;
     }
   }
 };

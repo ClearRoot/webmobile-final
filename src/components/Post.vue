@@ -11,17 +11,16 @@
         <!-- <Board :item_id="id" :dialog_state="dialog"></Board>
         <v-btn @click="evt()"></v-btn> -->
 
-        <Board :setBoard="this.setBoard" @close="boardClose"></Board>
-           <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn>
-
+        <!-- <Board :setBoard="this.setBoard" @close="boardClose()"></Board>
+           <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn> -->
          <!-- <Board :item_id="id"></Board> -->
-      </v-flex>
+    
+    </v-flex>
     </v-layout>
 </template>
 
 <script>
 import ApiService from "@/services/ApiService";
-import Board from "../components/Board";
 export default {
   name: "Post",
   props: {
@@ -32,28 +31,12 @@ export default {
   },
   data() {
     return {
-      setBoard:{
-        dialog:false
-      },
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
       thisBody: "",
       thisId: ""
     };
-  },
-  components: {
-    Board
-  },
-  methods: {
-    boardOpen() {
-      console.log('다이알로그 열림')
-      this.setBoard.dialog = true;
-    },
-    boardClose() {
-      console.log('다이알로그 닫음')
-      this.setBoard.dialog = false
-    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
