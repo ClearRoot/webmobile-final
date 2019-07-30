@@ -62,8 +62,11 @@ export default {
         });
       });
   },
-  getPost(id){
-    const postsCollection = firestore.collection(POSTS).doc(id).get();
+  getPost(id) {
+    const postsCollection = firestore
+      .collection(POSTS)
+      .doc(id)
+      .get();
     return postsCollection.then(docSnapshots => {
       let data = docSnapshots.data();
       data.created_at = new Date(data.created_at.toDate());
@@ -219,8 +222,8 @@ export default {
       body: item.body
     });
   },
-   getUsers(){
-    const postsCollection = firestore.collection(USERS);
+  async getUsers() {
+    const postsCollection = await firestore.collection(USERS);
     return postsCollection
       .orderBy("userAuth", "asc")
       .get()

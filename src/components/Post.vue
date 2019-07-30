@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import ApiService from "@/services/ApiService";
 import Board from "../components/Board";
 export default {
   name: "Post",
@@ -56,17 +57,12 @@ export default {
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
-      const axios = require("axios");
-      var translateUrl =
-        "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
-      translateUrl += "&source=" + this.ddlSource;
-      translateUrl += "&target=" + this.ddlTarget;
-      translateUrl += "&q=" + encodeURI(this.thisTitle);
-      translateUrl += "&q=" + encodeURI(this.thisBody);
-      axios({
-        methods: "GET",
-        url: translateUrl
-      })
+      ApiService.getTranslates(
+        this.ddlSource,
+        this.ddlTarget,
+        this.thisTitle,
+        this.thisBody
+      )
         .then(res => {
           this.thisTitle = res.data.data.translations[0].translatedText;
           this.thisBody = res.data.data.translations[1].translatedText;

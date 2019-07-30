@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import ApiService from "@/services/ApiService";
+
 export default {
   name: "Weather",
   data() {
@@ -20,9 +22,7 @@ export default {
       currentTemp: "",
       cityName: "",
       weatherImgUrl: "",
-      time: "",
-      weatherApiUrl:
-        "http://api.openweathermap.org/data/2.5/weather?q=gwangju&units=metric&lang=kr&appid=d27787a4bf39395d1cd18e77f737675d"
+      time: ""
     };
   },
   mounted() {
@@ -31,11 +31,7 @@ export default {
   },
   methods: {
     weatherAxios() {
-      const axios = require("axios");
-      axios({
-        method: "GET",
-        url: this.weatherApiUrl
-      })
+      ApiService.getWeather()
         .then(res => {
           this.weather = res.data.weather[0].main;
           this.currentTemp = res.data.main.temp;
