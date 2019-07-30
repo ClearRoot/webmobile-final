@@ -393,7 +393,7 @@ export default {
             if (result.value) {
               this.items[index].title = this.selItem.title;
               this.items[index].body = this.selItem.body;
-              console.log(this.items[index])
+              this.swalWithBootstrapButtons.fire("수정되었습니다");
               FirebaseService.updateItem(this.items[index], this.tab + "s");
               this.dialog = false;
             }
