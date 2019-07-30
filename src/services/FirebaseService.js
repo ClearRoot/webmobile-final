@@ -88,7 +88,6 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.id = doc.id;
-          data.item_id = doc.id;
           if (data.created_at !== null) {
             data.created_at = new Date(data.created_at.toDate());
           } else {
@@ -213,6 +212,7 @@ export default {
     await rootRef.delete();
   },
   async updateItem(item, table){
+    console.log(item + " " + table)
     var rootRef = await firestore.collection(table).doc(item.id)
     await rootRef.update({
       title: item.title,

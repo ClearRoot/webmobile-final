@@ -7,7 +7,7 @@
     </ImgBanner>
     <v-container>
       <!-- Portfolio -->
-      <PortfolioWriter></PortfolioWriter>
+      <BoardWriter :board_type="'portfolio'"></BoardWriter>
       <v-layout>
         <v-flex xs12>
           <PortfolioList :limits="6" :load-more="true"></PortfolioList>
@@ -23,18 +23,14 @@
 <script>
 import ImgBanner from "../components/ImgBanner";
 import PortfolioList from "../components/PortfolioList";
-import PortfolioWriter from "../components/PortfolioWriter";
+import BoardWriter from "../components/BoardWriter";
 
 export default {
   name: "PortfolioPage",
   components: {
     ImgBanner,
     PortfolioList,
-    PortfolioWriter
-  },
-
-  methods: {
-
+    BoardWriter
   }
 };
 </script>
