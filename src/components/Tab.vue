@@ -81,6 +81,9 @@
 
 <template v-slot:expand="props">
   <v-card flat>
+    <v-img :src="props.item.img" width="50%"></v-img>
+  </v-card>
+  <v-card flat>
     <v-card-text>{{props.item.body}} </v-card-text>
   </v-card>
 </template>
@@ -204,13 +207,13 @@ export default {
           align: "left",
           sortable: true,
           value: "title",
-          width: "50%"
+          width: "65%"
         },
         {
           text: "Created_at",
           value: "created_at",
           sortable: true,
-          width: "10%"
+          width: "15%"
         },
         { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
