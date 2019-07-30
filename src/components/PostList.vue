@@ -11,7 +11,7 @@
         :date="posts[i - 1].created_at"
         :title="posts[i - 1].title"
         :body="posts[i - 1].body"
-        :item_id="posts[i - 1].id"
+        :id="posts[i - 1].id"
       ></Post>
       <v-divider></v-divider>
     </v-flex>
@@ -38,6 +38,11 @@ export default {
     return {
       posts: []
     };
+  },
+  created() {
+    this.$EventBus.$on("refreshBoard", async () => {
+      this.posts = await FirebaseService.getPosts();
+    });
   },
   components: {
     Post

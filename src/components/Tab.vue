@@ -81,6 +81,9 @@
 
 <template v-slot:expand="props">
   <v-card flat>
+    <v-img :src="props.item.img" width="50%"></v-img>
+  </v-card>
+  <v-card flat>
     <v-card-text>{{props.item.body}} </v-card-text>
   </v-card>
 </template>
@@ -204,13 +207,13 @@ export default {
           align: "left",
           sortable: true,
           value: "title",
-          width: "50%"
+          width: "65%"
         },
         {
           text: "Created_at",
           value: "created_at",
           sortable: true,
-          width: "10%"
+          width: "15%"
         },
         { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
@@ -390,8 +393,8 @@ export default {
             if (result.value) {
               this.items[index].title = this.selItem.title;
               this.items[index].body = this.selItem.body;
-              FirebaseService.updateItem(this.items[index], this.tab + "s");
               this.swalWithBootstrapButtons.fire("수정되었습니다");
+              FirebaseService.updateItem(this.items[index], this.tab + "s");
               this.dialog = false;
             }
           });

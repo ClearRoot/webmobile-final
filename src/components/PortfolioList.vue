@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-    this.$EventBus.$on("refreshPortfolioList", async () => {
+    this.$EventBus.$on("refreshBoard", async () => {
       this.portfolios = await FirebaseService.getPortfolios();
     });
   },

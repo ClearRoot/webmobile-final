@@ -1,27 +1,13 @@
 <template>
-  <router-link
-    :to="{
-      name: 'portfoliodetail',
-      params: {
-        id: thisTitle,
-        id2: thisBody,
-        id3: imgSrc,
-        item_id: thisId,
-        board_type: 'portfolio'
-      }
-    }"
-    style="text-decoration: none;"
-  >
-    <v-card>
-      <v-img :src="imgSrc" height="200px"> </v-img>
-      <v-card-title primary-title>
-        <div>
-          <div class="headline titleText">{{ thisTitle }}</div>
-          <span class="grey--text bodyText">{{ thisBody }}</span>
-        </div>
-      </v-card-title>
-    </v-card>
-  </router-link>
+  <v-card>
+    <v-img :src="imgSrc" height="200px"> </v-img>
+    <v-card-title primary-title>
+      <div>
+        <div class="headline titleText">{{ title }}</div>
+        <span class="grey--text bodyText">{{ body }}</span>
+      </div>
+    </v-card-title>
+  </v-card>
 </template>
 
 <script>
@@ -68,11 +54,6 @@ export default {
           console.error(e)
         });
     });
-  },
-  mounted() {
-    this.thisTitle = this.title;
-    this.thisBody = this.body;
-    this.thisId = this.item_id;
   }
 };
 </script>

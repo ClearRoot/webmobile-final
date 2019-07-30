@@ -69,7 +69,8 @@
           <v-flex xs12 sm6 d-flex>
                   <v-select
                       v-model="props.item.userAuth"
-                      @change="changeEvt(props.item)"
+                      :disabled="props.item.userEmail == 'test@test.com' ? true : false"
+                      @change="changeEvt(props.item.id, props.item.userAuth)"
                     :items="auth"
                     solo
                   ></v-select>
@@ -78,6 +79,16 @@
 
 
 
+
+
+</td>
+<td>
+  <v-icon
+small
+@click="removeItem(props.item)"
+>
+delete
+</v-icon>
 </td>
       </tr>
     </template>
@@ -130,9 +141,10 @@ export default {
           align: "left",
           sortable: true,
           value: "title",
-          width: "80%"
+          width: "65%"
         },
-        { text: "권한", value: "created_at", sortable: false, width: "10%" }
+        { text: "권한", value: "created_at", sortable: false, width: "10%" },
+        { text: "function", value: "created_at", sortable: false,width: "10%" }
       ],
       items: [],
       swalWithBootstrapButtons: null
@@ -163,8 +175,8 @@ export default {
     }
   },
   methods: {
-    changeEvt(item){
-      console.log(item)
+    changeEvt(uid, auth){
+      FirebaseService.updateUserAuth(uid, auth);
     },
     init() {
       this.swalWithBootstrapButtons = Swal.mixin({
