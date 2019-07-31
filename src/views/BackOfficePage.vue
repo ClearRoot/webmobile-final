@@ -23,28 +23,29 @@
           </template>
           <v-tabs-items>
             <v-tab-item>
-              <Tab :tab="tabs[active]" v-if="tabs[active] != 'user'"></Tab>
-              <UserTab :tab="tabs[active]" v-if="tabs[active] == 'user'"></UserTab>
+              <PostTab v-if="tabs[active] == 'post'"></PostTab>
+              <PortfolioTab v-if="tabs[active] == 'portfolio'"></PortfolioTab>
+              <UserTab v-if="tabs[active] == 'user'"></UserTab>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
       </v-layout>
     </v-container>
-    <div style="height:1000px">
-    </div>
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
-import Tab from "../components/Tab";
+import PostTab from "../components/PostTab";
+import PortfolioTab from "../components/PortfolioTab";
 import UserTab from "../components/UserTab";
 
 export default {
   name: "BackOfficePage",
   components: {
     ImgBanner,
-    Tab,
+    PostTab,
+    PortfolioTab,
     UserTab
   },
   data() {
@@ -68,7 +69,8 @@ export default {
       axios({
         methods: "GET",
         url: translateUrl
-      }).then(res => {
+      })
+        .then(res => {
           this.title = res.data.data.translations[0].translatedText;
           this.body = res.data.data.translations[1].translatedText;
           if (this.ddlSource == "en") {
@@ -78,23 +80,14 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e)
         });
     },
-    goURL(url){
+    goURL(url) {
       window.open(url);
     }
   }
 };
 </script>
-<style>
-.titleText {
-  overflow:hidden;
-  text-overflow : ellipsis;
-  display:-webkit-box;
-  /* -webkit-line-clamp:1; */
-  /* -webkit-box-orient:vertical; */
-  word-wrap:break-word;
-}
-</style>
