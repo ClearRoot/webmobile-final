@@ -304,6 +304,7 @@ export default {
       this.search = "";
       if (this.tab === "post") {
         this.items = await FirebaseService.getPosts();
+        console.log(this.items)
       } else if (this.tab === "portfolio") {
         this.items = await FirebaseService.getPortfolios();
       } else if (this.tab === "user"){

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div style="height:300px; width:350px;"></div>
+    <!-- <div style="height:300px; width:350px;"></div> -->
     <div id="disqus_thread"></div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["id", "type"],
   methods: {
     initDisqus() {
       this.setAddress();
@@ -44,11 +45,6 @@ export default {
       this.initDisqus(this.item_id);
     }
   },
-  data() {
-    return {
-      item_id: ""
-    };
-  },
   watch: {
     item_id: function() {
       if (this.item_id) {
@@ -62,8 +58,8 @@ export default {
     }
   },
   created() {
-    this.item_id = this.$route.params.item_id;
-    this.board_type = this.$route.params.board_type;
+    this.item_id = this.id;
+    this.board_type = this.type;
   }
 };
 </script>

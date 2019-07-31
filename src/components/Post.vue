@@ -1,33 +1,59 @@
 <template>
   <v-layout py-4 h-100>
-      <v-flex row>
-        <div class="caption">{{ formatedDate }}</div>
-        <h2 class="color-333 headline font-weight-light titleText">
-          {{ title }}
-        </h2>
-        <p class="mb-1 color-666 font-weight-light subheading bodyText">
-          {{ body }}
-        </p>
-        <!-- <Board :item_id="id" :dialog_state="dialog"></Board>
-        <v-btn @click="evt()"></v-btn> -->
+    <v-flex row>
+      <v-hover>
+        <v-card
+          @click.close="showBoard = true"
+          slot-scope="{ hover }"
+          :class="`elevation-${hover ? 12 : 2}`"
+          class="mx-auto"
+          color="#26c6da"
+          dark
+        >
+          <Board v-model="showBoard" :data="data"/>
+          <v-toolbar card light dense>
+            <v-toolbar-title class="headline font-weight-bold titleText">
+              {{ data.title }}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text class="body-2 font-weight bodyText">
+            {{ data.body }}
+          </v-card-text>
 
-        <!-- <Board :setBoard="this.setBoard" @close="boardClose()"></Board>
-           <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn> -->
-         <!-- <Board :item_id="id"></Board> -->
-    
+          <v-card-actions>
+            <v-list-tile class="grow">
+              <v-list-tile-avatar color="grey darken-3">
+                <v-gravatar class="elevation-6" :email="data.ownerEmail"/>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ data.ownerdisplayName }}</v-list-tile-title>
+              </v-list-tile-content>
+
+              <v-layout align-center justify-end>
+                >
+                <v-icon class="mr-1">mdi-heart</v-icon>
+                <span class="subheading mr-2">{{ formatedDate }}</span>
+              </v-layout>
+            </v-list-tile>
+          </v-card-actions>
+        </v-card>
+      </v-hover>
     </v-flex>
-    </v-layout>
+  </v-layout>
 </template>
 
 <script>
 import ApiService from "@/services/ApiService";
+import Board from "../components/Board";
+
 export default {
   name: "Post",
   props: {
-    date: { type: Date },
-    title: { type: String },
-    body: { type: String },
-    id: { type: String }
+    data: { type: Object }
+  },
+  components: {
+    Board
   },
   data() {
     return {
@@ -35,8 +61,14 @@ export default {
       ddlTarget: "en",
       thisTitle: "",
       thisBody: "",
-      thisId: ""
+      thisId: "",
+      showBoard: false
     };
+  },
+  methods: {
+    posts: function(){
+      console.log(this.posts)
+    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
@@ -64,9 +96,9 @@ export default {
   },
   computed: {
     formatedDate() {
-      return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`;
+      return `${this.data.created_at.getFullYear()}년 ${this.data.created_at.getMonth()+1}월 ${this.data.created_at.getDate()}일`;
     }
-  },
+  }
 };
 </script>
 
