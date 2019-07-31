@@ -58,14 +58,12 @@
                 :disabled="
                   props.item.userEmail == 'test@test.com' ? true : false
                 "
-                @change="changeEvt(props.item.id, props.item.userAuth)"
-                :items="auth"
+                @change="changeEvt(props.item.uid, props.item.userAuth,props.item)"
+                :items="props.item.userEmail == 'test@test.com' ? admin : auth"
                 solo
               ></v-select>
             </td>
-            <td>
-              <v-icon small @click="removeItem(props.item)">delete</v-icon>
-            </td>
+            <td><!-- spacing --></td>
           </tr>
         </template>
         <template v-slot:expand="props">
@@ -98,12 +96,10 @@ export default {
   },
   data() {
     return {
-      auth: ["admin", "member", "visitant"],
-      selItem: { title: null, body: null, origin: null },
-      dialog: false,
+      auth: ["member", "visitant"],
+      admin: ["admin"],
       ddlSource: "ko",
       ddlTarget: "en",
-      // singleSelect: false,
       loading: true,
       selected: [],
       search: "",
@@ -117,7 +113,7 @@ export default {
           width: "65%"
         },
         { text: "권한", value: "auth", sortable: false, width: "10%" },
-        { text: "function", value: "created_at", sortable: false, width: "5%" }
+        { text: "", sortable: false }
       ],
       items: [],
       swalWithBootstrapButtons: null
@@ -148,8 +144,28 @@ export default {
     }
   },
   methods: {
-    changeEvt(uid, auth) {
-      FirebaseService.updateUserAuth(uid, auth);
+    changeEvt(uid, auth, origin) {
+      console.log(this.selected)
+      this.swalWithBootstrapButtons
+        .fire({
+          title: "회원 권한 변경",
+          text: "해당 회원의 권한을 변경하시겠습니까?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오"
+        })
+        .then(result => {
+          if (result.value) {
+            FirebaseService.updateUserAuth(uid, auth);
+            this.swalWithBootstrapButtons.fire("권한이 변경되었습니다");
+          }else {
+            const index = this.items.indexOf(origin);
+            if (auth == "member") this.items[index].userAuth = "visitant";
+            else this.items[index].userAuth = "member";
+          }
+        });
+
     },
     init() {
       this.swalWithBootstrapButtons = Swal.mixin({
@@ -173,7 +189,6 @@ export default {
       this.items = [];
       this.search = "";
       this.items = await FirebaseService.getUsers();
-      this.dialog = false;
       for (var i = 0; i < this.items.length; i++) {
         var temp = this.items[i].created_at;
         this.items[
@@ -212,27 +227,6 @@ export default {
         })
         .catch(e => {
           console.error(e)
-        });
-    },
-    removeItem(item) {
-      const index = this.items.indexOf(item);
-      this.swalWithBootstrapButtons
-        .fire({
-          title: "회원 탈퇴 처리",
-          text: "이 회원을 탈퇴처리 하시겠습니까?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonText: "예",
-          cancelButtonText: "아니오"
-        })
-        .then(result => {
-          if (result.value) {
-            this.items.splice(index, 1);
-            FirebaseService.removeItem(item.id, "users");
-            this.swalWithBootstrapButtons.fire("처리되었습니다");
-            this.pagination.totalItems--;
-            this.pagination.page = 1;
-          }
         });
     }
   }
