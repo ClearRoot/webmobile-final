@@ -6,12 +6,26 @@
       </div>
     </ImgBanner>
     <v-container>
-      <!-- Portfolio -->
-      <!-- here -->
-      <v-btn @click="goURL('https://analytics.google.com/')"
-        >Google Analytics</v-btn
-      >
-
+      <template>
+        <v-card
+          class="pa-3"
+          flat
+          height="15em"
+          color="orange"
+          img="https://www.gstatic.com/mobilesdk/190618_mobilesdk/dashboard_fore@2x.png"
+        >
+          <v-card-text class="white--text"
+            >Google 애널리틱스를 사용하면 광고 ROI를 측정할 수 있을 뿐만 아니라
+            플래시, 동영상 및 소셜 네트워크 사이트와 애플리케이션을 추적할 수
+            있습니다.
+          </v-card-text>
+          <v-btn @click="goURL('https://analytics.google.com/')" class="mt-3">
+            Google Analytics
+          </v-btn>
+        </v-card>
+      </template>
+    </v-container>
+    <v-container>
       <v-layout>
         <v-flex xs12>
           <template>
@@ -23,28 +37,29 @@
           </template>
           <v-tabs-items>
             <v-tab-item>
-              <Tab :tab="tabs[active]" v-if="tabs[active] != 'user'"></Tab>
-              <UserTab :tab="tabs[active]" v-if="tabs[active] == 'user'"></UserTab>
+              <PostTab v-if="tabs[active] == 'post'"></PostTab>
+              <PortfolioTab v-if="tabs[active] == 'portfolio'"></PortfolioTab>
+              <UserTab v-if="tabs[active] == 'user'"></UserTab>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
       </v-layout>
     </v-container>
-    <div style="height:1000px">
-    </div>
   </div>
 </template>
 
 <script>
 import ImgBanner from "../components/ImgBanner";
-import Tab from "../components/Tab";
+import PostTab from "../components/PostTab";
+import PortfolioTab from "../components/PortfolioTab";
 import UserTab from "../components/UserTab";
 
 export default {
   name: "BackOfficePage",
   components: {
     ImgBanner,
-    Tab,
+    PostTab,
+    PortfolioTab,
     UserTab
   },
   data() {
@@ -68,7 +83,8 @@ export default {
       axios({
         methods: "GET",
         url: translateUrl
-      }).then(res => {
+      })
+        .then(res => {
           this.title = res.data.data.translations[0].translatedText;
           this.body = res.data.data.translations[1].translatedText;
           if (this.ddlSource == "en") {
@@ -78,23 +94,14 @@ export default {
             this.ddlSource = "en";
             this.ddlTarget = "ko";
           }
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e)
         });
     },
-    goURL(url){
+    goURL(url) {
       window.open(url);
     }
   }
 };
 </script>
-<style>
-.titleText {
-  overflow:hidden;
-  text-overflow : ellipsis;
-  display:-webkit-box;
-  /* -webkit-line-clamp:1; */
-  /* -webkit-box-orient:vertical; */
-  word-wrap:break-word;
-}
-</style>

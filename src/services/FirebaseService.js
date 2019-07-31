@@ -57,7 +57,6 @@ export default {
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
           data.item_id = doc.id;
-          data.ownerId = doc.ownerId;
           return data;
         });
       });
@@ -222,9 +221,10 @@ export default {
       body: item.body
     });
   },
-  async getUsers() {
-    const postsCollection = await firestore.collection(USERS);
-    return postsCollection
+   async getUsers(){
+    const postsCollection = firestore.collection(USERS);
+
+    let result =await postsCollection
       .orderBy("userAuth", "asc")
       .get()
       .then(docSnapshots => {
@@ -232,9 +232,19 @@ export default {
           let data = doc.data();
           data.created_at = new Date(data.updated_at.toDate());
           data.id = doc.id;
+
           return data;
         });
       });
+for(let i = 0 ; i < result.length ; i++){
+  var posts = await firestore.collection(POSTS).where("ownerId", "==", String(result[i].id)).get() //작성글개수 얻기
+  var portfolios = await firestore.collection(PORTFOLIOS).where("ownerId", "==", String(result[i].id)).get();
+  result[i].posts = posts.docs.length;
+  result[i].portfolios = portfolios.docs.length;
+
+}
+
+      return result
   },
   async getUser() {
         var cur = firebase.auth().currentUser;
@@ -249,17 +259,5 @@ export default {
            return data;
          });
     return result;
-  },
-  async getEmail(uid){
-    console.log(uid);
-    var result = await firestore
-      .collection(USERS)
-      .doc(uid)
-      .get()
-      .then(docSnapshots => {
-       let data = docSnapshots.data();
-       console.log(data.userEmail)
-       return data.userEmail;
-     });
   }
 };
