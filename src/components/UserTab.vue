@@ -213,8 +213,8 @@ export default {
       const index = this.items.indexOf(item);
       this.swalWithBootstrapButtons
         .fire({
-          title: "삭제 확인",
-          text: "정말로 삭제하시겠습니까?",
+          title: "회원 탈퇴 처리",
+          text: "이 회원을 탈퇴처리 하시겠습니까?",
           type: "warning",
           showCancelButton: true,
           confirmButtonText: "예",
@@ -224,7 +224,7 @@ export default {
           if (result.value) {
             this.items.splice(index, 1);
             FirebaseService.removeItem(item.id, "users");
-            this.swalWithBootstrapButtons.fire("삭제되었습니다");
+            this.swalWithBootstrapButtons.fire("처리되었습니다");
             this.pagination.totalItems--;
             this.pagination.page = 1;
           }
