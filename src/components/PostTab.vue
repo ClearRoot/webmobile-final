@@ -22,8 +22,13 @@
         item-key="id"
       >
         <template v-slot:no-data>
-          <v-alert :value="true" color="blue" icon="warning">
-            로딩중 입니다.
+          <v-alert :value="true" color="blue">
+            <v-progress-circular
+        :size="40"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+            데이터를 받아오는 중입니다.
           </v-alert>
         </template>
         <template v-slot:no-results>
