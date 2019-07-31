@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!-- <div style="height:300px; width:350px;"></div> -->
+    <div style=" width:350px;"></div>
+    <h1>dfsdkfjklasddfjklasfjdls</h1>
     <div id="disqus_thread"></div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["id", "type"],
   methods: {
     initDisqus() {
       this.setAddress();
@@ -18,7 +18,7 @@ export default {
       window.disqus_config = function() {
         this.page.identifier = self.item_id;
         this.page.url = "http://samjo/" + self.board_type + "/" + self.item_id;
-        console.log(this.page.url)
+        console.log(this.page.url + " " + self.item_id);
       };
     },
     setBoard() {
@@ -45,21 +45,33 @@ export default {
       this.initDisqus(this.item_id);
     }
   },
-  watch: {
-    item_id: function() {
-      if (this.item_id) {
-        localStorage.setItem("item_id", this.item_id);
-        localStorage.setItem("board_type", this.board_type);
-      } else {
-        this.item_id = localStorage.getItem("item_id");
-        this.board_type = localStorage.getItem("board_type");
-      }
-      this.loadComments();
-    }
+  data() {
+    return {
+      item_id: ""
+    };
   },
+  props: {
+    // item_id: { type: String },
+    board_type: { type: String }
+  },
+  // watch: {
+  //   item_id: function() {
+  //     if (this.item_id) {
+  //       localStorage.setItem("item_id", this.item_id);
+  //       localStorage.setItem("board_type", this.board_type);
+  //     } else {
+  //       this.item_id = localStorage.getItem("item_id");
+  //       this.board_type = localStorage.getItem("board_type");
+  //     }
+  //     console.log("dfdskfjskladfj")
+  //     this.loadComments();
+  //   }
+  // },
   created() {
-    this.item_id = this.id;
-    this.board_type = this.type;
+    this.$EventBus.$on("item_id", res => {
+      this.item_id = res;
+      this.loadComments();
+    });
   }
 };
 </script>

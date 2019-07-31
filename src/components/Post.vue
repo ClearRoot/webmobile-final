@@ -3,7 +3,7 @@
     <v-flex row>
       <v-hover>
         <v-card
-          @click.close="showBoard = true"
+          @click.close="openBoard"
           slot-scope="{ hover }"
           :class="`elevation-${hover ? 12 : 2}`"
           class="mx-auto"
@@ -12,7 +12,7 @@
         >
           <Board v-model="showBoard" :data="data"/>
           <v-toolbar card light dense>
-            <v-toolbar-title class="headline font-weight-bold titleText">
+            <v-toolbar-title class="headline font-weight-bold text-no-wrap text-truncate">
               {{ data.title }}
             </v-toolbar-title>
           </v-toolbar>
@@ -65,11 +65,6 @@ export default {
       showBoard: false
     };
   },
-  methods: {
-    posts: function(){
-      console.log(this.posts)
-    }
-  },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
       ApiService.getTranslates(
@@ -94,6 +89,13 @@ export default {
         });
     });
   },
+  methods: {
+    openBoard() {
+      this.showBoard = true;
+      this.$EventBus.$emit("item_id", this.data.id);
+      // console.log("send data : " + this.data.id);
+    }
+  },
   computed: {
     formatedDate() {
       return `${this.data.created_at.getFullYear()}년 ${this.data.created_at.getMonth()+1}월 ${this.data.created_at.getDate()}일`;
@@ -111,11 +113,6 @@ export default {
 }
 .h-100 {
   height: 100%;
-}
-.titleText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .bodyText {
   overflow: hidden;
