@@ -364,7 +364,7 @@ export default {
             if (result.value) {
               this.items[index].title = this.selItem.title;
               this.items[index].body = this.selItem.body;
-              FirebaseService.updateItem(this.items[index], "portfolios");
+              FirebaseService.updatePortfolio(this.items[index]);
               this.swalWithBootstrapButtons.fire("수정되었습니다");
               this.dialog = false;
             }

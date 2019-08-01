@@ -24,10 +24,10 @@
         <template v-slot:no-data>
           <v-alert :value="true" color="blue">
             <v-progress-circular
-        :size="40"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
+              :size="40"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
             데이터를 받아오는 중입니다.
           </v-alert>
         </template>
@@ -292,33 +292,6 @@ export default {
           }
         });
     },
-    translate() {
-      const axios = require("axios");
-      var translateUrl =
-        "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
-      translateUrl += "&source=" + this.ddlSource;
-      translateUrl += "&target=" + this.ddlTarget;
-      translateUrl += "&q=" + encodeURI(this.title);
-      translateUrl += "&q=" + encodeURI(this.body);
-      axios({
-        methods: "GET",
-        url: translateUrl
-      })
-        .then(res => {
-          this.title = res.data.data.translations[0].translatedText;
-          this.body = res.data.data.translations[1].translatedText;
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
-    },
     removeItem(item) {
       const index = this.items.indexOf(item);
       this.swalWithBootstrapButtons
@@ -359,7 +332,7 @@ export default {
             if (result.value) {
               this.items[index].title = this.selItem.title;
               this.items[index].body = this.selItem.body;
-              FirebaseService.updateItem(this.items[index], "posts");
+              FirebaseService.updatePost(this.items[index]);
               this.swalWithBootstrapButtons.fire("수정되었습니다");
               this.dialog = false;
             }

@@ -191,7 +191,6 @@ export default {
       });
   },
   updateUserRule(rule) {
-    console.log(rule)
     const uid = firebase.auth().currentUser.uid;
     return firestore
       .collection(USERS)
@@ -200,7 +199,24 @@ export default {
         userAuth: rule,
         updated_at: firebase.firestore.FieldValue.serverTimestamp()
       });
-  },  updateUserAuth(uid, auth) {
+  },
+  async updateUserAuth(uid, auth, email) {
+    if (auth == "visitant") {
+      await firestore
+        .collection(USERS)
+        .doc(uid)
+        .delete();
+
+      return firestore
+        .collection(USERS)
+        .doc(uid)
+        .set({
+          userEmail: email,
+          userAuth: auth,
+          updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    }
+    if(auth == "member")
       return firestore
         .collection(USERS)
         .doc(uid)
@@ -213,9 +229,15 @@ export default {
     var rootRef = await firestore.collection(table).doc(id)
     await rootRef.delete();
   },
-  async updateItem(item, table){
-    console.log(item + " " + table)
-    var rootRef = await firestore.collection(table).doc(item.id)
+  async updatePortfolio(item){
+    var rootRef = await firestore.collection(PORTFOLIOS).doc(item.id)
+    await rootRef.update({
+      title: item.title,
+      body: item.body
+    });
+  },
+  async updatePost(item){
+    var rootRef = await firestore.collection(POSTS).doc(item.id)
     await rootRef.update({
       title: item.title,
       body: item.body
@@ -248,8 +270,7 @@ for(let i = 0 ; i < result.length ; i++){
   },
   async getUser() {
         var cur = firebase.auth().currentUser;
-        var uid;
-        uid = cur.uid;
+        var uid = cur.uid;
         var result = await firestore
           .collection(USERS)
           .doc(uid)
