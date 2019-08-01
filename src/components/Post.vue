@@ -10,9 +10,10 @@
           color="#26c6da"
           dark
         >
-
           <v-toolbar card light dense>
-            <v-toolbar-title class="headline font-weight-bold text-no-wrap text-truncate">
+            <v-toolbar-title
+              class="headline font-weight-bold text-no-wrap text-truncate"
+            >
               {{ data.title }}
             </v-toolbar-title>
           </v-toolbar>
@@ -23,11 +24,16 @@
           <v-card-actions>
             <v-list-tile class="grow">
               <v-list-tile-avatar color="grey darken-3">
-                <v-gravatar class="elevation-6" :email="data.ownerEmail"/>
+                <v-gravatar class="elevation-6" :email="data.ownerEmail" />
               </v-list-tile-avatar>
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ data.ownerdisplayName }}</v-list-tile-title>
+                <v-list-tile-title v-if="data.ownerDisplayName">{{
+                  data.ownerDisplayName
+                }}</v-list-tile-title>
+                <v-list-tile-title v-if="!data.ownerDisplayName">{{
+                  data.ownerEmail
+                }}</v-list-tile-title>
               </v-list-tile-content>
 
               <v-layout align-center justify-end>
@@ -86,13 +92,14 @@ export default {
     });
   },
   methods: {
-    openBoard(){
+    openBoard() {
       this.$EventBus.$emit("item", this.data);
     }
   },
   computed: {
     formatedDate() {
-      return `${this.data.created_at.getFullYear()}년 ${this.data.created_at.getMonth()+1}월 ${this.data.created_at.getDate()}일`;
+      const date = this.data.created_at;
+      return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
     }
   }
 };
