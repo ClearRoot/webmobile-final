@@ -78,6 +78,8 @@ export default {
       title,
       body,
       ownerId: firebase.auth().currentUser.uid,
+      ownerEmail: firebase.auth().currentUser.Email,
+      ownerDisplayName: firebase.auth().currentUser.displayName,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
@@ -105,6 +107,8 @@ export default {
       body,
       img,
       ownerId: firebase.auth().currentUser.uid,
+      ownerEmail: firebase.auth().currentUser.Email,
+      ownerDisplayName: firebase.auth().currentUser.displayName,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
   },
@@ -172,7 +176,6 @@ export default {
       });
   },
   async loginChk() {
-
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         store.state.user = user;
@@ -216,7 +219,7 @@ export default {
           updated_at: firebase.firestore.FieldValue.serverTimestamp()
         });
     }
-    if(auth == "member")
+    if (auth == "member")
       return firestore
         .collection(USERS)
         .doc(uid)
@@ -224,29 +227,29 @@ export default {
           userAuth: auth,
           updated_at: firebase.firestore.FieldValue.serverTimestamp()
         });
-    },
-  async removeItem(id, table){
-    var rootRef = await firestore.collection(table).doc(id)
+  },
+  async removeItem(id, table) {
+    var rootRef = await firestore.collection(table).doc(id);
     await rootRef.delete();
   },
-  async updatePortfolio(item){
-    var rootRef = await firestore.collection(PORTFOLIOS).doc(item.id)
+  async updatePortfolio(item) {
+    var rootRef = await firestore.collection(PORTFOLIOS).doc(item.id);
     await rootRef.update({
       title: item.title,
       body: item.body
     });
   },
-  async updatePost(item){
-    var rootRef = await firestore.collection(POSTS).doc(item.id)
+  async updatePost(item) {
+    var rootRef = await firestore.collection(POSTS).doc(item.id);
     await rootRef.update({
       title: item.title,
       body: item.body
     });
   },
-   async getUsers(){
+  async getUsers() {
     const postsCollection = firestore.collection(USERS);
 
-    let result =await postsCollection
+    let result = await postsCollection
       .orderBy("userAuth", "asc")
       .get()
       .then(docSnapshots => {
@@ -258,27 +261,32 @@ export default {
           return data;
         });
       });
-for(let i = 0 ; i < result.length ; i++){
-  var posts = await firestore.collection(POSTS).where("ownerId", "==", String(result[i].id)).get() //작성글개수 얻기
-  var portfolios = await firestore.collection(PORTFOLIOS).where("ownerId", "==", String(result[i].id)).get();
-  result[i].posts = posts.docs.length;
-  result[i].portfolios = portfolios.docs.length;
+    for (let i = 0; i < result.length; i++) {
+      var posts = await firestore
+        .collection(POSTS)
+        .where("ownerId", "==", String(result[i].id))
+        .get(); //작성글개수 얻기
+      var portfolios = await firestore
+        .collection(PORTFOLIOS)
+        .where("ownerId", "==", String(result[i].id))
+        .get();
+      result[i].posts = posts.docs.length;
+      result[i].portfolios = portfolios.docs.length;
+    }
 
-}
-
-      return result
+    return result;
   },
   async getUser() {
-        var cur = firebase.auth().currentUser;
-        var uid = cur.uid;
-        var result = await firestore
-          .collection(USERS)
-          .doc(uid)
-          .get()
-          .then(docSnapshots => {
-           let data = docSnapshots.data();
-           return data;
-         });
+    var cur = firebase.auth().currentUser;
+    var uid = cur.uid;
+    var result = await firestore
+      .collection(USERS)
+      .doc(uid)
+      .get()
+      .then(docSnapshots => {
+        let data = docSnapshots.data();
+        return data;
+      });
     return result;
   }
 };
