@@ -6,32 +6,43 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-
       <v-card>
-        <v-toolbar dark color="#22778844">
-          <v-btn icon @click.close="show = false">
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-toolbar-title>{{data.id}}</v-toolbar-title>
+        <v-toolbar dark>
+          <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text>Save</v-btn>
+            <v-btn tile outlined color="success" @click="eidt_board">
+              <v-icon>mdi-pencil</v-icon> Edit
+            </v-btn>
+            <v-btn class="ma-1" tile outlined color="red" @click="delete_board">
+              <v-icon>mdi-pencil</v-icon> delete
+            </v-btn>
+            <v-btn class="ma-4" icon @click.close="show = false">
+              <v-icon>close</v-icon>
+            </v-btn>
           </v-toolbar-items>
         </v-toolbar>
+
         <v-container fluid grid-list-md>
           <v-layout row wrap>
-            <v-flex d-flex xs12 sm6 md6>
+            <v-flex d-flex xs12 sm6 md5>
               <v-card color="purple" dark>
                 <v-card-title primary class="title">
-                  {{ data.title }}
+                  {{ board_item.title }}
                 </v-card-title>
-                <v-card-text>{{ data.body }}</v-card-text>
+                <v-card-text>
+                  {{ board_item.body }}
+                </v-card-text>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs12 sm6 m6 child-flex>
-              <v-card color="green lighten-2" dark>
-              <!-- <Comment :item_id="data.id" :board_type="'post'"></Comment> -->
-              <h1> 댓글 !@!$#!%!#%!%!@%!@%</h1>
+            <v-flex d-flex xs12 sm6 m7 child-flex>
+              <v-card>
+                <Comment
+                  :id="board_item.id"
+                  :board_type="'post'"
+                  v-show="edit_state === false"
+                ></Comment>
+                <BoardEdit v-show="edit_state === true"></BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -42,19 +53,27 @@
 </template>
 
 <script>
-// import Comment from "./Comment";
+import FirebaseService from "../services/FirebaseService";
+import BoardEdit from "./BoardEdit";
+import Comment from "./Comment";
 
 export default {
   name: "Board",
   data() {
-    return {};
+    return {
+      edit_title: "",
+      edit_body: "",
+      edit_state: false
+    };
   },
   props: {
     value: Boolean,
-    data: { type: Object }
+    board_item: { type: Object }
+    // data: { type: Object }
   },
   components: {
-    // Comment
+    Comment,
+    BoardEdit
   },
   computed: {
     show: {
@@ -64,6 +83,17 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    }
+  },
+  methods: {
+    eidt_board() {
+      this.edit_state = true;
+      this.edit_title = this.board_item.title;
+      this.edit_body = this.board_item.body;
+    },
+    delete_board() {
+      FirebaseService.removeItem(this.board_item.id, "posts");
+      this.show = false;
     }
   }
 };

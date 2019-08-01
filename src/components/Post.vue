@@ -10,7 +10,7 @@
           color="#26c6da"
           dark
         >
-          <Board v-model="showBoard" :data="data"/>
+
           <v-toolbar card light dense>
             <v-toolbar-title class="headline font-weight-bold text-no-wrap text-truncate">
               {{ data.title }}
@@ -45,15 +45,11 @@
 
 <script>
 import ApiService from "@/services/ApiService";
-import Board from "../components/Board";
 
 export default {
   name: "Post",
   props: {
     data: { type: Object }
-  },
-  components: {
-    Board
   },
   data() {
     return {
@@ -90,10 +86,8 @@ export default {
     });
   },
   methods: {
-    openBoard() {
-      this.showBoard = true;
-      this.$EventBus.$emit("item_id", this.data.id);
-      // console.log("send data : " + this.data.id);
+    openBoard(){
+      this.$EventBus.$emit("item", this.data);
     }
   },
   computed: {

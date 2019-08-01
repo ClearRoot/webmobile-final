@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div style=" width:350px;"></div>
-    <h1>dfsdkfjklasddfjklasfjdls</h1>
+  <div style="padding:10px">
     <div id="disqus_thread"></div>
   </div>
 </template>
@@ -18,7 +16,6 @@ export default {
       window.disqus_config = function() {
         this.page.identifier = self.item_id;
         this.page.url = "http://samjo/" + self.board_type + "/" + self.item_id;
-        console.log(this.page.url + " " + self.item_id);
       };
     },
     setBoard() {
@@ -28,7 +25,7 @@ export default {
         s.src = "https://samjo.disqus.com/embed.js";
         s.setAttribute("data-timestamp", new Date());
         (d.head || d.body).appendChild(s);
-      }, 1500);
+      }, 100);
     },
     resetDisqus(disqus) {
       disqus.reset({
@@ -47,30 +44,23 @@ export default {
   },
   data() {
     return {
-      item_id: ""
+      item_id: "",
+      item: { type: Object }
     };
   },
   props: {
-    // item_id: { type: String },
+    id: { type: String },
     board_type: { type: String }
   },
-  // watch: {
-  //   item_id: function() {
-  //     if (this.item_id) {
-  //       localStorage.setItem("item_id", this.item_id);
-  //       localStorage.setItem("board_type", this.board_type);
-  //     } else {
-  //       this.item_id = localStorage.getItem("item_id");
-  //       this.board_type = localStorage.getItem("board_type");
-  //     }
-  //     console.log("dfdskfjskladfj")
-  //     this.loadComments();
-  //   }
-  // },
-  created() {
-    this.$EventBus.$on("item_id", res => {
-      this.item_id = res;
+  watch: {
+    item_id: function() {
       this.loadComments();
+    }
+  },
+  created() {
+    this.$EventBus.$on("item", res => {
+      this.item = res;
+      this.item_id = this.item.id;
     });
   }
 };
