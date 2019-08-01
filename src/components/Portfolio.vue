@@ -2,10 +2,10 @@
   <v-card>
     <v-img :src="imgSrc" height="200px"> </v-img>
     <v-card-title primary-title>
-      <div>
-        <div class="headline titleText">{{ title }}</div>
-        <span class="grey--text bodyText">{{ body }}</span>
+      <div class="headline text-no-wrap text-truncate">
+        {{ title }}
       </div>
+      <div class="grey--text bodyText">{{ body }}</div>
     </v-card-title>
   </v-card>
 </template>
@@ -59,11 +59,6 @@ export default {
 </script>
 
 <style>
-.titleText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .bodyText {
   overflow: hidden;
   display: -webkit-box;

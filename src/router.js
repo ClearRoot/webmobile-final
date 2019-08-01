@@ -63,7 +63,6 @@ export default new Router({
       name: "backoffice",
       component: BackOfficePage
     }
-
   ],
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };

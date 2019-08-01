@@ -1,50 +1,100 @@
 <template>
   <v-layout justify-center>
     <v-dialog
-      v-model="dialog"
+      v-model="show"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn @click="$emit('close')">
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Settings</v-toolbar-title>
+        <v-toolbar dark>
+          <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
+            <v-btn tile outlined color="success" @click="eidt_board">
+              <v-icon>mdi-pencil</v-icon> Edit
+            </v-btn>
+            <v-btn class="ma-1" tile outlined color="red" @click="delete_board">
+              <v-icon>mdi-pencil</v-icon> delete
+            </v-btn>
+            <v-btn class="ma-4" icon @click.close="show = false">
+              <v-icon>close</v-icon>
+            </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <v-divider></v-divider>
+
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex d-flex xs12 sm6 md5>
+              <v-card color="purple" dark>
+                <v-card-title primary class="title">
+                  {{ board_item.title }}
+                </v-card-title>
+                <v-card-text>
+                  {{ board_item.body }}
+                </v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex xs12 sm6 m7 child-flex>
+              <v-card>
+                <Comment
+                  :id="board_item.id"
+                  :board_type="'post'"
+                  v-show="edit_state === false"
+                ></Comment>
+                <BoardEdit v-show="edit_state === true"></BoardEdit>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-card>
     </v-dialog>
   </v-layout>
 </template>
 
 <script>
+import FirebaseService from "../services/FirebaseService";
+import BoardEdit from "./BoardEdit";
+import Comment from "./Comment";
+
 export default {
   name: "Board",
   data() {
     return {
-      // id: this.item_id
+      edit_title: "",
+      edit_body: "",
+      edit_state: false
+    };
+  },
+  props: {
+    value: Boolean,
+    board_item: { type: Object }
+    // data: { type: Object }
+  },
+  components: {
+    Comment,
+    BoardEdit
+  },
+  computed: {
+    show: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("input", value);
+      }
     }
   },
-  // watch : {
-  //   dialog_state : function(){
-  //     this.dialog = this.dialog_state;
-  //   }
-  // },
-  props: ["setBoard"],
-  // mounted(){
-  //   console.log(this.dialog + " : " + this.id)
-  // },
-  computed: {
-    dialog () {
-      return this.setBoard.dialog
+  methods: {
+    eidt_board() {
+      this.edit_state = true;
+      this.edit_title = this.board_item.title;
+      this.edit_body = this.board_item.body;
+    },
+    delete_board() {
+      FirebaseService.removeItem(this.board_item.id, "posts");
+      this.show = false;
     }
   }
-
-}
+};
 </script>

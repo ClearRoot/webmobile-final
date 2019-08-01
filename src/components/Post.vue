@@ -1,59 +1,65 @@
 <template>
   <v-layout py-4 h-100>
-      <v-flex row>
-        <div class="caption">{{ formatedDate }}</div>
-        <h2 class="color-333 headline font-weight-light titleText">
-          {{ title }}
-        </h2>
-        <p class="mb-1 color-666 font-weight-light subheading bodyText">
-          {{ body }}
-        </p>
-        <!-- <Board :item_id="id" :dialog_state="dialog"></Board>
-        <v-btn @click="evt()"></v-btn> -->
+    <v-flex row>
+      <v-hover>
+        <v-card
+          @click.close="openBoard"
+          slot-scope="{ hover }"
+          :class="`elevation-${hover ? 12 : 2}`"
+          class="mx-auto"
+          color="#26c6da"
+          dark
+        >
 
-        <Board :setBoard="this.setBoard" @close="boardClose"></Board>
-           <v-btn icon @click="boardOpen()"><v-icon>add</v-icon></v-btn>
+          <v-toolbar card light dense>
+            <v-toolbar-title class="headline font-weight-bold text-no-wrap text-truncate">
+              {{ data.title }}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text class="body-2 font-weight bodyText">
+            {{ data.body }}
+          </v-card-text>
 
-         <!-- <Board :item_id="id"></Board> -->
-      </v-flex>
-    </v-layout>
+          <v-card-actions>
+            <v-list-tile class="grow">
+              <v-list-tile-avatar color="grey darken-3">
+                <v-gravatar class="elevation-6" :email="data.ownerEmail"/>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{ data.ownerdisplayName }}</v-list-tile-title>
+              </v-list-tile-content>
+
+              <v-layout align-center justify-end>
+                >
+                <v-icon class="mr-1">mdi-heart</v-icon>
+                <span class="subheading mr-2">{{ formatedDate }}</span>
+              </v-layout>
+            </v-list-tile>
+          </v-card-actions>
+        </v-card>
+      </v-hover>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import ApiService from "@/services/ApiService";
-import Board from "../components/Board";
+
 export default {
   name: "Post",
   props: {
-    date: { type: Date },
-    title: { type: String },
-    body: { type: String },
-    id: { type: String }
+    data: { type: Object }
   },
   data() {
     return {
-      setBoard:{
-        dialog:false
-      },
       ddlSource: "ko",
       ddlTarget: "en",
       thisTitle: "",
       thisBody: "",
-      thisId: ""
+      thisId: "",
+      showBoard: false
     };
-  },
-  components: {
-    Board
-  },
-  methods: {
-    boardOpen() {
-      console.log('다이알로그 열림')
-      this.setBoard.dialog = true;
-    },
-    boardClose() {
-      console.log('다이알로그 닫음')
-      this.setBoard.dialog = false
-    }
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
@@ -79,11 +85,16 @@ export default {
         });
     });
   },
-  computed: {
-    formatedDate() {
-      return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`;
+  methods: {
+    openBoard(){
+      this.$EventBus.$emit("item", this.data);
     }
   },
+  computed: {
+    formatedDate() {
+      return `${this.data.created_at.getFullYear()}년 ${this.data.created_at.getMonth()+1}월 ${this.data.created_at.getDate()}일`;
+    }
+  }
 };
 </script>
 
@@ -96,11 +107,6 @@ export default {
 }
 .h-100 {
   height: 100%;
-}
-.titleText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .bodyText {
   overflow: hidden;
