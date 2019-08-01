@@ -78,7 +78,7 @@ export default {
       title,
       body,
       ownerId: firebase.auth().currentUser.uid,
-      ownerEmail: firebase.auth().currentUser.Email,
+      ownerEmail: firebase.auth().currentUser.email,
       ownerDisplayName: firebase.auth().currentUser.displayName,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -107,7 +107,7 @@ export default {
       body,
       img,
       ownerId: firebase.auth().currentUser.uid,
-      ownerEmail: firebase.auth().currentUser.Email,
+      ownerEmail: firebase.auth().currentUser.email,
       ownerDisplayName: firebase.auth().currentUser.displayName,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
