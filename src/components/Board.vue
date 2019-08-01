@@ -6,9 +6,10 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-card>
+      <v-card color="grey">
         <v-toolbar dark>
           <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
+
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn tile outlined color="success" @click="eidt_board">
@@ -26,12 +27,24 @@
         <v-container fluid grid-list-md>
           <v-layout row wrap>
             <v-flex d-flex xs12 sm6 md5>
-              <v-card color="purple" dark>
-                <v-card-title primary class="title">
+              <v-card>
+                <v-card-title
+                  primary
+                  class="title"
+                  v-show="edit_state === false">
                   {{ board_item.title }}
                 </v-card-title>
-                <v-card-text>
+                <v-card-title
+                  primary
+                  class="title"
+                  v-show="edit_state === true">
+                  {{ item.edit_title }}
+                </v-card-title>
+                <v-card-text v-show="edit_state === false">
                   {{ board_item.body }}
+                </v-card-text>
+                <v-card-text v-show="edit_state === true">
+                  {{ item.edit_body }}
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -42,7 +55,7 @@
                   :board_type="'post'"
                   v-show="edit_state === false"
                 ></Comment>
-                <BoardEdit v-show="edit_state === true"></BoardEdit>
+                <BoardEdit v-show="edit_state === true" v-model="item" :item_id="board_item.id"></BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -61,9 +74,11 @@ export default {
   name: "Board",
   data() {
     return {
-      edit_title: "",
-      edit_body: "",
-      edit_state: false
+      edit_state: false,
+      item: {
+       edit_title: "",
+       edit_body: ""
+     }
     };
   },
   props: {
@@ -87,14 +102,21 @@ export default {
   },
   methods: {
     eidt_board() {
-      this.edit_state = true;
-      this.edit_title = this.board_item.title;
-      this.edit_body = this.board_item.body;
+      if (this.edit_state == true) {
+        this.edit_state = false;
+      } else {
+        this.edit_state = true;
+      }
+      this.item.edit_title = this.board_item.title;
+      this.item.edit_body = this.board_item.body;
     },
     delete_board() {
       FirebaseService.removeItem(this.board_item.id, "posts");
       this.show = false;
     }
+  },
+  created() {
+    this.$EventBus.$on("close", () => (this.edit_state = false));
   }
 };
 </script>
