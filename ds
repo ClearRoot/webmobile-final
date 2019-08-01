@@ -1,0 +1,515 @@
+[33mcommit dae4063133a954ea9c2642abfd84eb6759b5bae6[m[33m ([m[1;36mHEAD -> [m[1;32mReq.4-4[m[33m)[m
+Merge: 2ff586e 3fd33bc
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Aug 1 15:00:31 2019 +0900
+
+    Merge branch 'develop' of https://lab.ssafy.com/ClearRoot/webmobile-final into Req.4-4
+
+[33mcommit 3fd33bcf34023f5f377266947fd3c4994d310246[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 009851b 459fe32
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 05:59:26 2019 +0000
+
+    Merge branch 'HotFix' into 'develop'
+    
+    HotFix 로그인된 유저의 이메일을 불러오는 코드 오타 수정
+    
+    See merge request ClearRoot/webmobile-final!16
+
+[33mcommit 459fe328a9992a53e0c017527ab55728c0cc2dd2[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 14:58:50 2019 +0900
+
+    HotFix 로그인된 유저의 이메일을 불러오는 코드 오타 수정
+
+[33mcommit 2ff586ec8b7e7df629e8487414dcc3e9f2069e49[m
+Merge: 3b4e360 009851b
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Aug 1 14:51:17 2019 +0900
+
+    Merge branch 'develop' of https://lab.ssafy.com/ClearRoot/webmobile-final into Req.4-4
+
+[33mcommit 009851b9e9b6d396f37b10f63833e52ab570e3f4[m
+Merge: 08a4a3c daaa16e
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 05:48:46 2019 +0000
+
+    Merge branch 'HotFix' into 'develop'
+    
+    HotFix 게시물 작성시 유저정보 추가 저장 & 유저 이름이 없다면 이메일이 보이게 변경
+    
+    See merge request ClearRoot/webmobile-final!15
+
+[33mcommit daaa16e773b7ed7436dd076090d9cd927e4aef95[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 14:47:58 2019 +0900
+
+    HotFix 게시물 작성시 유저정보 추가 저장 & 유저 이름이 없다면 이메일이 보이게 변경
+
+[33mcommit 3b4e360c5fb712a466e801970472c75d45e2cd8a[m
+Merge: 155d5f0 08a4a3c
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Aug 1 14:22:32 2019 +0900
+
+    Merge branch 'develop' of https://lab.ssafy.com/ClearRoot/webmobile-final into Req.4-4
+
+[33mcommit 08a4a3c02c8f6cf9782daedb7aee6c55205ccb0b[m
+Merge: 4b5df99 3565f2d
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 14:21:26 2019 +0900
+
+    Merge branch 'Req.4-5' of https://lab.ssafy.com/ClearRoot/webmobile-final into develop
+
+[33mcommit 3565f2dc94fd35c053ea3bf59fb5bbd717ed7372[m
+Author: june <june3360@gmail.com>
+Date:   Thu Aug 1 14:14:42 2019 +0900
+
+    S1P3113003-22 post 댓글 연동 및 수정 페이지 작업중
+
+[33mcommit 155d5f0a33c33210e72562bf5b496be6d0057e22[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Aug 1 11:46:35 2019 +0900
+
+    S1P3113003-24 불필요한 field 삭제
+
+[33mcommit 4b5df990f385646f4569c20c1f02d2b4780dab3b[m
+Merge: 1181e50 f99f61e
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Aug 1 02:42:10 2019 +0000
+
+    Merge branch 'hotfix' into 'develop'
+    
+    S1P3113003-17 Hotfix
+    
+    See merge request ClearRoot/webmobile-final!13
+
+[33mcommit f99f61e4878f23dff1ded7a53fbbcbb0fd516588[m[33m ([m[1;31morigin/hotfix[m[33m)[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Aug 1 11:29:56 2019 +0900
+
+    S1P3113003-17 BackOffice Page에 비정상적인 접근을 하거나 권한이 없을경우  접근한 수 없도록 수정
+
+[33mcommit 1181e50372ce8700526277d03ba64c0ada164a5a[m[33m ([m[1;32mReq.4-3[m[33m)[m
+Merge: 7c0d99c f48c61c
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Wed Jul 31 17:39:40 2019 +0900
+
+    Merge branch 'Req.4-3' of https://lab.ssafy.com/ClearRoot/webmobile-final into develop
+
+[33mcommit f48c61c2436df502fd5c3ec2db059f05fb302cbe[m[33m ([m[1;31morigin/Req.4-3[m[33m)[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 17:06:10 2019 +0900
+
+    S1P3113003-17 회원권한 변경시 확인 alert 출력, 아니오 버튼 클릭시 원 권한 복구
+
+[33mcommit c23ec0691eef7a54b6b461c2a74243115ac7cd82[m
+Author: june <june3360@gmail.com>
+Date:   Wed Jul 31 16:48:48 2019 +0900
+
+    S1P3113003-22 post modal 댓글기능 수정중
+
+[33mcommit 943f9843b5476f533144a976153ef6a6cc6a006c[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 15:23:43 2019 +0900
+
+    S1P3113003-20 구글 Analytics 버튼 Layout 수정
+
+[33mcommit 46bd3a87214feeb6680a9ca0a3123a12cd787c13[m
+Merge: 1824750 2231e0d
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 14:26:27 2019 +0900
+
+    S1P3113003-17 회원 권한 변경 기능 추가 및 회원탈퇴처리 alert 메세지 수정
+
+[33mcommit 1824750eaf99bb4a07fa477a71792ad5bea288a8[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 14:25:02 2019 +0900
+
+    S1P3113003-17 회원 권한 변경 기능 추가 및 회원탈퇴처리 alert 메세지 수정
+
+[33mcommit 4eb6e39ad8ba76c3e6e95e2ab26e77e3ecb2ad8a[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 14:20:02 2019 +0900
+
+    S1P3113003-16 코드정리 및 로딩 최적화
+
+[33mcommit 2231e0d804d8fbce75db2c60140cfe4951039a28[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 31 14:20:02 2019 +0900
+
+    S1P3113003-16 코드정리 및 로딩 최적화
+
+[33mcommit 6ec7710dfef724fdd38c40fa1bbdfc02406eaae2[m
+Author: june <june3360@gmail.com>
+Date:   Wed Jul 31 14:13:49 2019 +0900
+
+    S1P3113003-22 post detail page ui 및 댓글 연결 수정 중
+
+[33mcommit d3cc56a0fbd9ac159617d8b26447c2f51efeba75[m
+Author: june <june3360@gmail.com>
+Date:   Tue Jul 30 17:59:33 2019 +0900
+
+    S1P3113003-22 post modal 코드 수정중
+
+[33mcommit e6a5adeee68f88d6b97e32a169be4f32387a58fe[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Tue Jul 30 17:46:52 2019 +0900
+
+    S1P3113003-16 Post, Portpolio 목록에서 작성자 확인 가능
+
+[33mcommit 7c0d99c0a3e3b93899df2861a456705d1706c2d5[m
+Merge: c253163 01b99d0
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:38:42 2019 +0000
+
+    Merge branch 'CodePolishing' into 'develop'
+    
+    S1P3113003-41 API 서비스 코드 정리
+    
+    See merge request ClearRoot/webmobile-final!9
+
+[33mcommit 01b99d0152c3868a9867d32a9c0f43475059840f[m
+Merge: e6561ec c253163
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:37:22 2019 +0000
+
+    Merge branch 'develop' into 'CodePolishing'
+    
+    # Conflicts:
+    #   src/components/Post.vue
+    #   src/services/FirebaseService.js
+
+[33mcommit c25316379bc6303dfcddacbd4674e1d4e632fc99[m
+Merge: 457b313 1f8b91c
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:35:12 2019 +0000
+
+    Merge branch 'Req.4-5' into 'develop'
+    
+    Req.4 5 포트폴리오, 포스트 모달 구현, 컴포넌트화 중
+    
+    See merge request ClearRoot/webmobile-final!11
+
+[33mcommit 1f8b91c2f7deb73d67fc1ca56a5acba6d44c2022[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:33:29 2019 +0000
+
+    Update Tab.vue
+
+[33mcommit ca51af1602afb42e0d97ee0da145eff5ab6e6a93[m
+Merge: dd018a6 457b313
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:30:11 2019 +0000
+
+    Merge branch 'develop' into 'Req.4-5'
+    
+    # Conflicts:
+    #   src/services/FirebaseService.js
+
+[33mcommit 457b3139ff6af2dbad8906107521869186a11414[m
+Merge: 29f2b47 1a5dc6d
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 05:28:17 2019 +0000
+
+    Merge branch 'Req.4-3' into 'develop'
+    
+    S1P3113003-16 Merge Request Req.4-3
+    
+    See merge request ClearRoot/webmobile-final!10
+
+[33mcommit dd018a634059b6ccb5afd5a2b7e5891c1b7e13cc[m
+Author: june <june3360@gmail.com>
+Date:   Tue Jul 30 14:27:52 2019 +0900
+
+    S1P3113003-22 portfolio post 모달, 컴포넌트 화 중
+
+[33mcommit 1a5dc6dcc98e666a4d9ed1efea810401f42cd984[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Tue Jul 30 14:26:02 2019 +0900
+
+    S1P3113003-16 유저목록에서 권한 설정 및 유저 삭제 추가.
+
+[33mcommit e6561ec9f1eb8e3c671c4fc09faa2a0e40b96d5c[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Tue Jul 30 13:54:11 2019 +0900
+
+    S1P3113003-41 API 서비스 코드 정리
+
+[33mcommit b2a6000a0fbf71dfe50571420a81de81a93adf88[m
+Author: june <june3360@gmail.com>
+Date:   Mon Jul 29 17:59:01 2019 +0900
+
+    S1P3113003-22 post page 수정 기능 구현 중
+
+[33mcommit 8217a5da74887385deab3960f6119086e2a24020[m
+Author: june <june3360@gmail.com>
+Date:   Mon Jul 29 16:04:54 2019 +0900
+
+    S1P3113003-22 post, portfolio 글쓰기 코드 수정 및 component 화
+
+[33mcommit 29f2b472837ea3ec41b484f9888a5ca8ffba4d3d[m
+Merge: 219dff2 5e82165
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 04:33:34 2019 +0000
+
+    Merge branch 'Req.4-3_Jo' into 'develop'
+    
+    Req.4-3_jo 오후시간 전 머지
+    
+    See merge request ClearRoot/webmobile-final!6
+
+[33mcommit 219dff232842d466b80838ddf9b9e7f6a3ac9805[m
+Merge: b9723fa 79669a2
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 04:33:07 2019 +0000
+
+    Merge branch 'Req.4-5' into 'develop'
+    
+    S1P3113003-28 post, portfolio page 댓글 연결
+    
+    See merge request ClearRoot/webmobile-final!8
+
+[33mcommit b9723faec0346a4f9db6a87187ed10121d329fbe[m
+Merge: 6f9c18d 1c301bb
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 04:30:43 2019 +0000
+
+    Merge branch 'Req.4-3' into 'develop'
+    
+    Req.4 3 MergeRequest
+    
+    See merge request ClearRoot/webmobile-final!7
+
+[33mcommit 1c301bb5ea4897ccd274fac6089a49c497f4b3c4[m[33m ([m[1;32mdevelop[m[33m)[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Mon Jul 29 13:24:37 2019 +0900
+
+    S1P3113003-16 유저목록 읽어오기 및  출력구현 구현
+
+[33mcommit 5e82165f8afd203088dc915d37c1db483a96e7e2[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 13:22:13 2019 +0900
+
+    S1P3113003-13 저장되는 유저권한정보에서 시간정보를 하나로 통합
+
+[33mcommit fb080e30c6e159febadc490538f68ce5f44eee04[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 13:21:18 2019 +0900
+
+    S1P3113003-23 PortfolioList limit를 6개로 수정
+
+[33mcommit 19ad9c0e161fc7a3c5871676af3b773b3c5cfb3a[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Mon Jul 29 10:24:43 2019 +0900
+
+    S1P3113003-20 Firebase hosting web과 Google Analytics를 연결
+
+[33mcommit 79669a2b11d71a7a055e907d8a263f660ac264f7[m
+Author: june <june3360@gmail.com>
+Date:   Mon Jul 29 09:51:16 2019 +0900
+
+    S1P3113003-28 post, portfolio page 댓글 연결
+
+[33mcommit bc8b62d343f26d0d2b15d0207015f289d66ed94c[m
+Merge: f211af5 6f9c18d
+Author: kimseonili <rain6781@naver.com>
+Date:   Fri Jul 26 17:30:39 2019 +0900
+
+    S1P3113003-16 Conflict
+
+[33mcommit 6f9c18dd2a88f3e243850eb5d66fe9a9b62b68ef[m
+Merge: 20866bd 9845cfe
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:15:15 2019 +0000
+
+    Merge branch 'Req.4-5' into 'develop'
+    
+    Req.4 5
+    
+    See merge request ClearRoot/webmobile-final!5
+
+[33mcommit 9845cfe3192a31857cc78de577731020b1b6a7e5[m
+Merge: bd84b4e 20866bd
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:15:12 2019 +0000
+
+    Merge branch 'develop' into 'Req.4-5'
+    
+    # Conflicts:
+    #   src/components/Post.vue
+    #   src/router.js
+
+[33mcommit 20866bdb1513c1dbd87106825a679b81a01e070c[m
+Merge: bcd7e99 5415095
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:12:14 2019 +0000
+
+    Merge branch 'Req.4-3' into 'develop'
+    
+    Req.4 3 MergeRequest
+    
+    See merge request ClearRoot/webmobile-final!3
+
+[33mcommit 5415095a664e4120a850ed9dfac4d3343d1e5031[m
+Merge: 1ebad62 bcd7e99
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:12:07 2019 +0000
+
+    Merge branch 'develop' into 'Req.4-3'
+    
+    # Conflicts:
+    #   src/router.js
+    #   src/services/FirebaseService.js
+
+[33mcommit bcd7e9992a954b3686005e4ebb775dee28da1a9b[m
+Merge: e66bf4e 614b52e
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:11:43 2019 +0000
+
+    Merge branch 'Req.4-4' into 'develop'
+    
+    Req.4 4
+    
+    See merge request ClearRoot/webmobile-final!4
+
+[33mcommit 614b52e9801175e5803b058df089941207f2ebec[m
+Merge: 170fe72 e66bf4e
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 08:10:32 2019 +0000
+
+    Merge branch 'develop' into 'Req.4-4'
+    
+    # Conflicts:
+    #   src/router.js
+
+[33mcommit f211af596d9e7d60b7b079b3c5e24b30a82cf8b0[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Fri Jul 26 17:09:09 2019 +0900
+
+    S1P3113003-16 권한 정책 수정 반영중  커밋
+
+[33mcommit 170fe72631d734b64b94b03f315810a9c0934130[m
+Author: ilgok39 <ilgok39@daum.net>
+Date:   Fri Jul 26 15:36:30 2019 +0900
+
+    S1P3113003-29 포스트,포트폴리오 더보기눌렀을때 6개 뜨게함
+
+[33mcommit 5fccbd9d86cca36cc765bbe36d4562aa05fa435d[m
+Author: ilgok39 <ilgok39@daum.net>
+Date:   Fri Jul 26 15:14:00 2019 +0900
+
+    S1P3113003-21 포트폴리오,포스트 디테일 완
+
+[33mcommit 1ebad62409692973e08b15c1ed800f5ea8b2e8ea[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Fri Jul 26 15:11:39 2019 +0900
+
+    S1P3113003-16 관리자페이지에서 Post 및 Portpolio 를 Dialog를 통해 수정가능하도록 함.
+
+[33mcommit e66bf4e8a4930d68f951ea538b646da361bad484[m
+Merge: 0802651 f54c919
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 06:08:38 2019 +0000
+
+    Merge branch 'Req.4-2' into 'develop'
+    
+    S1P3113003-14 회원가입 후, 최초 로그인을 하면 DB에 방문자권한을 저장하는 기능 추가
+    
+    See merge request ClearRoot/webmobile-final!2
+
+[33mcommit f54c919caeda18a97c6c13a7c1a3439766120382[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Fri Jul 26 15:06:59 2019 +0900
+
+    S1P3113003-14 회원가입 후, 최초 로그인을 하면 DB에 방문자권한을 저장하는 기능 추가
+
+[33mcommit 519b11e126b3f9e46d0ff258038de60924f8cedc[m
+Author: ilgok39 <ilgok39@daum.net>
+Date:   Fri Jul 26 14:51:36 2019 +0900
+
+    S1P3113003-21 포트폴리오 디테일 번역됨
+
+[33mcommit 542de6f7fda91006ae63407337077faacd2e5087[m
+Author: ilgok39 <ilgok39@daum.net>
+Date:   Fri Jul 26 13:32:43 2019 +0900
+
+    S1P3113003-21 포트폴리오 디테일 제목,사진,내용은 뜨는데 이미지 리사이즈 안됨
+
+[33mcommit bd84b4e5f1c707804e9a73ef137f62c4586ad8b4[m
+Author: june <june3360@gmail.com>
+Date:   Fri Jul 26 13:28:48 2019 +0900
+
+    S1P3113003-28 포스트 게시판 댓글 기능 수정(새로고침시 로컬영역에 식별자 값 저장하여 보여주게 변경)
+
+[33mcommit 45993f71b02c67fc5ff7ccaab837aed04ad717bb[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Jul 25 18:02:22 2019 +0900
+
+    S1P3113003-16 수정 Dialog 출력
+
+[33mcommit b005815de5ae5c2d7cc305653bd2a18ccc88d358[m
+Author: june <june3360@gmail.com>
+Date:   Thu Jul 25 17:12:24 2019 +0900
+
+    S1P3113003-28 포스트게시판 댓글 기능 구현 완료
+
+[33mcommit 30fa67fd43a3bbf0492bbea2c0311de492f49119[m
+Author: ilgok39 <ilgok39@daum.net>
+Date:   Thu Jul 25 15:54:50 2019 +0900
+
+    S1P3113003-21 포트폴리오 클릭시 상세내용 뜸
+
+[33mcommit 7451071766f1ccfe868736b405d3562a030ea004[m
+Merge: eb90eaa 0802651
+Author: june <june3360@gmail.com>
+Date:   Thu Jul 25 14:35:14 2019 +0900
+
+    S1P3113003-28 merge conflict 해결
+
+[33mcommit eb90eaab343e6623c5eafdec22a922fcb4327c8c[m
+Author: june <june3360@gmail.com>
+Date:   Thu Jul 25 14:31:11 2019 +0900
+
+    S1P3113003-28 포스트게시판 id를 통해 댓글 연결 중
+
+[33mcommit ae439d0ced891dc09db8faaf84c3eb8ecd524704[m
+Merge: 3bec4ec 0802651
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Jul 25 14:30:30 2019 +0900
+
+    S1P3113003-16 develop merge conflict 해결
+
+[33mcommit 3bec4ecffbb8964521aefbfc02e1489069841807[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Thu Jul 25 14:27:22 2019 +0900
+
+    S1P3113003-16 Post관리 테이블을 탭으로 변경하여 Portpolio, User또한 확인할 수 있도록 변경
+
+[33mcommit 08026519814ee8ae90d2ef8828895e5c304bdde4[m
+Merge: f19ebb8 fe3fa80
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Jul 25 05:01:13 2019 +0000
+
+    Merge branch 'hotfix' into 'develop'
+    
+    구조 변경
+    
+    See merge request ClearRoot/webmobile-final!1
+
+[33mcommit fe3fa809c8ae6b9728ebcaf1ac9643cde881f9fe[m
+Author: Jo Hogeun <jhk7767@naver.com>
+Date:   Thu Jul 25 13:59:33 2019 +0900
+
+    로그인 상태를 확인하는 코드의 구조를 Vuex를 사용하는 방법으로 변경
+
+[33mcommit 7a387d960efd647e50a103513d0942901514536d[m
+Author: kimseonili <rain6781@naver.com>
+Date:   Wed Jul 24 17:58:52 2019 +0900
+
+    S1P3113003-16 Post 관리 테이블 구현
+
+[33mcommit 48f4a4a5936d70b7ce612432e8a3efa6040cf35b[m
+Author: june <june3360@gmail.com>
+Date:   Wed Jul 24 17:55:58 2019 +0900
+
+    S1P3113003-28 포스트 댓글 기능 추가 및 firebase post id를 통해 게시글 가져오는 메소드 작성중
