@@ -56,10 +56,10 @@
               <v-select
                 v-model="props.item.userAuth"
                 :disabled="
-                  props.item.userEmail == 'test@test.com' ? true : false
+                  props.item.userAuth == 'admin' ? true : false
                 "
-                @change="changeEvt(props.item.uid, props.item.userAuth,props.item)"
-                :items="props.item.userEmail == 'test@test.com' ? admin : auth"
+                @change="changeEvt(props.item.id, props.item.userAuth,props.item)"
+                :items="props.item.userAuth == 'admin' ? admin : auth"
                 solo
               ></v-select>
             </td>
@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     changeEvt(uid, auth, origin) {
-      console.log(this.selected)
       this.swalWithBootstrapButtons
         .fire({
           title: "회원 권한 변경",
@@ -157,7 +156,7 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            FirebaseService.updateUserAuth(uid, auth);
+            FirebaseService.updateUserAuth(uid, auth, origin.userEmail);
             this.swalWithBootstrapButtons.fire("권한이 변경되었습니다");
           }else {
             const index = this.items.indexOf(origin);
@@ -201,33 +200,6 @@ export default {
         totalItems: this.items.length
       };
       this.loading = false;
-    },
-    translate() {
-      changeSortequire("axios");
-      var translateUrl =
-        "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
-      translateUrl += "&source=" + this.ddlSource;
-      translateUrl += "&target=" + this.ddlTarget;
-      translateUrl += "&q=" + encodeURI(this.title);
-      translateUrl += "&q=" + encodeURI(this.body);
-      axios({
-        methods: "GET",
-        url: translateUrl
-      })
-        .then(res => {
-          this.title = res.data.data.translations[0].translatedText;
-          this.body = res.data.data.translations[1].translatedText;
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
     }
   }
 };

@@ -5,7 +5,7 @@
         BackOffice
       </div>
     </ImgBanner>
-    <v-container>
+    <v-container v-if="true">
       <template>
         <v-card
           class="pa-3"
@@ -53,7 +53,8 @@ import ImgBanner from "../components/ImgBanner";
 import PostTab from "../components/PostTab";
 import PortfolioTab from "../components/PortfolioTab";
 import UserTab from "../components/UserTab";
-
+import FirebaseService from "../services/FirebaseService";
+import Swal from "sweetalert2";
 export default {
   name: "BackOfficePage",
   components: {
@@ -64,43 +65,37 @@ export default {
   },
   data() {
     return {
-      ddlSource: "ko",
-      ddlTarget: "en",
       active: 0,
       posts: [],
-      tabs: ["post", "portfolio", "user"]
+      tabs: ["post", "portfolio", "user"],
+      auth: null
     };
   },
+  beforeMount() {
+    this.checkAuth();
+  },
   methods: {
-    translate() {
-      const axios = require("axios");
-      var translateUrl =
-        "https://www.googleapis.com/language/translate/v2?key=AIzaSyChUf-_S1c5gnxJdSZE8u5hBjTyRlBSgm8";
-      translateUrl += "&source=" + this.ddlSource;
-      translateUrl += "&target=" + this.ddlTarget;
-      translateUrl += "&q=" + encodeURI(this.title);
-      translateUrl += "&q=" + encodeURI(this.body);
-      axios({
-        methods: "GET",
-        url: translateUrl
-      })
-        .then(res => {
-          this.title = res.data.data.translations[0].translatedText;
-          this.body = res.data.data.translations[1].translatedText;
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
-    },
     goURL(url) {
       window.open(url);
+    },
+    async checkAuth() {
+      if (this.$store.state.user) {
+        const user = await FirebaseService.getUser();
+        this.auth = user;
+        if (this.auth.userAuth == "admin") return;
+      }
+      Swal.fire({
+        type: "error",
+        title: "403 error",
+        text: "권한이 없거나 비정상적인 접근입니다."
+      });
+      this.$router.push("/");
+    }
+  },
+  computed: {
+    adminAuthStatus() {
+      if (this.auth.userAuth == "admin") return true;
+      return false;
     }
   }
 };

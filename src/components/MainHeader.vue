@@ -115,7 +115,6 @@ export default {
     return {
       authLoad: false,
       auth: false,
-      showBackOffice: false,
       btnShow: false,
       drawer: false,
       dialog: false,
@@ -187,6 +186,7 @@ export default {
       this.$store.state.accessToken = "";
       this.authLoad = false;
       this.auth = null;
+      this.$router.push("/");
     },
     swal_alert: function() {
       Swal.fire({
