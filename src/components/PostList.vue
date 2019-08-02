@@ -44,6 +44,15 @@ export default {
     });
     this.$EventBus.$on("item", res =>{
       this.item = res;
+      console.log(this.$store.state.user)
+      if (
+        this.item.ownerId == this.$store.state.user.uid ||
+        this.$store.state.user.auth == "admin"
+      ) {
+        this.item.auth = true;
+      }else {
+        this.item.auth = false;
+      }
       this.showBoard = true;
     })
   },

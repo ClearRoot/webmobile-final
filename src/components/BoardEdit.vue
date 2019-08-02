@@ -50,7 +50,7 @@
 <script>
 import FirebaseService from "@/services/FirebaseService";
 import ImgList from "@/components/ImgList";
-
+import Swal from "sweetalert2";
 export default {
   name: "Writer",
   props: {
@@ -73,7 +73,9 @@ export default {
         title: "",
         body: "",
         id: ""
-      }
+      },
+      origin_title: "",
+      origin_body: ""
     };
   },
   components: {
@@ -83,25 +85,81 @@ export default {
     this.$EventBus.$on("selectImgWriter", res => {
       this.imageFile = res;
     });
+    this.origin_title = this.value.edit_title;
+    this.origin_body = this.value.edit_body;
+  },
+  mounted() {
+    this.init();
   },
   methods: {
+    init() {
+      this.swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: true
+      });
+    },
     close() {
-      this.$EventBus.$emit("close");
+      if (
+        this.value.edit_title != this.origin_title ||
+        this.value.edit_body != this.origin_body
+      ) {
+        this.swalWithBootstrapButtons
+          .fire({
+            title: "수정 취소",
+            text: "수정사항을 취소하고 종료하시겠습니까?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니오"
+          })
+          .then(result => {
+            if (result.value) {
+              this.value.edit_title = this.origin_title;
+              this.value.edit_body = this.origin_body;
+              this.$EventBus.$emit("close");
+            }
+          });
+      } else {
+        this.$EventBus.$emit("close");
+      }
     },
     async edit() {
-      this.item.title = this.value.edit_title;
-      this.item.body = this.value.edit_body;
-      this.item.id = this.item_id;
-      switch (this.board_type) {
-        case "post":
-          FirebaseService.updatePost(this.item);
-          break;
-        default:
-          this.item.img = this.imageFile;
-          FirebaseService.updatePortfolio(this.item);
-      }
-      await this.$EventBus.$emit("refreshBoard");
-      close();
+        this.swalWithBootstrapButtons
+          .fire({
+            title: "수정 확인",
+            text: "수정하시겠습니까?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니오"
+          })
+          .then(result => {
+            if (result.value) {
+              this.item.title = this.value.edit_title;
+              this.item.body = this.value.edit_body;
+              this.origin_title = this.value.edit_title
+              this.origin_body = this.value.edit_body;
+              this.item.id = this.item_id;
+              switch (this.board_type) {
+                case "post":
+                  FirebaseService.updatePost(this.item);
+                  break;
+                default:
+                  this.item.img = this.imageFile;
+                  FirebaseService.updatePortfolio(this.item);
+              }
+              this.$EventBus.$emit("closeRoot");
+              this.$EventBus.$emit("close");
+              this.$EventBus.$emit("refreshBoard");
+              this.$EventBus.$emit("refreshDetail",this.value);
+              this.swalWithBootstrapButtons.fire("수정되었습니다");
+
+            }
+          });
+
     },
     updateDate() {
       this.$emit("input", {

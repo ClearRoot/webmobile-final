@@ -157,6 +157,8 @@ export default {
       const result = await FirebaseService.loginWithGoogle();
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
+      const auth = await FirebaseService.getUser();
+      this.$store.state.user.auth = auth.userAuth;
       if (result.user) {
         FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
@@ -167,6 +169,8 @@ export default {
       const result = await FirebaseService.loginWithFacebook();
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
+      const auth = await FirebaseService.getUser();
+      this.$store.state.user.auth = auth.userAuth;
       if (result.user) {
         FirebaseService.createUserRule();
         this.swal_alert("social_login", null);
@@ -179,6 +183,8 @@ export default {
         this.login_password
       );
       this.$store.state.user = result.user;
+      const auth = await FirebaseService.getUser();
+      this.$store.state.user.auth = auth.userAuth;
       if (result.user) {
         FirebaseService.createUserRule();
         this.swal_alert("login", result.user.email);

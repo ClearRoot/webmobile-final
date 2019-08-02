@@ -39,7 +39,7 @@
               size="25px"
               style="font-size:20px;color:blue"
             ></i>
-            facebook
+            facebookasd
           </v-btn>
           <v-btn flat v-on:click="loginWithGoogle">
             <i
