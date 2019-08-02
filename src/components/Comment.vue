@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:10px">
+  <div style="padding:10px; min-height: 500px;">
     <div id="disqus_thread"></div>
   </div>
 </template>

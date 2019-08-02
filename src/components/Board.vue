@@ -6,7 +6,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-card color="grey">
+      <v-card color="black">
         <v-toolbar dark>
           <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
 
