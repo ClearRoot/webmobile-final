@@ -7,12 +7,18 @@
     >
       <v-img :src="data.img" height="200px"></v-img>
       <v-card-title primary-title>
-        <div class="headline text-no-wrap text-truncate">
+        <div v-if="!translateState" class="headline text-no-wrap text-truncate">
           {{ data.title }}
         </div>
+        <div v-if="translateState" class="headline text-no-wrap text-truncate">
+          {{ titleEN }}
+        </div>
       </v-card-title>
-      <v-card-text class="grey--text portfolioBodyText">
+      <v-card-text v-if="!translateState" class="grey--text portfolioBodyText">
         {{ data.body }}
+      </v-card-text>
+      <v-card-text v-if="translateState" class="grey--text portfolioBodyText">
+        {{ bodyEN }}
       </v-card-text>
       <v-card-actions>
         <v-list-tile class="grow">
@@ -51,34 +57,32 @@ export default {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
-      thisTitle: "",
-      thisBody: "",
-      thisId: "",
+      titleEN: "",
+      bodyEN: "",
+      translateState: false,
       showBoard: false
     };
   },
   created() {
     this.$EventBus.$on("click-icon_portfolio", async () => {
-      ApiService.getTranslates(
-        this.ddlSource,
-        this.ddlTarget,
-        this.thisTitle,
-        this.thisBody
-      )
-        .then(res => {
-          this.thisTitle = res.data.data.translations[0].translatedText;
-          this.thisBody = res.data.data.translations[1].translatedText;
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
+      if (!this.titleEN || !this.bodyEN) {
+        ApiService.getTranslates(
+          this.ddlSource,
+          this.ddlTarget,
+          this.data.title,
+          this.data.body
+        )
+          .then(res => {
+            this.titleEN = res.data.data.translations[0].translatedText;
+            this.bodyEN = res.data.data.translations[1].translatedText;
+            this.translateState = !this.translateState;
+          })
+          .catch(e => {
+            console.error(e)
+          });
+      } else {
+        this.translateState = !this.translateState;
+      }
     });
   },
   methods: {
