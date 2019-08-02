@@ -95,8 +95,10 @@ export default {
 </script>
 
 <style>
-.bodyText {
+.PortfolioBodyText {
   overflow: hidden;
+  height: 5.7em;
+  word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

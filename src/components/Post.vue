@@ -14,10 +14,12 @@
           <v-card-title primary-title>
             <div class="headline text-no-wrap text-truncate">
               {{ data.title }}
-            </div>
-            <div class="grey--text bodyText">{{ data.body }}</div>
-          </v-card-title>
-          <!-- 팀장님꺼로 수정 -->
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text class="body-2 font-weight postBodyText">
+            {{ data.body }}
+          </v-card-text>
+
           <v-card-actions>
             <v-list-tile class="grow">
               <v-list-tile-avatar color="grey darken-3">
@@ -34,7 +36,6 @@
               </v-list-tile-content>
 
               <v-layout align-center justify-end>
-                >
                 <v-icon class="mr-1">mdi-heart</v-icon>
                 <span class="subheading mr-2">{{ formatedDate }}</span>
               </v-layout>
@@ -112,8 +113,10 @@ export default {
 .h-100 {
   height: 100%;
 }
-.bodyText {
+.postBodyText {
   overflow: hidden;
+  height: 5.7em;
+  word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
