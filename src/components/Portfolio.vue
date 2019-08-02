@@ -10,8 +10,10 @@
         <div class="headline text-no-wrap text-truncate">
           {{ data.title }}
         </div>
-        <div class="grey--text bodyText">{{ data.body }}</div>
       </v-card-title>
+      <v-card-text class="grey--text portfolioBodyText">
+        {{ data.body }}
+      </v-card-text>
       <v-card-actions>
         <v-list-tile class="grow">
           <v-list-tile-avatar color="grey darken-3">
@@ -28,7 +30,6 @@
           </v-list-tile-content>
 
           <v-layout align-center justify-end>
-            >
             <v-icon class="mr-1">mdi-heart</v-icon>
             <span class="subheading mr-2">{{ formatedDate }}</span>
           </v-layout>
@@ -95,7 +96,7 @@ export default {
 </script>
 
 <style>
-.PortfolioBodyText {
+.portfolioBodyText {
   overflow: hidden;
   height: 5.7em;
   word-wrap: break-word;
