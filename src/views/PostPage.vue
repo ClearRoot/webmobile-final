@@ -4,7 +4,7 @@
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">Post</div>
     </ImgBanner>
     <v-container>
-    <BoardWriter :board_type="'post'"></BoardWriter>
+    <BoardWriter :board_type="'post'" v-show="checkAuth"></BoardWriter>
       <!-- Post -->
       <v-layout>
         <v-flex xs12>
@@ -26,6 +26,18 @@ export default {
     ImgBanner,
     PostList,
     BoardWriter
+  },
+  computed: {
+    checkAuth() {
+      if (this.$store.state.user == "") return false;
+      if (
+        this.$store.state.user.auth == "admin" ||
+        this.$store.state.user.auth == "member"
+      ) {
+        return true;
+      }
+      return false;
+    }
   }
 };
 </script>
