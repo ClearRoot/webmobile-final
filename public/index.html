@@ -7,7 +7,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      
+
       gtag('config', 'UA-144747776-1');
     </script>
     <meta charset="utf-8">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
   </head>
   <body>
+      <div id="frogue-container" class="position-right-bottom" data-chatbot="2d9abeee-081d-4c17-84fb-1a9f91c9d937" data-user="skrduq1260" data-init-key="value"></div>
     <noscript>
       <strong>We're sorry but ssafy doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
@@ -26,6 +27,15 @@
     <!-- built files will be auto injected -->
   </body>
   <script>
+
+  (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'frogue-embed'));
+
     var agent = navigator.userAgent.toLowerCase();
     if (agent.indexOf('chrome') === -1 || agent.indexOf('edge') > -1 || agent.indexOf('opr') > -1){
       alert("해당 사이트는 크롬에 최적화 되어 있습니다.");
