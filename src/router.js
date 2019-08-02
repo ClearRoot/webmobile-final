@@ -9,7 +9,7 @@ import RepositoryPage from "./views/RepositoryPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./components/SignIn.vue";
 import BackOfficePage from "./views/BackOfficePage.vue";
-
+import ErrorPage from "./views/ErrorPage.vue"
 Vue.use(Router);
 
 export default new Router({
@@ -62,6 +62,11 @@ export default new Router({
       path: "/backoffice",
       name: "backoffice",
       component: BackOfficePage
+    },
+    {
+      path: "*",
+      name: "error",
+      component: ErrorPage
     }
   ],
   scrollBehavior(to, from, savedPosition) {
