@@ -10,9 +10,10 @@
           color="#26c6da"
           dark
         >
-        <!-- 팀장님꺼로 수정 -->
-          <v-card-title primary-title>
-            <div class="headline text-no-wrap text-truncate">
+          <v-toolbar card light dense>
+            <v-toolbar-title
+              class="headline font-weight-bold text-no-wrap text-truncate"
+            >
               {{ data.title }}
             </v-toolbar-title>
           </v-toolbar>
