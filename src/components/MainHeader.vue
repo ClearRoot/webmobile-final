@@ -38,18 +38,24 @@
 
       <v-fab-transition>
         <v-btn
-          bottom
-          right
-          fixed
           fab
           dark
+          fixed
           color="#ff3d4088"
+          class="position"
           v-show="btnShow"
           @click="$vuetify.goTo(0)"
         >
           <v-icon>expand_less</v-icon>
         </v-btn>
       </v-fab-transition>
+      <div
+        id="frogue-container"
+        class="position-right-bottom"
+        data-chatbot="2d9abeee-081d-4c17-84fb-1a9f91c9d937"
+        data-user="skrduq1260"
+        data-init-key="value"
+      ></div>
 
       <v-navigation-drawer v-model="drawer" width="160" fixed temporary>
         <v-list class="pa-1 grey" dark>
@@ -79,7 +85,6 @@
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile-content>
           </router-link>
-
 
           <v-list-tile v-if="!loginUserStatus" @click="dialog = true">
             <v-list-tile-action>
@@ -218,3 +223,9 @@ export default {
   }
 };
 </script>
+<style>
+.position {
+  bottom: 7em;
+  right: 1.7em;
+}
+</style>
