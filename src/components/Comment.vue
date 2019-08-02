@@ -67,7 +67,7 @@ export default {
 </script>
 <style>
 .disqus_field {
-  style=padding: 10px;
+  padding: 10px;
   min-height: 500px;
 }
 </style>
