@@ -127,38 +127,37 @@ export default {
       }
     },
     async edit() {
-        this.swalWithBootstrapButtons
-          .fire({
-            title: "수정 확인",
-            text: "수정하시겠습니까?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonText: "예",
-            cancelButtonText: "아니오"
-          })
-          .then(result => {
-            if (result.value) {
-              this.item.title = this.value.edit_title;
-              this.item.body = this.value.edit_body;
-              this.origin_title = this.value.edit_title
-              this.origin_body = this.value.edit_body;
-              this.item.id = this.item_id;
-              switch (this.board_type) {
-                case "post":
-                  FirebaseService.updatePost(this.item);
-                  break;
-                default:
-                  this.item.img = this.imageFile;
-                  FirebaseService.updatePortfolio(this.item);
-              }
-              this.$EventBus.$emit("closeRoot");
-              this.$EventBus.$emit("close");
-              this.$EventBus.$emit("refreshBoard");
-              this.$EventBus.$emit("refreshDetail",this.value);
-              this.swalWithBootstrapButtons.fire("수정되었습니다");
-
+      this.swalWithBootstrapButtons
+        .fire({
+          title: "수정 확인",
+          text: "수정하시겠습니까?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오"
+        })
+        .then(result => {
+          if (result.value) {
+            this.item.title = this.value.edit_title;
+            this.item.body = this.value.edit_body;
+            this.origin_title = this.value.edit_title
+            this.origin_body = this.value.edit_body;
+            this.item.id = this.item_id;
+            switch (this.board_type) {
+              case "post":
+                FirebaseService.updatePost(this.item);
+                break;
+              default:
+                this.item.img = this.imageFile;
+                FirebaseService.updatePortfolio(this.item);
             }
-          });
+            this.$EventBus.$emit("closeRoot");
+            this.$EventBus.$emit("close");
+            this.$EventBus.$emit("refreshBoard");
+            this.$EventBus.$emit("refreshDetail",this.value);
+            this.swalWithBootstrapButtons.fire("수정되었습니다");
+          }
+        });
 
     },
     updateDate() {

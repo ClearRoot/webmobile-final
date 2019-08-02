@@ -35,7 +35,7 @@
             }}</v-list-tile-title>
           </v-list-tile-content>
 
-          <v-layout align-center justify-end>
+          <v-layout align-center justify-end class="hidden-xs-only">
             <v-icon class="mr-1">mdi-heart</v-icon>
             <span class="subheading mr-2">{{ formatedDate }}</span>
           </v-layout>

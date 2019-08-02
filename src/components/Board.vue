@@ -47,12 +47,10 @@
                   v-show="edit_state === false">
                   {{ board_item.title }}
                 </v-card-title> -->
-                <v-card-title
-                  primary
-                  class="title"
-                >
+                <v-card-title primary class="title">
                   {{ item.edit_title }}
                 </v-card-title>
+                <v-img :src="board_item.img" height="200px" v-if="edit_state===false"></v-img>
                 <!-- <v-card-text v-show="edit_state === false">
                   {{ board_item.body }}
                 </v-card-text> -->
@@ -158,7 +156,13 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            FirebaseService.removeItem(this.board_item.id, "posts");
+            switch (this.board_type) {
+              case "post":
+                FirebaseService.removeItem(this.board_item.id, "posts");
+                break;
+              default:
+                FirebaseService.removeItem(this.board_item.id, "portfolios");
+            }
             this.swalWithBootstrapButtons.fire("삭제되었습니다");
             this.$EventBus.$emit("refreshBoard");
             this.show = false;
