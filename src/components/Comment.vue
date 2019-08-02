@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:10px; min-height: 500px;">
+  <div id="disqus_field">
     <div id="disqus_thread"></div>
   </div>
 </template>
@@ -65,3 +65,9 @@ export default {
   }
 };
 </script>
+<style>
+.disqus_field {
+  style=padding: 10px;
+  min-height: 500px;
+}
+</style>
