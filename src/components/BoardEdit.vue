@@ -17,8 +17,20 @@
                 v-model="value.edit_body"
               ></markdown-editor>
             </v-flex>
-            <input style="visibility:hidden" type="text" ref="item_title" :value="value.edit_title" @input="updateDate()"/>
-            <input style="visibility:hidden" type="text" ref="item_body" :value="value.edit_body" @input="updateDate()"/>
+            <input
+              style="visibility:hidden"
+              type="text"
+              ref="item_title"
+              :value="value.edit_title"
+              @input="updateDate()"
+            />
+            <input
+              style="visibility:hidden"
+              type="text"
+              ref="item_body"
+              :value="value.edit_body"
+              @input="updateDate()"
+            />
           </v-layout>
           <ImgList v-if="board_type === 'portfolio'" :name="name"></ImgList>
           <v-img v-if="imageFile" :src="imageFile"></v-img>
@@ -76,12 +88,13 @@ export default {
     close() {
       this.$EventBus.$emit("close");
     },
-    async edit(){
+    async edit() {
       this.item.title = this.value.edit_title;
       this.item.body = this.value.edit_body;
       this.item.id = this.item_id;
       FirebaseService.updatePost(this.item);
       await this.$EventBus.$emit("refreshBoard");
+      close();
     },
     updateDate() {
       this.$emit("input", {
