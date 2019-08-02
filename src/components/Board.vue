@@ -31,7 +31,7 @@
             >
               <v-icon>mdi-pencil</v-icon> delete
             </v-btn>
-            <v-btn class="ma-4" icon @click.close="show = false">
+            <v-btn class="ma-4" icon @click.close="close">
               <v-icon>close</v-icon>
             </v-btn>
           </v-toolbar-items>
@@ -41,22 +41,22 @@
           <v-layout row wrap>
             <v-flex d-flex xs12 sm6 md5>
               <v-card>
-                <v-card-title
+                <!-- <v-card-title
                   primary
                   class="title"
                   v-show="edit_state === false">
                   {{ board_item.title }}
-                </v-card-title>
+                </v-card-title> -->
                 <v-card-title
                   primary
                   class="title"
-                  v-show="edit_state === true">
+                >
                   {{ item.edit_title }}
                 </v-card-title>
-                <v-card-text v-show="edit_state === false">
+                <!-- <v-card-text v-show="edit_state === false">
                   {{ board_item.body }}
-                </v-card-text>
-                <v-card-text v-show="edit_state === true">
+                </v-card-text> -->
+                <v-card-text>
                   {{ item.edit_body }}
                 </v-card-text>
               </v-card>
@@ -68,7 +68,11 @@
                   :board_type="'post'"
                   v-show="edit_state === false"
                 ></Comment>
-                <BoardEdit v-show="edit_state === true" v-model="item" :item_id="board_item.id"></BoardEdit>
+                <BoardEdit
+                  v-if="edit_state === true"
+                  v-model="item"
+                  :item_id="board_item.id"
+                ></BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -82,6 +86,7 @@
 import FirebaseService from "../services/FirebaseService";
 import BoardEdit from "./BoardEdit";
 import Comment from "./Comment";
+import Swal from "sweetalert2";
 
 export default {
   name: "Board",
@@ -89,9 +94,9 @@ export default {
     return {
       edit_state: false,
       item: {
-       edit_title: "",
-       edit_body: ""
-     }
+        edit_title: "",
+        edit_body: ""
+      }
     };
   },
   props: {
@@ -102,6 +107,15 @@ export default {
   components: {
     Comment,
     BoardEdit
+  },
+  watch : {
+    board_item : function() {
+      this.item.edit_title = this.board_item.title;
+      this.item.edit_body = this.board_item.body;
+    }
+  },
+  mounted() {
+    this.init();
   },
   computed: {
     show: {
@@ -114,6 +128,19 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: true
+      });
+    },
+    close() {
+      this.show = false;
+      this.edit_state = false;
+    },
     eidt_board() {
       if (this.edit_state == true) {
         this.edit_state = false;
@@ -123,13 +150,30 @@ export default {
       this.item.edit_title = this.board_item.title;
       this.item.edit_body = this.board_item.body;
     },
-    delete_board() {
-      FirebaseService.removeItem(this.board_item.id, "posts");
-      this.show = false;
+    async delete_board() {
+      this.swalWithBootstrapButtons
+        .fire({
+          title: "삭제 확인",
+          text: "게시글을 정말로 삭제하시겠습니까?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오"
+        })
+        .then(result => {
+          if (result.value) {
+            FirebaseService.removeItem(this.board_item.id, "posts");
+            this.swalWithBootstrapButtons.fire("삭제되었습니다");
+            this.$EventBus.$emit("refreshBoard");
+            this.show = false;
+          }
+        });
     }
   },
   created() {
+    this.$EventBus.$on("closeRoot", () => (this.show = false));
     this.$EventBus.$on("close", () => (this.edit_state = false));
+    this.$EventBus.$on("refreshDetail", item => (this.item = item));
   }
 };
 </script>

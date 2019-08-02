@@ -176,9 +176,12 @@ export default {
       });
   },
   async loginChk() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    let self = this;
+    firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
         store.state.user = user;
+        let auth = await self.getUser();
+        store.state.user.auth = auth.userAuth;
       }
     });
   },
