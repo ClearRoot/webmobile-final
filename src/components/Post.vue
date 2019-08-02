@@ -1,6 +1,6 @@
 <template>
-  <v-layout py-4 h-100>
-    <v-flex row>
+  <v-layout py-3 h-100>
+    <v-flex>
       <v-hover>
         <v-card
           @click.close="openBoard"
@@ -10,17 +10,14 @@
           color="#26c6da"
           dark
         >
-          <v-toolbar card light dense>
-            <v-toolbar-title
-              class="headline font-weight-bold text-no-wrap text-truncate"
-            >
+        <!-- 팀장님꺼로 수정 -->
+          <v-card-title primary-title>
+            <div class="headline text-no-wrap text-truncate">
               {{ data.title }}
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-card-text class="body-2 font-weight bodyText">
-            {{ data.body }}
-          </v-card-text>
-
+            </div>
+            <div class="grey--text bodyText">{{ data.body }}</div>
+          </v-card-title>
+          <!-- 팀장님꺼로 수정 -->
           <v-card-actions>
             <v-list-tile class="grow">
               <v-list-tile-avatar color="grey darken-3">
