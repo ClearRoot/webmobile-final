@@ -6,7 +6,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-card color="grey">
+      <v-card color="black">
         <v-toolbar dark>
           <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
 
@@ -68,11 +68,7 @@
                   :board_type="'post'"
                   v-show="edit_state === false"
                 ></Comment>
-                <BoardEdit
-                  v-if="edit_state === true"
-                  v-model="item"
-                  :item_id="board_item.id"
-                ></BoardEdit>
+                <BoardEdit v-if="edit_state === true" v-model="item" :item_id="board_item.id" :board_type="board_type"></BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -101,8 +97,8 @@ export default {
   },
   props: {
     value: Boolean,
-    board_item: { type: Object }
-    // data: { type: Object }
+    board_item: { type: Object },
+    board_type: { type: String }
   },
   components: {
     Comment,

@@ -127,10 +127,6 @@ export default {
       }
     },
     async edit() {
-      if (
-        this.value.edit_title != this.origin_title ||
-        this.value.edit_body != this.origin_body
-      ) {
         this.swalWithBootstrapButtons
           .fire({
             title: "수정 확인",
@@ -147,7 +143,14 @@ export default {
               this.origin_title = this.value.edit_title
               this.origin_body = this.value.edit_body;
               this.item.id = this.item_id;
-              FirebaseService.updatePost(this.item);
+              switch (this.board_type) {
+                case "post":
+                  FirebaseService.updatePost(this.item);
+                  break;
+                default:
+                  this.item.img = this.imageFile;
+                  FirebaseService.updatePortfolio(this.item);
+              }
               this.$EventBus.$emit("closeRoot");
               this.$EventBus.$emit("close");
               this.$EventBus.$emit("refreshBoard");
@@ -156,10 +159,6 @@ export default {
 
             }
           });
-      } else {
-        this.$EventBus.$emit("close");
-        this.$EventBus.$emit("closeRoot");
-      }
 
     },
     updateDate() {
