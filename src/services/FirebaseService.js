@@ -236,7 +236,8 @@ export default {
     var rootRef = await firestore.collection(PORTFOLIOS).doc(item.id);
     await rootRef.update({
       title: item.title,
-      body: item.body
+      body: item.body,
+      img: item.img
     });
   },
   async updatePost(item) {

@@ -6,13 +6,13 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-card color="grey">
+      <v-card color="black">
         <v-toolbar dark>
           <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
 
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn tile outlined color="success" @click="eidt_board">
+            <v-btn tile outlined color="success" @click="edit_board">
               <v-icon>mdi-pencil</v-icon> Edit
             </v-btn>
             <v-btn class="ma-1" tile outlined color="red" @click="delete_board">
@@ -33,13 +33,13 @@
                   class="title"
                   v-show="edit_state === false">
                   {{ board_item.title }}
-                </v-card-title>
                 <v-card-title
                   primary
                   class="title"
                   v-show="edit_state === true">
                   {{ item.edit_title }}
                 </v-card-title>
+              </v-card-title><v-img :src="board_item.img" height="200px" v-if="board_type === 'portfolio'" v-show="edit_state === false"></v-img>
                 <v-card-text v-show="edit_state === false">
                   {{ board_item.body }}
                 </v-card-text>
@@ -55,7 +55,7 @@
                   :board_type="'post'"
                   v-show="edit_state === false"
                 ></Comment>
-                <BoardEdit v-show="edit_state === true" v-model="item" :item_id="board_item.id"></BoardEdit>
+                <BoardEdit v-show="edit_state === true" v-model="item" :item_id="board_item.id" :board_type="board_type"></BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -83,8 +83,8 @@ export default {
   },
   props: {
     value: Boolean,
-    board_item: { type: Object }
-    // data: { type: Object }
+    board_item: { type: Object },
+    board_type: { type: String }
   },
   components: {
     Comment,
@@ -101,7 +101,7 @@ export default {
     }
   },
   methods: {
-    eidt_board() {
+    edit_board() {
       if (this.edit_state == true) {
         this.edit_state = false;
       } else {

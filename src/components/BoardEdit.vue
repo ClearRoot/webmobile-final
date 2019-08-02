@@ -92,7 +92,14 @@ export default {
       this.item.title = this.value.edit_title;
       this.item.body = this.value.edit_body;
       this.item.id = this.item_id;
-      FirebaseService.updatePost(this.item);
+      switch (this.board_type) {
+        case "post":
+          FirebaseService.updatePost(this.item);
+          break;
+        default:
+          this.item.img = this.imageFile;
+          FirebaseService.updatePortfolio(this.item);
+      }
       await this.$EventBus.$emit("refreshBoard");
       close();
     },
