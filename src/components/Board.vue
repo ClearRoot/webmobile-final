@@ -12,10 +12,23 @@
 
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn tile outlined color="success" @click="eidt_board">
+            <v-btn
+              tile
+              outlined
+              color="success"
+              @click="eidt_board"
+              v-show="board_item.auth"
+            >
               <v-icon>mdi-pencil</v-icon> Edit
             </v-btn>
-            <v-btn class="ma-1" tile outlined color="red" @click="delete_board">
+            <v-btn
+              class="ma-1"
+              tile
+              outlined
+              color="red"
+              @click="delete_board"
+              v-show="board_item.auth"
+            >
               <v-icon>mdi-pencil</v-icon> delete
             </v-btn>
             <v-btn class="ma-4" icon @click.close="show = false">
