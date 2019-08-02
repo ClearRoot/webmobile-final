@@ -12,13 +12,29 @@
         >
           <v-toolbar card light dense>
             <v-toolbar-title
+              v-if="!translateState"
               class="headline font-weight-bold text-no-wrap text-truncate"
             >
               {{ data.title }}
             </v-toolbar-title>
+            <v-toolbar-title
+              v-if="translateState"
+              class="headline font-weight-bold text-no-wrap text-truncate"
+            >
+              {{ titleEN }}
+            </v-toolbar-title>
           </v-toolbar>
-          <v-card-text class="body-2 font-weight postBodyText">
+          <v-card-text
+            v-if="!translateState"
+            class="body-2 font-weight postBodyText"
+          >
             {{ data.body }}
+          </v-card-text>
+          <v-card-text
+            v-if="translateState"
+            class="body-2 font-weight postBodyText"
+          >
+            {{ bodyEN }}
           </v-card-text>
 
           <v-card-actions>
@@ -60,34 +76,32 @@ export default {
     return {
       ddlSource: "ko",
       ddlTarget: "en",
-      thisTitle: "",
-      thisBody: "",
-      thisId: "",
+      titleEN: "",
+      bodyEN: "",
+      translateState: false,
       showBoard: false
     };
   },
   created() {
     this.$EventBus.$on("click-icon_post", async () => {
-      ApiService.getTranslates(
-        this.ddlSource,
-        this.ddlTarget,
-        this.thisTitle,
-        this.thisBody
-      )
-        .then(res => {
-          this.thisTitle = res.data.data.translations[0].translatedText;
-          this.thisBody = res.data.data.translations[1].translatedText;
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
+      if (!this.titleEN || !this.bodyEN) {
+        ApiService.getTranslates(
+          this.ddlSource,
+          this.ddlTarget,
+          this.data.title,
+          this.data.body
+        )
+          .then(res => {
+            this.titleEN = res.data.data.translations[0].translatedText;
+            this.bodyEN = res.data.data.translations[1].translatedText;
+            this.translateState = !this.translateState;
+          })
+          .catch(e => {
+            console.error(e)
+          });
+      } else {
+        this.translateState = !this.translateState;
+      }
     });
   },
   methods: {
@@ -100,6 +114,10 @@ export default {
       const date = this.data.created_at;
       return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
     }
+  },
+  mounted() {
+    this.title = this.data.title;
+    this.body = this.data.body;
   }
 };
 </script>
