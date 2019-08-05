@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/functions";
+import "firebase/messaging";
 import "firebase/auth";
 import store from "../store";
 const POSTS = "posts";
@@ -21,24 +22,25 @@ const config = {
 
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
+const messaging = firebase.messaging();
 
 const loginUser = firebase.functions().httpsCallable("loginUser");
 const logoutUser = firebase.functions().httpsCallable("logoutUser");
 
-firebase
-  .firestore()
-  .enablePersistence()
-  .catch(function(err) {
-    if (err.code == "failed-precondition") {
-      console.log(
-        "여러 개의 탭이 열려 있으면 한 번에 하나의 탭에서만 지속성을 활성화 할 수 있습니다."
-      );
-    } else if (err.code == "unimplemented") {
-      console.log(
-        "현재 브라우저는 지속성을 활성화하는 데 필요한 모든 기능을 지원하지 않습니다."
-      );
-    }
-  });
+firestore.enablePersistence().catch(function(err) {
+  if (err.code == "failed-precondition") {
+    console.log(
+      "여러 개의 탭이 열려 있으면 한 번에 하나의 탭에서만 지속성을 활성화 할 수 있습니다."
+    );
+  } else if (err.code == "unimplemented") {
+    console.log(
+      "현재 브라우저는 지속성을 활성화하는 데 필요한 모든 기능을 지원하지 않습니다."
+    );
+  }
+});
+messaging.usePublicVapidKey(
+  "BBLKCeW84tGHTMfQg1aHQ7_NzxrXaBlWgB3J9qa6HdtAKW1SUY_qt4Zi5GyAV4nIx88ZcFjg4DvK-8rxX4yPWYs"
+);
 
 export default {
   getImageUrls() {
@@ -312,5 +314,19 @@ export default {
         return data;
       });
     return result;
+  },
+  requestPermission() {
+    messaging
+      .requestPermission()
+      .then(() => {
+        console.log("Have permission")
+        return messaging.getToken();
+      })
+      .then(function(token) {
+        console.log(token);
+      })
+      .catch(err => {
+        console.log("Error Occured.")
+      });
   }
 };
