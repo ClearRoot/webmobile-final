@@ -145,10 +145,9 @@ export default {
       }
     },
     adminAuthStatus() {
-      if (!this.authLoad) this.checkAuth();
-      if (this.authLoad && !this.auth.updated_at) this.checkAuth();
-      if(!this.auth) return;
-      if (this.auth.userAuth == "admin") return true;
+      if (this.$store.state.auth) {
+        return this.$store.state.auth.userAuth === "admin";
+      }
       return false;
     }
   },
@@ -156,13 +155,6 @@ export default {
     SignIn
   },
   methods: {
-    async checkAuth() {
-      if (this.$store.state.user) {
-        const user = await FirebaseService.getUser();
-        this.authLoad = true;
-        this.auth = user;
-      }
-    },
     trans() {
       this.$EventBus.$emit("click-icon_aboutme");
       this.$EventBus.$emit("click-icon_portfolio");
@@ -189,6 +181,7 @@ export default {
       this.swal_alert();
       this.$store.state.user = "";
       this.$store.state.accessToken = "";
+      this.$store.state.auth = "";
       this.authLoad = false;
       this.auth = null;
       this.$router.push("/");
@@ -211,6 +204,7 @@ export default {
   },
   created() {
     FirebaseService.loginChk();
+    FirebaseService.authChk();
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

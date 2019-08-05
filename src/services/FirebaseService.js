@@ -175,13 +175,18 @@ export default {
         console.log(error.message);
       });
   },
-  async loginChk() {
+   loginChk() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        store.state.user = user;
+      }
+    });
+  },
+  authChk() {
     let self = this;
     firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
-        store.state.user = user;
-        let auth = await self.getUser();
-        store.state.user.auth = auth.userAuth;
+        store.state.auth = await self.getUser();
       }
     });
   },
