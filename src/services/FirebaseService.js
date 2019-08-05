@@ -25,6 +25,21 @@ const firestore = firebase.firestore();
 const loginUser = firebase.functions().httpsCallable("loginUser");
 const logoutUser = firebase.functions().httpsCallable("logoutUser");
 
+firebase
+  .firestore()
+  .enablePersistence()
+  .catch(function(err) {
+    if (err.code == "failed-precondition") {
+      console.log(
+        "여러 개의 탭이 열려 있으면 한 번에 하나의 탭에서만 지속성을 활성화 할 수 있습니다."
+      );
+    } else if (err.code == "unimplemented") {
+      console.log(
+        "현재 브라우저는 지속성을 활성화하는 데 필요한 모든 기능을 지원하지 않습니다."
+      );
+    }
+  });
+
 export default {
   getImageUrls() {
     const imageUrlsCollection = firestore.collection(IMAGEURLS);
