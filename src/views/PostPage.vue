@@ -29,12 +29,8 @@ export default {
   },
   computed: {
     checkAuth() {
-      if (this.$store.state.user == "") return false;
-      if (
-        this.$store.state.user.auth == "admin" ||
-        this.$store.state.user.auth == "member"
-      ) {
-        return true;
+      if (this.$store.state.auth) {
+        return this.$store.state.auth.userAuth != "visitant";
       }
       return false;
     }
