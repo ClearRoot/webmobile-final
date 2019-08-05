@@ -17,7 +17,7 @@
               outlined
               color="success"
               @click="eidt_board"
-              v-show="board_item.auth"
+              v-show="checkAuth"
             >
               <v-icon>mdi-pencil</v-icon> Edit
             </v-btn>
@@ -27,7 +27,7 @@
               outlined
               color="red"
               @click="delete_board"
-              v-show="board_item.auth"
+              v-show="checkAuth"
             >
               <v-icon>mdi-pencil</v-icon> delete
             </v-btn>
@@ -119,6 +119,12 @@ export default {
       set(value) {
         this.$emit("input", value);
       }
+    },
+    checkAuth(){
+      return (
+        this.$store.state.user.uid == this.board_item.ownerId ||
+        this.$store.state.auth.userAuth == "admin"
+      );
     }
   },
   methods: {
