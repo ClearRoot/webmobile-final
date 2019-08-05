@@ -87,7 +87,9 @@ export default {
   },
   methods: {
     openBoard() {
+      // this.$EventBus.$emit("item_post_d", this.data);
       this.$EventBus.$emit("item", this.data);
+
     }
   },
   computed: {

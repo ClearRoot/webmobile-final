@@ -50,20 +50,16 @@
                 <v-card-title primary class="title">
                   {{ item.edit_title }}
                 </v-card-title>
-                <v-img :src="board_item.img" height="200px" v-if="edit_state===false"></v-img>
-                <!-- <v-card-text v-show="edit_state === false">
-                  {{ board_item.body }}
-                </v-card-text> -->
+                <v-img :src="board_item.img" v-if="!imgState && imgUrl"></v-img>
                 <v-card-text>
                   {{ item.edit_body }}
                 </v-card-text>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs12 sm6 m7 child-flex>
+            <v-flex d-flex xs12 sm6 md7 child-flex>
               <v-card>
                 <Comment
                   :id="board_item.id"
-                  :board_type="'post'"
                   v-show="edit_state === false"
                 ></Comment>
                 <BoardEdit v-if="edit_state === true" v-model="item" :item_id="board_item.id" :board_type="board_type"></BoardEdit>
@@ -102,8 +98,10 @@ export default {
     Comment,
     BoardEdit
   },
-  watch : {
-    board_item : function() {
+  watch: {
+    board_item: function() {
+      //style="z-index: 202;z-index: 99999993
+      console.log("this : "+this.imgState+ this.imgUrl + this.board_item.img)
       this.item.edit_title = this.board_item.title;
       this.item.edit_body = this.board_item.body;
     }
@@ -118,6 +116,18 @@ export default {
       },
       set(value) {
         this.$emit("input", value);
+      }
+    },
+    imgState: function() {
+      return this.edit_state;
+    },
+    imgUrl: function() {
+      if (!this.board_item.img) {
+        console.log("D: " + this.board_item.img)
+        return false;
+      } else {
+        console.log("D: " + this.board_item.img)
+        return true;
       }
     }
   },

@@ -15,7 +15,7 @@ export default {
       const self = this;
       window.disqus_config = function() {
         this.page.identifier = self.item_id;
-        this.page.url = "http://samjo/" + self.board_type + "/" + self.item_id;
+        this.page.url = "http://samjo/" + self.item_id;
       };
     },
     setBoard() {
@@ -50,18 +50,34 @@ export default {
   },
   props: {
     id: { type: String },
-    board_type: { type: String }
+    // board_type: { type: String }
   },
   watch: {
     item_id: function() {
+      console.log("watch!!!")
       this.loadComments();
     }
   },
   created() {
     this.$EventBus.$on("item", res => {
+      console.log("ssssspost")
       this.item = res;
       this.item_id = this.item.id;
+      console.log(this.item.id)
     });
+    // let self = this;
+    // this.$EventBus.$on("item_post_d", function() {
+    //   self.loadComments();
+    // });
+    // this.$EventBus.$on("item_portfolio", res => {
+    //   console.log("sssssssport")
+    //   this.item = res;
+    //   this.item_id = this.item.id;
+    //   console.log(this.item.id)
+    // });
+    // this.$EventBus.$on("item_portfolio_d", function() {
+    //   self.loadComments();
+    // });
   }
 };
 </script>
