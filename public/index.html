@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <meta name="google-signin-client_id" content="355527894492-mhj9muq00p79epl1mv9c3k7j05tbtvq0.apps.googleusercontent.com">
+  <meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144747776-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -17,6 +19,14 @@
     <title>ssafy</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
+    <script>
+(function(w,d,s,g,js,fs){
+  g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(f){this.q.push(f);}};
+  js=d.createElement(s);fs=d.getElementsByTagName(s)[0];
+  js.src='https://apis.google.com/js/platform.js';
+  fs.parentNode.insertBefore(js,fs);js.onload=function(){g.load('analytics');};
+}(window,document,'script'));
+</script>
   </head>
   <body>
     <noscript>
@@ -24,6 +34,93 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <h1>Hello Analytics Reporting API V4</h1>
+
+<!-- The Sign-in button. This will run `queryReports()` on success. -->
+<p class="g-signin2" data-onsuccess="queryReports"></p>
+
+<!-- The API response will be printed here. -->
+<div id="embed-api-auth-container"></div>
+<div id="chart-1-container"></div>
+<div id="view-selector-1-container"></div>
+
+<script>
+gapi.analytics.ready(function() {
+
+/**
+ * Authorize the user immediately if the user has already granted access.
+ * If no access has been created, render an authorize button inside the
+ * element with the ID "embed-api-auth-container".
+ */
+gapi.analytics.auth.authorize({
+  container: 'embed-api-auth-container',
+  clientid: '355527894492-mhj9muq00p79epl1mv9c3k7j05tbtvq0.apps.googleusercontent.com'
+});
+
+
+/**
+ * Create a ViewSelector for the first view to be rendered inside of an
+ * element with the id "view-selector-1-container".
+ */
+var viewSelector1 = new gapi.analytics.ViewSelector({
+  container: 'view-selector-1-container'
+});
+
+/**
+ * Create a ViewSelector for the second view to be rendered inside of an
+ * element with the id "view-selector-2-container".
+ */
+
+// Render both view selectors to the page.
+viewSelector1.execute();
+
+
+/**
+ * Create the first DataChart for top countries over the past 30 days.
+ * It will be rendered inside an element with the id "chart-1-container".
+ */
+var dataChart1 = new gapi.analytics.googleCharts.DataChart({
+  query: {
+    metrics: 'ga:sessions',
+    dimensions: 'ga:country',
+    'start-date': '30daysAgo',
+    'end-date': 'yesterday',
+    'max-results': 6,
+    sort: '-ga:sessions'
+  },
+  chart: {
+    container: 'chart-1-container',
+    type: 'PIE',
+    options: {
+      width: '100%',
+      pieHole: 4/9
+    }
+  }
+});
+
+
+/**
+ * Create the second DataChart for top countries over the past 30 days.
+ * It will be rendered inside an element with the id "chart-2-container".
+ */
+
+/**
+ * Update the first dataChart when the first view selecter is changed.
+ */
+viewSelector1.on('change', function(ids) {
+  dataChart1.set({query: {ids: ids}}).execute();
+});
+
+/**
+ * Update the second dataChart when the second view selecter is changed.
+ */
+
+});
+</script>
+
+<!-- Load the JavaScript API client and Sign-in library. -->
+<script src="https://apis.google.com/js/client:platform.js"></script>
+
   </body>
   <script src="https://danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js"></script>
   <script>
