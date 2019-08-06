@@ -7,7 +7,7 @@
     </ImgBanner>
     <v-container>
       <!-- Portfolio -->
-      <BoardWriter :board_type="'portfolio'"></BoardWriter>
+      <BoardWriter :board_type="'portfolio'" v-show="checkAuth"></BoardWriter>
       <v-layout>
         <v-flex xs12>
           <PortfolioList :limits="6" :load-more="true"></PortfolioList>
@@ -31,6 +31,14 @@ export default {
     ImgBanner,
     PortfolioList,
     BoardWriter
+  },
+  computed: {
+    checkAuth() {
+      if (this.$store.state.auth) {
+        return this.$store.state.auth.userAuth != "visitant";
+      }
+      return false;
+    }
   }
 };
 </script>
