@@ -79,10 +79,10 @@ export default {
       window.open(url);
     },
     async checkAuth() {
-      if (this.$store.state.user) {
-        const user = await FirebaseService.getUser();
-        this.auth = user;
-        if (this.auth.userAuth == "admin") return;
+      await FirebaseService.loginChk();
+      await FirebaseService.authChk();
+      if (this.$store.state.auth.userAuth === "admin") {
+        return;
       }
       Swal.fire({
         type: "error",
