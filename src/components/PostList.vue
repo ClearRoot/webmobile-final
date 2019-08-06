@@ -10,7 +10,13 @@
       <Post :data="posts[i - 1]"></Post>
     </v-flex>
 
-    <Board v-if="render" v-model="showBoard" :board_item="item" :board_type="'post'"> </Board>
+    <Board
+      v-if="render"
+      v-model="showBoard"
+      :board_item="item"
+      :board_type="'post'"
+    >
+    </Board>
     <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
       <v-btn outline color="black" dark v-on:click="loadMorePosts"
         ><v-icon size="25" class="mr-2">fa-plus</v-icon> 더 보기</v-btn
@@ -43,16 +49,10 @@ export default {
     this.$EventBus.$on("refreshBoard", async () => {
       this.posts = await FirebaseService.getPosts();
     });
-    this.$EventBus.$on("item", res =>{
-      console.log("item_post event bus on post")
+    this.$EventBus.$on("item", res => {
       this.item = res;
-      console.log(this.$store.state.user)
       this.showBoard = true;
-    })
-    // this.$EventBus.$on("item_post_d", () => {
-    //   this.render = false;
-    // })
-
+    });
   },
   components: {
     Post,

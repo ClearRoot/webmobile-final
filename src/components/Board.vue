@@ -1,14 +1,15 @@
 <template>
   <v-layout justify-center>
     <v-dialog
+      style="z-index: 202;z-index: 99999993"
       v-model="show"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-card color="black">
-        <v-toolbar dark>
-          <v-toolbar-title>{{ board_item.title }}</v-toolbar-title>
+      <v-card color="#00000099">
+        <v-toolbar dark color="#00002288">
+          <!-- <v-toolbar-title>{{ board_item.title }}</v-toolbar-title> -->
 
           <v-spacer></v-spacer>
           <v-toolbar-items>
@@ -41,12 +42,6 @@
           <v-layout row wrap>
             <v-flex d-flex xs12 sm6 md5>
               <v-card>
-                <!-- <v-card-title
-                  primary
-                  class="title"
-                  v-show="edit_state === false">
-                  {{ board_item.title }}
-                </v-card-title> -->
                 <v-card-title primary class="title">
                   {{ item.edit_title }}
                 </v-card-title>
@@ -62,7 +57,13 @@
                   :id="board_item.id"
                   v-show="edit_state === false"
                 ></Comment>
-                <BoardEdit v-if="edit_state === true" v-model="item" :item_id="board_item.id" :board_type="board_type"></BoardEdit>
+                <BoardEdit
+                  v-if="edit_state === true"
+                  v-model="item"
+                  :item_id="board_item.id"
+                  :board_type="board_type"
+                >
+                </BoardEdit>
               </v-card>
             </v-flex>
           </v-layout>
@@ -100,8 +101,6 @@ export default {
   },
   watch: {
     board_item: function() {
-      //style="z-index: 202;z-index: 99999993
-      console.log("this : "+this.imgState+ this.imgUrl + this.board_item.img)
       this.item.edit_title = this.board_item.title;
       this.item.edit_body = this.board_item.body;
     }
@@ -123,10 +122,8 @@ export default {
     },
     imgUrl: function() {
       if (!this.board_item.img) {
-        console.log("D: " + this.board_item.img)
         return false;
       } else {
-        console.log("D: " + this.board_item.img)
         return true;
       }
     }
