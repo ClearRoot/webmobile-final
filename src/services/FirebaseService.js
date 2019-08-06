@@ -192,7 +192,7 @@ export default {
         console.log(error.message);
       });
   },
-   loginChk() {
+  loginChk() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         store.state.user = user;
@@ -328,5 +328,10 @@ export default {
       .catch(err => {
         console.log("Error Occured.")
       });
+  },
+  onMessage() {
+    messaging.onMessage(payload => {
+      console.log("onMessage: ", payload);
+    });
   }
 };
