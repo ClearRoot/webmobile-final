@@ -10,6 +10,7 @@
     </v-flex>
 
     <Board
+      v-if="render"
       v-model="showBoard"
       :board_item="item"
       :board_type="'portfolio'"
@@ -35,12 +36,16 @@ export default {
   },
   data() {
     return {
+      render: true,
       portfolios: [],
       showBoard: false,
       item: { type: Object }
     };
   },
   created() {
+    if (this.$route.name == "home") {
+      this.render = false;
+    }
     this.$EventBus.$on("refreshBoard", async () => {
       this.portfolios = await FirebaseService.getPortfolios();
     });

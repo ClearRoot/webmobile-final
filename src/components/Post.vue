@@ -107,6 +107,7 @@ export default {
   methods: {
     openBoard() {
       this.$EventBus.$emit("item", this.data);
+
     }
   },
   computed: {

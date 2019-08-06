@@ -15,7 +15,7 @@ export default {
       const self = this;
       window.disqus_config = function() {
         this.page.identifier = self.item_id;
-        this.page.url = "http://samjo/" + self.board_type + "/" + self.item_id;
+        this.page.url = "http://samjo/" + self.item_id;
       };
     },
     setBoard() {
@@ -49,8 +49,7 @@ export default {
     };
   },
   props: {
-    id: { type: String },
-    board_type: { type: String }
+    id: { type: String }
   },
   watch: {
     item_id: function() {
