@@ -8,6 +8,7 @@ const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 const IMAGEURLS = "imageurls";
 const USERS = "users";
+const FCMIDTOKENS = "fcmIdTokens";
 
 // Setup Firebase
 const config = {
@@ -234,7 +235,6 @@ export default {
         .collection(USERS)
         .doc(uid)
         .delete();
-
       return firestore
         .collection(USERS)
         .doc(uid)
@@ -274,7 +274,6 @@ export default {
   },
   async getUsers() {
     const postsCollection = firestore.collection(USERS);
-
     let result = await postsCollection
       .orderBy("userAuth", "asc")
       .get()
@@ -291,7 +290,7 @@ export default {
       var posts = await firestore
         .collection(POSTS)
         .where("ownerId", "==", String(result[i].id))
-        .get(); //작성글개수 얻기
+        .get();
       var portfolios = await firestore
         .collection(PORTFOLIOS)
         .where("ownerId", "==", String(result[i].id))
@@ -299,7 +298,6 @@ export default {
       result[i].posts = posts.docs.length;
       result[i].portfolios = portfolios.docs.length;
     }
-
     return result;
   },
   async getUser() {
@@ -319,14 +317,22 @@ export default {
     messaging
       .requestPermission()
       .then(() => {
-        console.log("Have permission")
+        console.log("Have permission");
         return messaging.getToken();
       })
-      .then(function(token) {
-        console.log(token);
+      .then(token => {
+        const uid = firebase.auth().currentUser.uid;
+        return firestore
+          .collection(FCMIDTOKENS)
+          .doc(uid)
+          .set({
+            token: token,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+          });
       })
-      .catch(err => {
-        console.log("Error Occured.")
+      .catch(error => {
+        console.log("Error Occured.");
+        console.log(error);
       });
   },
   onMessage() {

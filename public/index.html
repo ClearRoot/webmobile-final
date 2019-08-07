@@ -31,6 +31,13 @@
     if (agent.indexOf('chrome') === -1 || agent.indexOf('edge') > -1 || agent.indexOf('opr') > -1){
       alert("해당 사이트는 크롬에 최적화 되어 있습니다.");
     }
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      } else {
+        console.log('Unable to get permission to notify.');
+      }
+    });
   </script>
   <script src="https://kit.fontawesome.com/abd5fee7a3.js"></script>
 </html>
