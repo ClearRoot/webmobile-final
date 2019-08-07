@@ -176,6 +176,7 @@ export default {
         this.login_email,
         this.login_password
       );
+      console.log(result);
       if (result.user.uid) {
         this.swal_alert("login", result.user.email);
         this.close();

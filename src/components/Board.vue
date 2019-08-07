@@ -126,7 +126,8 @@ export default {
       } else {
         return true;
       }
-    checkAuth(){
+    },
+    checkAuth() {
       return (
         this.$store.state.user.uid == this.board_item.ownerId ||
         this.$store.state.auth.userAuth == "admin"
