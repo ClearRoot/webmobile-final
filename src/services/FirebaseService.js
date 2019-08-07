@@ -159,11 +159,10 @@ export default {
       .signInWithEmailAndPassword(login_email, login_password)
       .then(result => {
         loginUser({}).then(function() {});
-        return result;
+        return { result, errorCheck: false };
       })
       .catch(error => {
-        console.log(error.message);
-        return { user: "error", msg: error.message, code: error.code };
+        return { msg: error.message, code: error.code, errorCheck: true };
       });
   },
   async logOut() {
@@ -190,7 +189,7 @@ export default {
         console.log(error.message);
       });
   },
-   loginChk() {
+  loginChk() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         store.state.user = user;
