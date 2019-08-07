@@ -126,6 +126,7 @@ export default {
       } else {
         return true;
       }
+    },
     checkAuth(){
       return (
         this.$store.state.user.uid == this.board_item.ownerId ||
