@@ -1,12 +1,14 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/functions";
+import "firebase/messaging";
 import "firebase/auth";
 import store from "../store";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 const IMAGEURLS = "imageurls";
 const USERS = "users";
+const FCMIDTOKENS = "fcmIdTokens";
 
 // Setup Firebase
 const config = {
@@ -21,24 +23,25 @@ const config = {
 
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
+const messaging = firebase.messaging();
 
 const loginUser = firebase.functions().httpsCallable("loginUser");
 const logoutUser = firebase.functions().httpsCallable("logoutUser");
 
-firebase
-  .firestore()
-  .enablePersistence()
-  .catch(function(err) {
-    if (err.code == "failed-precondition") {
-      console.log(
-        "여러 개의 탭이 열려 있으면 한 번에 하나의 탭에서만 지속성을 활성화 할 수 있습니다."
-      );
-    } else if (err.code == "unimplemented") {
-      console.log(
-        "현재 브라우저는 지속성을 활성화하는 데 필요한 모든 기능을 지원하지 않습니다."
-      );
-    }
-  });
+firestore.enablePersistence().catch(function(err) {
+  if (err.code == "failed-precondition") {
+    console.log(
+      "여러 개의 탭이 열려 있으면 한 번에 하나의 탭에서만 지속성을 활성화 할 수 있습니다."
+    );
+  } else if (err.code == "unimplemented") {
+    console.log(
+      "현재 브라우저는 지속성을 활성화하는 데 필요한 모든 기능을 지원하지 않습니다."
+    );
+  }
+});
+messaging.usePublicVapidKey(
+  "BBLKCeW84tGHTMfQg1aHQ7_NzxrXaBlWgB3J9qa6HdtAKW1SUY_qt4Zi5GyAV4nIx88ZcFjg4DvK-8rxX4yPWYs"
+);
 
 export default {
   getImageUrls() {
@@ -231,7 +234,6 @@ export default {
         .collection(USERS)
         .doc(uid)
         .delete();
-
       return firestore
         .collection(USERS)
         .doc(uid)
@@ -271,7 +273,6 @@ export default {
   },
   async getUsers() {
     const postsCollection = firestore.collection(USERS);
-
     let result = await postsCollection
       .orderBy("userAuth", "asc")
       .get()
@@ -288,7 +289,7 @@ export default {
       var posts = await firestore
         .collection(POSTS)
         .where("ownerId", "==", String(result[i].id))
-        .get(); //작성글개수 얻기
+        .get();
       var portfolios = await firestore
         .collection(PORTFOLIOS)
         .where("ownerId", "==", String(result[i].id))
@@ -296,7 +297,6 @@ export default {
       result[i].posts = posts.docs.length;
       result[i].portfolios = portfolios.docs.length;
     }
-
     return result;
   },
   async getUser() {
@@ -311,5 +311,32 @@ export default {
         return data;
       });
     return result;
+  },
+  requestPermission() {
+    messaging
+      .requestPermission()
+      .then(() => {
+        console.log("Have permission");
+        return messaging.getToken();
+      })
+      .then(token => {
+        const uid = firebase.auth().currentUser.uid;
+        return firestore
+          .collection(FCMIDTOKENS)
+          .doc(uid)
+          .set({
+            token: token,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+          });
+      })
+      .catch(error => {
+        console.log("Error Occured.");
+        console.log(error);
+      });
+  },
+  onMessage() {
+    messaging.onMessage(payload => {
+      console.log("onMessage: ", payload);
+    });
   }
 };

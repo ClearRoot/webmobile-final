@@ -161,6 +161,7 @@ export default {
         this.$store.state.user = result.user;
         const auth = await FirebaseService.getUser();
         this.$store.state.user.auth = auth.userAuth;
+        FirebaseService.requestPermission();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -173,6 +174,7 @@ export default {
         this.$store.state.user = result.user;
         const auth = await FirebaseService.getUser();
         this.$store.state.user.auth = auth.userAuth;
+        FirebaseService.requestPermission();
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -189,6 +191,8 @@ export default {
         this.$store.state.user = result.result.user;
         const auth = await FirebaseService.getUser();
         this.$store.state.user.auth = auth.userAuth;
+        FirebaseService.requestPermission();
+        this.swal_alert("login", result.user.email);
         this.close();
       } else {
         this.swal_alert("error", result.code);
