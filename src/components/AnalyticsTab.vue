@@ -10,6 +10,7 @@
         <div id="chart-1-container"></div>
         <div id="chart-2-container"></div>
         <div id="chart-3-container"></div>
+        <div id="chart-4-container"></div>
         <div id="view-selector-1-container"></div>
       </div>
     </v-card>
@@ -17,67 +18,53 @@
 </template>
 
 <script>
+import Api from "@/services/Api";
 export default {
   name: "AnalyticsTab",
   mounted() {
     this.init();
   },
   methods: {
-    init() {
+    async init() {
+      let token = await Api.refresh();
+      gapi.analytics.auth.authorize({
+        serverAuth: {
+          access_token: token
+        }
+      });
       gapi.analytics.ready(function() {
-
-        /**
-         * Authorize the user immediately if the user has already granted access.
-         * If no access has been created, render an authorize button inside the
-         * element with the ID "embed-api-auth-container".
-         */
         gapi.analytics.auth.authorize({
-          container: 'embed-api-auth-container',
-          clientid: '355527894492-mhj9muq00p79epl1mv9c3k7j05tbtvq0.apps.googleusercontent.com'
+          container: "embed-api-auth-container",
+          clientid:
+            "355527894492-mhj9muq00p79epl1mv9c3k7j05tbtvq0.apps.googleusercontent.com"
         });
 
-
-        /**
-         * Create a ViewSelector for the first view to be rendered inside of an
-         * element with the id "view-selector-1-container".
-         */
         var viewSelector1 = new gapi.analytics.ViewSelector({
-          container: 'view-selector-1-container'
+          container: "view-selector-1-container"
         });
 
-        /**
-         * Create a ViewSelector for the second view to be rendered inside of an
-         * element with the id "view-selector-2-container".
-         */
-
-        // Render both view selectors to the page.
         viewSelector1.execute();
 
-
-        /**
-         * Create the first DataChart for top countries over the past 30 days.
-         * It will be rendered inside an element with the id "chart-1-container".
-         */
         var dataChart1 = new gapi.analytics.googleCharts.DataChart({
           query: {
-            metrics: 'ga:sessions',
-            dimensions: 'ga:country',
-            'start-date': '30daysAgo',
-            'end-date': 'yesterday',
-            'max-results': 6,
-            sort: '-ga:sessions'
+            metrics: "ga:sessions",
+            dimensions: "ga:country",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday",
+            "max-results": 6,
+            sort: "-ga:sessions"
           },
           chart: {
-            container: 'chart-1-container',
-            type: 'PIE',
+            container: "chart-1-container",
+            type: "PIE",
             options: {
-              width: '50%',
+              width: "50%",
               pieHole: 4/9
             }
           }
         });
-
-       // .subtract(3, 'day');
+"ga:sessions"
+       // .subtract(3, "day");
 
         /**
          * Create the second DataChart for top countries over the past 30 days.
@@ -85,16 +72,16 @@ export default {
          */
         var dataChart2 = new gapi.analytics.googleCharts.DataChart({
           query: {
-            'dimensions': 'ga:browser',
-            'metrics': 'ga:pageviews',
-            'sort': '-ga:pageviews',
-            'max-results': 5
+            "dimensions": "ga:browser",
+            "metrics": "ga:pageviews",
+            "sort": "-ga:pageviews",
+            "max-results": 5
           },
           chart: {
-            container: 'chart-2-container',
-            type: 'PIE',
+            container: "chart-2-container",
+            type: "PIE",
             options: {
-              width: '50%',
+              width: "50%",
               pieHole: 4/9
             }
           }
@@ -103,28 +90,44 @@ export default {
 
         var dataChart3 = new gapi.analytics.googleCharts.DataChart({
           query: {
-            'dimensions': 'ga:date',
-            'metrics': 'ga:sessions',
-            'start-date': '30daysAgo',
-            'end-date': 'yesterday'
+            "dimensions": "ga:date",
+            "metrics": "ga:sessions",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday"
           },
           chart: {
-            container: 'chart-3-container',
-            type: 'COLUMN',
+            container: "chart-3-container",
+            type: "COLUMN",
             options: {
-              width: '50%',
+              width: "50%",
             }
           }
         });
-
+        var dataChart4 = new gapi.analytics.googleCharts.DataChart({
+    query : {"start-date": "90daysAgo",
+      "end-date": "today",
+      "metrics": "ga:pageviews,ga:uniquePageviews,ga:timeOnPage,ga:bounces,ga:entrances,ga:exits",
+      "sort": "-ga:pageviews",
+      "dimensions": "ga:pagePath",
+      "max-results": 10},
+    chart: {
+      "container": "chart-4-container",
+      "type": "PIE",
+      "options": {
+        "width": "100%",
+        "pieHole": 0,
+      }
+    }
+  });
         /**
          * Update the first dataChart when the first view selecter is changed.
          */
-        viewSelector1.on('change', function(ids) {
+        viewSelector1.on("change",function(ids) {
           dataChart1.set({query: {ids: ids}}).execute();
           dataChart2.set({query: {ids: ids}}).execute();
           dataChart3.set({query: {ids: ids}}).execute();
-          // alert(ids)
+          dataChart4.set({query: {ids: ids}}).execute();
+
         });
 
         /**
