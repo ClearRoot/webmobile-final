@@ -8,16 +8,16 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-
-  var notificationTitle = "Background Message Title";
+  var data = payload.data;
+  var notificationTitle = data.owner + "님이 " + data.message;
   var notificationOptions = {
-    body: "Background Message body.",
+    body: data.title,
     icon: "/firebase-logo.png"
   };
+  self.addEventListener("notificationclick", function(event) {
+    const clickedNotification = event.notification;
+    clickedNotification.close();
+  });
 
   return self.registration.showNotification(
     notificationTitle,

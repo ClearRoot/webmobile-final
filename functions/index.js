@@ -24,10 +24,7 @@ exports.logoutUser = functions.https.onCall((data, context) => {
 
 exports.postPost = functions.firestore
   .document("posts/{postId}")
-  .onWrite((change, context) => {
-    console.log(change.before.data());
-    console.log(change.after.data());
-    console.log(context);
+  .onCreate((snap, context) => {
     admin
       .firestore()
       .collection("fcmIdTokens")
@@ -38,7 +35,9 @@ exports.postPost = functions.firestore
           let registrationToken = data.token;
           let message = {
             data: {
-              message: "포스트 변경이 발생"
+              message: "새로운 포스터를 작성했습니다.",
+              title: snap.data().title,
+              owner: snap.data().ownerDisplayName
             },
             token: registrationToken
           };
@@ -46,10 +45,42 @@ exports.postPost = functions.firestore
             .messaging()
             .send(message)
             .then(response => {
-              console.log('Successfully sent message:', response);
+              console.log("Successfully sent message:", response);
             })
             .catch(error => {
-              console.log('Error sending message:', error);
+              console.log("Error sending message:", error);
+            });
+        });
+      });
+  });
+
+exports.postPortfolio = functions.firestore
+  .document("portfolios/{portfolioId}")
+  .onCreate((snap, context) => {
+    admin
+      .firestore()
+      .collection("fcmIdTokens")
+      .get()
+      .then(docSnapshots => {
+        return docSnapshots.docs.map(doc => {
+          let data = doc.data();
+          let registrationToken = data.token;
+          let message = {
+            data: {
+              message: "새로운 포트폴리오를 작성했습니다.",
+              title: snap.data().title,
+              owner: snap.data().ownerDisplayName
+            },
+            token: registrationToken
+          };
+          admin
+            .messaging()
+            .send(message)
+            .then(response => {
+              console.log("Successfully sent message:", response);
+            })
+            .catch(error => {
+              console.log("Error sending message:", error);
             });
         });
       });
