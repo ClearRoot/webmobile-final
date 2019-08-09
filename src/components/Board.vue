@@ -1,7 +1,6 @@
 <template>
   <v-layout justify-center>
     <v-dialog
-      style="z-index: 202;z-index: 99999993"
       v-model="show"
       fullscreen
       hide-overlay
