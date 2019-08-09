@@ -30,27 +30,32 @@ exports.postPost = functions.firestore
       .collection("fcmIdTokens")
       .get()
       .then(docSnapshots => {
-        return docSnapshots.docs.map(doc => {
+        let tokenSet = new Set();
+        docSnapshots.docs.map(doc => {
           let data = doc.data();
-          let registrationToken = data.token;
-          let message = {
-            data: {
-              message: "새로운 포스터를 작성했습니다.",
-              title: snap.data().title,
-              owner: snap.data().ownerDisplayName
-            },
-            token: registrationToken
-          };
-          admin
-            .messaging()
-            .send(message)
-            .then(response => {
-              console.log("Successfully sent message:", response);
-            })
-            .catch(error => {
-              console.log("Error sending message:", error);
-            });
+          tokenSet.add(data.token);
         });
+        return tokenSet;
+      })
+      .then(tokenSet => {
+        const registrationTokens = [...tokenSet];
+        let message = {
+          data: {
+            message: "새로운 포스트를 작성했습니다.",
+            title: snap.data().title,
+            owner: snap.data().ownerDisplayName
+          },
+          tokens: registrationTokens
+        };
+        admin
+          .messaging()
+          .sendMulticast(message)
+          .then(response => {
+            console.log("Successfully sent message:", response);
+          });
+      })
+      .catch(error => {
+        console.log("Error sending message:", error);
       });
   });
 
@@ -62,26 +67,31 @@ exports.postPortfolio = functions.firestore
       .collection("fcmIdTokens")
       .get()
       .then(docSnapshots => {
-        return docSnapshots.docs.map(doc => {
+        let tokenSet = new Set();
+        docSnapshots.docs.map(doc => {
           let data = doc.data();
-          let registrationToken = data.token;
-          let message = {
-            data: {
-              message: "새로운 포트폴리오를 작성했습니다.",
-              title: snap.data().title,
-              owner: snap.data().ownerDisplayName
-            },
-            token: registrationToken
-          };
-          admin
-            .messaging()
-            .send(message)
-            .then(response => {
-              console.log("Successfully sent message:", response);
-            })
-            .catch(error => {
-              console.log("Error sending message:", error);
-            });
+          tokenSet.add(data.token);
         });
+        return tokenSet;
+      })
+      .then(tokenSet => {
+        const registrationTokens = [...tokenSet];
+        let message = {
+          data: {
+            message: "새로운 포트폴리오를 작성했습니다.",
+            title: snap.data().title,
+            owner: snap.data().ownerDisplayName
+          },
+          tokens: registrationTokens
+        };
+        admin
+          .messaging()
+          .sendMulticast(message)
+          .then(response => {
+            console.log("Successfully sent message:", response);
+          });
+      })
+      .catch(error => {
+        console.log("Error sending message:", error);
       });
   });
