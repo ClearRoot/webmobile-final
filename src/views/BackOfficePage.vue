@@ -37,15 +37,14 @@
           </template>
           <v-tabs-items>
             <v-tab-item>
-              <PostTab v-if="tabs[active] == 'post'"></PostTab>
-              <PortfolioTab v-if="tabs[active] == 'portfolio'"></PortfolioTab>
-              <UserTab v-if="tabs[active] == 'user'"></UserTab>
-              <AnalyticsTab v-if="tabs[active] == 'analytics'"></AnalyticsTab>
+              <PostTab v-show="tabs[active] == 'post'"></PostTab>
+              <PortfolioTab v-show="tabs[active] == 'portfolio'"></PortfolioTab>
+              <UserTab v-show="tabs[active] == 'user'"></UserTab>
+              <AnalyticsTab v-show="tabs[active] == 'analytics'"></AnalyticsTab>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
       </v-layout>
-
     </v-container>
   </div>
 </template>

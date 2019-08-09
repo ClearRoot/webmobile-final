@@ -20,7 +20,6 @@
         :loading="loading"
         hide-actions
         :pagination.sync="pagination"
-        select-all
         item-key="id"
         class="elevation-1"
         expand
@@ -42,13 +41,6 @@
         </template>
         <template v-slot:items="props">
           <tr :active="props.selected">
-            <td @click="props.selected = !props.selected">
-              <v-checkbox
-                :input-value="props.selected"
-                primary
-                hide-details
-              ></v-checkbox>
-            </td>
             <td class="text-xs-left " @click="props.expanded = !props.expanded">
               {{ props.item.userEmail }}
             </td>
@@ -72,6 +64,7 @@
             <v-card-text
               >작성한 Portfolio 수 : {{ props.item.portfolios }}
             </v-card-text>
+            <v-divider></v-divider>
           </v-card>
         </template>
       </v-data-table>
@@ -200,6 +193,7 @@ export default {
         totalItems: this.items.length
       };
       this.loading = false;
+      console.log(this.items)
     }
   }
 };

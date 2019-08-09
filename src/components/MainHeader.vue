@@ -139,6 +139,7 @@ export default {
     },
     userEmail() {
       if (this.$store.state.user) {
+        console.log(this.$store.state.user)
         return this.$store.state.user.email;
       } else {
         return "Guest";
