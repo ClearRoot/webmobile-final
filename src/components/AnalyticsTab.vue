@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>
-        {{date}}<v-spacer></v-spacer>
-      </v-card-title>
+      <v-card-title> {{ date }}<v-spacer></v-spacer> </v-card-title>
       <div>
         <v-layout rows align-center justify-center>
           <v-flex>

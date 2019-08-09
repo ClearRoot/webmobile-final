@@ -50,10 +50,10 @@
             <td>
               <v-select
                 v-model="props.item.userAuth"
-                :disabled="
-                  props.item.userAuth == 'admin' ? true : false
+                :disabled="props.item.userAuth == 'admin' ? true : false"
+                @change="
+                  changeEvt(props.item.id, props.item.userAuth, props.item)
                 "
-                @change="changeEvt(props.item.id, props.item.userAuth,props.item)"
                 :items="props.item.userAuth == 'admin' ? admin : auth"
                 solo
               ></v-select>
@@ -202,7 +202,6 @@ export default {
         totalItems: this.items.length
       };
       this.loading = false;
-      console.log(this.items)
     }
   }
 };
