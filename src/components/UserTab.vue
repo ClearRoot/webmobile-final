@@ -20,7 +20,6 @@
         :loading="loading"
         hide-actions
         :pagination.sync="pagination"
-        select-all
         item-key="id"
         class="elevation-1"
         expand
@@ -41,24 +40,20 @@
           </v-alert>
         </template>
         <template v-slot:items="props">
-          <tr :active="props.selected">
-            <td @click="props.selected = !props.selected">
-              <v-checkbox
-                :input-value="props.selected"
-                primary
-                hide-details
-              ></v-checkbox>
+          <tr>
+            <td>
+              <v-gravatar :email="props.item.userEmail"></v-gravatar>
             </td>
             <td class="text-xs-left " @click="props.expanded = !props.expanded">
               {{ props.item.userEmail }}
             </td>
-            <td class="justify-center layout px-0">
+            <td>
               <v-select
                 v-model="props.item.userAuth"
-                :disabled="
-                  props.item.userAuth == 'admin' ? true : false
+                :disabled="props.item.userAuth == 'admin' ? true : false"
+                @change="
+                  changeEvt(props.item.id, props.item.userAuth, props.item)
                 "
-                @change="changeEvt(props.item.id, props.item.userAuth,props.item)"
                 :items="props.item.userAuth == 'admin' ? admin : auth"
                 solo
               ></v-select>
@@ -72,6 +67,7 @@
             <v-card-text
               >작성한 Portfolio 수 : {{ props.item.portfolios }}
             </v-card-text>
+            <v-divider></v-divider>
           </v-card>
         </template>
       </v-data-table>
@@ -105,6 +101,12 @@ export default {
       search: "",
       pagination: {},
       headers: [
+        {
+          text: "",
+          align: "center",
+          value: "gravatar",
+          width: "10%"
+        },
         {
           text: "ID",
           align: "left",

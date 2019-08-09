@@ -205,6 +205,7 @@ export default {
     firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
         store.state.auth = await self.getUser();
+        console.log(store.state.auth)
       }
     });
   },

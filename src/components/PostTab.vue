@@ -11,6 +11,12 @@
           single-line
         ></v-text-field>
       </v-card-title>
+      <v-card-title
+        >전체 게시글 갯수 : {{ items.length }}<v-spacer></v-spacer
+        ><v-btn class="text-xs-right" @click="deleteSelItem()"
+          ><v-icon large> delete </v-icon>선택삭제</v-btn
+        ></v-card-title
+      ><v-divider></v-divider>
       <v-data-table
         :search="search"
         v-model="selected"
@@ -20,6 +26,7 @@
         :pagination.sync="pagination"
         select-all
         item-key="id"
+        hide-actions
       >
         <template v-slot:no-data>
           <v-alert :value="true" color="blue">
@@ -64,15 +71,9 @@
           <v-card flat>
             <v-card-text>{{ props.item.body }} </v-card-text>
           </v-card>
-        </template>
-
-        <template v-slot:footer>
-          <td :colspan="headers.length">
-            <strong>전체 게시글 갯수 : {{ items.length }}</strong>
-          </td>
+          <v-divider></v-divider>
         </template>
       </v-data-table>
-      <v-btn class="text-xs-right" @click="deleteSelItem()">선택삭제</v-btn>
       <div class="text-xs-center">
         <v-pagination
           v-model="pagination.page"
@@ -130,6 +131,7 @@
         </v-card-text>
         <div style="flex: 1 1 auto;"></div>
       </v-card>
+      <v-divider></v-divider>
     </v-dialog>
   </div>
 </template>

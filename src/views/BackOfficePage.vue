@@ -37,9 +37,10 @@
           </template>
           <v-tabs-items>
             <v-tab-item>
-              <PostTab v-if="tabs[active] == 'post'"></PostTab>
-              <PortfolioTab v-if="tabs[active] == 'portfolio'"></PortfolioTab>
-              <UserTab v-if="tabs[active] == 'user'"></UserTab>
+              <PostTab v-show="tabs[active] == 'post'"></PostTab>
+              <PortfolioTab v-show="tabs[active] == 'portfolio'"></PortfolioTab>
+              <UserTab v-show="tabs[active] == 'user'"></UserTab>
+              <AnalyticsTab v-show="tabs[active] == 'analytics'"></AnalyticsTab>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -53,6 +54,7 @@ import ImgBanner from "../components/ImgBanner";
 import PostTab from "../components/PostTab";
 import PortfolioTab from "../components/PortfolioTab";
 import UserTab from "../components/UserTab";
+import AnalyticsTab from "../components/AnalyticsTab";
 import FirebaseService from "../services/FirebaseService";
 import Swal from "sweetalert2";
 export default {
@@ -61,13 +63,14 @@ export default {
     ImgBanner,
     PostTab,
     PortfolioTab,
-    UserTab
+    UserTab,
+    AnalyticsTab
   },
   data() {
     return {
       active: 0,
       posts: [],
-      tabs: ["post", "portfolio", "user"],
+      tabs: ["post", "portfolio", "user", "analytics"],
       auth: null
     };
   },
