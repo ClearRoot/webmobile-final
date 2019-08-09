@@ -21,15 +21,5 @@ export default {
         "Content-Type": "application/json"
       }
     });
-  },
-  analytics(baseURL, token) {
-    return axios.create({
-      baseURL: baseURL,
-      token: token,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "Content-type:application/x-www-form-urlencoded"
-      }
-    });
   }
 };

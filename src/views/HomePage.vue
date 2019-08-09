@@ -23,12 +23,25 @@
             <v-flex xs12 sm8 class="text-sm-left text-xs-center">
               <h2 class="headline mb-3">{{ item.name }}</h2>
               <p class="mr-4">{{ item.aboutMe }}</p>
+              <v-layout align-end row fill-height>
+                <v-flex xs12 sm8 py-5>
+                  <v-btn
+                    v-for="btn in item.buttons"
+                    :href="btn.link"
+                    :key="btn.title"
+                    class="mx-3"
+                    icon
+                  >
+                    <v-icon medium>{{ btn.icon }}</v-icon>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
             </v-flex>
             <v-flex sm4 class="hidden-xs-only">
               <v-img
                 class="img-circle"
                 :src="getImgUrl(item.img)"
-                :aspect-ratio="item.ratio"
+                aspect-ratio="1.5"
               />
             </v-flex>
           </v-layout>
@@ -91,31 +104,96 @@ export default {
             "안녕하세요. 축산학을 전공했지만 IT 개발을 좋아하고, 공부하는 예비 개발자입니다.주로 Python을 사용하며, Web으로는 Django, Bootstrap, Vue, Vuetify를 사용할 수 있습니다.",
           img: "cat_profile.jpg",
           name: "조호근",
-          title: "조장",
-          ratio: 1.5
+          buttons: [
+            {
+              title: "facebook",
+              icon: "fab fa-facebook",
+              link: "https://www.facebook.com/"
+            },
+            {
+              title: "instagram",
+              icon: "fab fa-instagram",
+              link: "https://www.instagram.com/"
+            },
+            {
+              title: "gitlab",
+              icon: "fab fa-gitlab",
+              link: "https://lab.ssafy.com/ClearRoot"
+            },
+            {
+              title: "github",
+              icon: "fab fa-github",
+              link: "https://github.com/ClearRoot/"
+            }
+          ]
         },
         {
           aboutMe: "지금 잠을 자면 꿈을 꾸지만, 지금 공부하면 꿈을 이룬다",
           img: "profile.jpg",
           name: "김선일",
-          title: "",
-          ratio: 1.5
+          buttons: [
+            {
+              title: "facebook",
+              icon: "fab fa-facebook",
+              link: "https://www.facebook.com/"
+            },
+            {
+              title: "instagram",
+              icon: "fab fa-instagram",
+              link: "https://www.instagram.com/"
+            },
+            {
+              title: "gitlab",
+              icon: "fab fa-gitlab",
+              link: "https://lab.ssafy.com/kimseonili"
+            }
+          ]
         },
         {
           aboutMe:
             "안녕하세요.컴퓨터공학을 전공했습니다. 알고리즘과 웹 개발을 공부하고있습니다. 반갑습니다.",
           img: "kch_profile.png",
           name: "김초희",
-          title: "",
-          ratio: 1.5
+          buttons: [
+            {
+              title: "facebook",
+              icon: "fab fa-facebook",
+              link: "https://www.facebook.com/"
+            },
+            {
+              title: "instagram",
+              icon: "fab fa-instagram",
+              link: "https://www.instagram.com/"
+            },
+            {
+              title: "gitlab",
+              icon: "fab fa-gitlab",
+              link: "https://lab.ssafy.com/lee1260"
+            }
+          ]
         },
         {
           aboutMe:
             "안녕하세요, 저는 Front-End 개발자를 목표로 하고있습니다. 아직 서투르지만 노력하고있습니다.",
           img: "jdj_profile.png",
           name: "정동준",
-          title: "",
-          ratio: 1.5
+          buttons: [
+            {
+              title: "facebook",
+              icon: "fab fa-facebook",
+              link: "https://www.facebook.com/"
+            },
+            {
+              title: "instagram",
+              icon: "fab fa-instagram",
+              link: "https://www.instagram.com/"
+            },
+            {
+              title: "gitlab",
+              icon: "fab fa-gitlab",
+              link: "https://lab.ssafy.com/june3360"
+            }
+          ]
         }
       ],
       ddlSource: "ko",
