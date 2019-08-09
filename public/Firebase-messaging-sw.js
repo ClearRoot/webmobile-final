@@ -9,11 +9,21 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
   var data = payload.data;
-  var notificationTitle = data.owner + "님이 " + data.message;
-  var notificationOptions = {
-    body: data.title,
-    icon: "/firebase-logo.png"
-  };
+  var notificationTitle;
+  var notificationOptions;
+  if (data.comment) {
+    notificationTitle = "게시물 '" + data.title + "'에 " + data.message;
+    notificationOptions = {
+      body: data.comment,
+      icon: "/firebase-logo.png"
+    };
+  } else {
+    notificationTitle = data.owner + "님이 " + data.message;
+    notificationOptions = {
+      body: data.title,
+      icon: "/firebase-logo.png"
+    };
+  }
   self.addEventListener("notificationclick", function(event) {
     const clickedNotification = event.notification;
     clickedNotification.close();

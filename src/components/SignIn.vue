@@ -156,12 +156,15 @@ export default {
     async loginWithGoogle() {
       const result = await FirebaseService.loginWithGoogle();
       if (result.user) {
-        FirebaseService.createUserRule();
         this.$store.state.accessToken = result.credential.accessToken;
         this.$store.state.user = result.user;
-        const auth = await FirebaseService.getUser();
+        let auth = await FirebaseService.getUser();
+        if (!auth) {
+          FirebaseService.createUserRule();
+          auth = await FirebaseService.getUser();
+        }
         this.$store.state.user.auth = auth.userAuth;
-        FirebaseService.requestPermission();
+        FirebaseService.requestPermission(auth.userAuth);
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -169,12 +172,15 @@ export default {
     async loginWithFacebook() {
       const result = await FirebaseService.loginWithFacebook();
       if (result.user) {
-        FirebaseService.createUserRule();
         this.$store.state.accessToken = result.credential.accessToken;
         this.$store.state.user = result.user;
-        const auth = await FirebaseService.getUser();
+        let auth = await FirebaseService.getUser();
+        if (!auth) {
+          FirebaseService.createUserRule();
+          auth = await FirebaseService.getUser();
+        }
         this.$store.state.user.auth = auth.userAuth;
-        FirebaseService.requestPermission();
+        FirebaseService.requestPermission(auth.userAuth);
         this.swal_alert("social_login", null);
       }
       this.close();
@@ -186,12 +192,15 @@ export default {
       );
 
       if (!result.errorCheck) {
-        FirebaseService.createUserRule();
         this.swal_alert("login", result.result.user.email);
         this.$store.state.user = result.result.user;
-        const auth = await FirebaseService.getUser();
+        let auth = await FirebaseService.getUser();
+        if (!auth) {
+          FirebaseService.createUserRule();
+          auth = await FirebaseService.getUser();
+        }
         this.$store.state.user.auth = auth.userAuth;
-        FirebaseService.requestPermission();
+        FirebaseService.requestPermission(auth.userAuth);
         this.swal_alert("login", result.result.user.email);
         this.close();
       } else {
