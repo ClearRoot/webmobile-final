@@ -303,7 +303,6 @@ export default {
   },
   async getUser() {
     var cur = firebase.auth().currentUser;
-    console.log(cur);
     var uid = cur.uid;
     var result;
     await firestore
