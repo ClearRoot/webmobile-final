@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import FirebaseService from "@/services/FirebaseService";
+
 export default {
   methods: {
     initDisqus() {
@@ -16,6 +18,12 @@ export default {
       window.disqus_config = function() {
         this.page.identifier = self.item_id;
         this.page.url = "http://samjo/" + self.item_id;
+        this.callbacks.onNewComment = [
+          function(comment) {
+            comment.title = self.item.title;
+            FirebaseService.creatCommentMessage(comment);
+          }
+        ];
       };
     },
     setBoard() {

@@ -22,6 +22,43 @@ exports.logoutUser = functions.https.onCall((data, context) => {
   return {};
 });
 
+exports.creatComment = functions.https.onCall(async (data, context) => {
+  await admin
+    .firestore()
+    .collection("fcmIdTokens")
+    .get()
+    .then(docSnapshots => {
+      let tokenSet = new Set();
+      docSnapshots.docs.map(async doc => {
+        let data = doc.data();
+        if (data.userAuth == "admin") {
+          tokenSet.add(data.token);
+        }
+      });
+      return tokenSet;
+    })
+    .then(tokenSet => {
+      const registrationTokens = [...tokenSet];
+      let message = {
+        data: {
+          message: "새로운 댓글이 작성되었습니다.",
+          comment: data.text,
+          title: data.title
+        },
+        tokens: registrationTokens
+      };
+      admin
+        .messaging()
+        .sendMulticast(message)
+        .then(response => {
+          console.log("Successfully sent message:", response);
+        });
+    })
+    .catch(error => {
+      console.log("Error sending message:", error);
+    });
+});
+
 exports.postPost = functions.firestore
   .document("posts/{postId}")
   .onCreate((snap, context) => {

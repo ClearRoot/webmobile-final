@@ -24,9 +24,11 @@ const config = {
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
 const messaging = firebase.messaging();
+const functions = firebase.functions();
 
-const loginUser = firebase.functions().httpsCallable("loginUser");
-const logoutUser = firebase.functions().httpsCallable("logoutUser");
+const loginUser = functions.httpsCallable("loginUser");
+const logoutUser = functions.httpsCallable("logoutUser");
+const creatComment = functions.httpsCallable("creatComment");
 
 firestore.enablePersistence().catch(function(err) {
   if (err.code == "failed-precondition") {
@@ -74,7 +76,6 @@ export default {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
           data.id = doc.id;
-          data.item_id = doc.id;
           return data;
         });
       });
@@ -301,18 +302,20 @@ export default {
   },
   async getUser() {
     var cur = firebase.auth().currentUser;
+    console.log(cur);
     var uid = cur.uid;
-    var result = await firestore
+    var result;
+    await firestore
       .collection(USERS)
       .doc(uid)
       .get()
       .then(docSnapshots => {
-        let data = docSnapshots.data();
-        return data;
+        result = docSnapshots.data();
       });
+    console.log(result);
     return result;
   },
-  requestPermission() {
+  requestPermission(userAuth) {
     messaging
       .requestPermission()
       .then(() => {
@@ -326,17 +329,30 @@ export default {
           .doc(uid)
           .set({
             token: token,
+            userAuth: userAuth,
             updated_at: firebase.firestore.FieldValue.serverTimestamp()
           });
       })
       .catch(error => {
         console.log("Error Occured.");
         console.log(error);
+        const uid = firebase.auth().currentUser.uid;
+        return firestore
+          .collection(FCMIDTOKENS)
+          .doc(uid)
+          .set({
+            token: "",
+            userAuth: userAuth,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+          });
       });
   },
   onMessage() {
     messaging.onMessage(payload => {
       console.log("onMessage: ", payload);
     });
+  },
+  creatCommentMessage(comment) {
+    creatComment(comment).then(function() {});
   }
 };
