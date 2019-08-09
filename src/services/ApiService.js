@@ -1,5 +1,5 @@
 import Api from "@/services/Api";
-
+import axios from "axios";
 const WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
 const TRANSLATE_URL = "https://www.googleapis.com/language/translate/v2";
 
@@ -25,5 +25,22 @@ export default {
     return Api.normalApi(TRANSLATE_URL).get(
       `?key=${key}&source=${source}&target=${target}` + texts
     );
+  },
+  getRefreshToken() {
+    return axios
+      .post("https://accounts.google.com/o/oauth2/token", {
+        grant_type: "refresh_token",
+        refresh_token:
+          "1/amvjBSmM2NhlrBcjGj_hlFxn0msNXYWPfpa1GLBXHEIFbk9Nfba8HWgOENNEgNaF",
+        client_id:
+          "355527894492-mhj9muq00p79epl1mv9c3k7j05tbtvq0.apps.googleusercontent.com",
+        client_secret: "IRkbHrMqGsT9w39FP0miAJVa"
+      })
+      .then(response => {
+        return response.data.access_token;
+      })
+      .catch(error => {
+      console.log("refresh error" + error);
+      });
   }
 };

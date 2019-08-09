@@ -50,8 +50,8 @@
   js.onload = function() {
     g.load("analytics");
   };
-}(window,document,'script'));
-import Api from "@/services/Api";
+})(window, document, "script");
+import ApiService from "@/services/ApiService";
 export default {
   name: "AnalyticsTab",
   data(){
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     async init() {
-      let token = await Api.refresh();
+      let token = await ApiService.getRefreshToken();
       gapi.analytics.auth.authorize({
         serverAuth: { ids: "ga:199222657", access_token: token }
       });
