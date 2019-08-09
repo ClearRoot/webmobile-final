@@ -40,11 +40,14 @@
           </v-alert>
         </template>
         <template v-slot:items="props">
-          <tr :active="props.selected">
+          <tr>
+            <td>
+              <v-gravatar :email="props.item.userEmail"></v-gravatar>
+            </td>
             <td class="text-xs-left " @click="props.expanded = !props.expanded">
               {{ props.item.userEmail }}
             </td>
-            <td class="justify-center layout px-0">
+            <td>
               <v-select
                 v-model="props.item.userAuth"
                 :disabled="
@@ -98,6 +101,12 @@ export default {
       search: "",
       pagination: {},
       headers: [
+        {
+          text: "",
+          align: "center",
+          value: "gravatar",
+          width: "10%"
+        },
         {
           text: "ID",
           align: "left",

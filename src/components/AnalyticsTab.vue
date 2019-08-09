@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-card-title>
-        <v-spacer></v-spacer>
+        {{date}}<v-spacer></v-spacer>
       </v-card-title>
       <div>
         <v-layout rows align-center justify-center>
@@ -41,7 +41,13 @@
 import Api from "@/services/Api";
 export default {
   name: "AnalyticsTab",
+  data(){
+    return{
+      data: null
+    }
+  },
   mounted() {
+    this.date = new Date();
     this.init();
   },
   methods: {
