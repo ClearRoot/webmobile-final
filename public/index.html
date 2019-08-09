@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144747776-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-144747776-1');
-    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -23,9 +14,10 @@
       <strong>We're sorry but ssafy doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+  <!-- built files will be auto injected -->
   </body>
   <script src="https://danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144747776-1"></script>
   <script>
     var agent = navigator.userAgent.toLowerCase();
     if (agent.indexOf('chrome') === -1 || agent.indexOf('edge') > -1 || agent.indexOf('opr') > -1){
@@ -38,6 +30,10 @@
         console.log('Unable to get permission to notify.');
       }
     });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-144747776-1');
   </script>
   <script src="https://kit.fontawesome.com/abd5fee7a3.js"></script>
 </html>
