@@ -31,7 +31,7 @@ exports.creatComment = functions.https.onCall(async (data, context) => {
       let tokenSet = new Set();
       docSnapshots.docs.map(async doc => {
         let data = doc.data();
-        if (data.userAuth == "admin") {
+        if (data.userAuth == "admin" && data.token) {
           tokenSet.add(data.token);
         }
       });
@@ -70,7 +70,9 @@ exports.postPost = functions.firestore
         let tokenSet = new Set();
         docSnapshots.docs.map(doc => {
           let data = doc.data();
-          tokenSet.add(data.token);
+          if (data.token) {
+            tokenSet.add(data.token);
+          }
         });
         return tokenSet;
       })
@@ -107,7 +109,9 @@ exports.postPortfolio = functions.firestore
         let tokenSet = new Set();
         docSnapshots.docs.map(doc => {
           let data = doc.data();
-          tokenSet.add(data.token);
+          if (data.token) {
+            tokenSet.add(data.token);
+          }
         });
         return tokenSet;
       })
