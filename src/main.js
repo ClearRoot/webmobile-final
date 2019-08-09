@@ -11,8 +11,6 @@ import store from "./store";
 import "./registerServiceWorker";
 import Gravatar from "vue-gravatar";
 
-import accountSummaries from "../public/lib/account-summaries/account-summaries.js"
-
 Vue.component("v-gravatar", Gravatar);
 Vue.config.productionTip = false;
 Vue.prototype.$EventBus = new Vue();
@@ -32,6 +30,5 @@ Vue.use(VueSimplemde);
 new Vue({
   router,
   store,
-  accountSummaries,
   render: h => h(App)
 }).$mount("#app");
