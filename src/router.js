@@ -6,10 +6,9 @@ import PortfolioPage from "./views/PortfolioPage.vue";
 import PortfolioDetail from "./views/PortfolioDetail.vue";
 import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
-import LoginPage from "./views/LoginPage.vue";
 import SignIn from "./components/SignIn.vue";
 import BackOfficePage from "./views/BackOfficePage.vue";
-import ErrorPage from "./views/ErrorPage.vue"
+import ErrorPage from "./views/ErrorPage.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -30,11 +29,6 @@ export default new Router({
       path: "/portfolio",
       name: "portfolio",
       component: PortfolioPage
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: LoginPage
     },
     {
       path: "/repository",
