@@ -3,7 +3,7 @@
     <ImgBanner>
       <div class="imgbanner-title" slot="text">Just Do it.</div>
     </ImgBanner>
-    <v-container>
+    <v-container >
       <!-- About Me -->
       <v-carousel
         light
@@ -20,11 +20,10 @@
           reverse-transition="fade"
         >
           <v-layout my-5>
-            <v-flex xs12 sm8 class="text-sm-left text-xs-center">
+            <v-flex xs12 sm8 class="text-sm-left text-xs-center" align-baseline>
               <h2 class="headline mb-3">{{ item.name }}</h2>
               <p class="mr-4">{{ item.aboutMe }}</p>
-              <v-layout align-end row fill-height>
-                <v-flex xs12 sm8 py-5>
+                <v-flex xs12 sm8 py-5 class="hidden-sm-and-down">
                   <v-btn
                     v-for="btn in item.buttons"
                     :href="btn.link"
@@ -35,7 +34,6 @@
                     <v-icon medium>{{ btn.icon }}</v-icon>
                   </v-btn>
                 </v-flex>
-              </v-layout>
             </v-flex>
             <v-flex sm4 class="hidden-xs-only">
               <v-img

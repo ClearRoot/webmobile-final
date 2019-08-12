@@ -2,6 +2,7 @@
   <v-layout py-3 h-100>
     <v-flex>
       <v-hover>
+
         <v-card
           @click="clickedItem"
           slot-scope="{ hover }"
@@ -11,6 +12,25 @@
           dark
         >
           <v-toolbar card light dense>
+
+            <v-badge
+      color="red"
+      left
+      overlap
+    >
+      <template v-slot:badge>
+        <v-icon dark>
+          done
+        </v-icon>
+      </template>
+      <v-icon
+        color="grey lighten-1"
+        large
+      >
+        account_circle
+      </v-icon>
+    </v-badge>
+
             <v-toolbar-title
               v-if="!translateState"
               class="headline font-weight-bold text-no-wrap text-truncate"
