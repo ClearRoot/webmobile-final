@@ -3,7 +3,7 @@
     <v-flex>
       <v-hover>
         <v-card
-          @click.close="openBoard"
+          @click = "clickedItem"
           slot-scope="{ hover }"
           :class="`elevation-${hover ? 12 : 2}`"
           class="mx-auto"
@@ -78,8 +78,7 @@ export default {
       ddlTarget: "en",
       titleEN: "",
       bodyEN: "",
-      translateState: false,
-      showBoard: false
+      translateState: false
     };
   },
   created() {
@@ -105,9 +104,9 @@ export default {
     });
   },
   methods: {
-    openBoard() {
-      this.$EventBus.$emit("item", this.data);
-
+    clickedItem() {
+      this.$store.commit("clickedItem", [this.data, "posts"])
+      this.$EventBus.$emit("clickedItem", true);
     }
   },
   computed: {

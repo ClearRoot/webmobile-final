@@ -8,29 +8,29 @@
     >
       <v-card color="#00000099">
         <v-toolbar dark color="#00002288">
-          <!-- <v-toolbar-title>{{ board_item.title }}</v-toolbar-title> -->
-
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn
-              tile
-              outlined
-              color="success"
-              @click="eidt_board"
-              v-show="checkAuth"
-            >
-              <v-icon>mdi-pencil</v-icon> Edit
-            </v-btn>
-            <v-btn
-              class="ma-1"
-              tile
-              outlined
-              color="red"
-              @click="delete_board"
-              v-show="checkAuth"
-            >
-              <v-icon>mdi-pencil</v-icon> delete
-            </v-btn>
+            <v-layout v-show = "btnList">
+              <v-btn
+                tile
+                outlined
+                color="success"
+                @click="btnEditBoard"
+                v-show="checkAuth"
+              >
+                <v-icon>mdi-pencil</v-icon> Edit
+              </v-btn>
+              <v-btn
+                class="ma-1"
+                tile
+                outlined
+                color="red"
+                @click="btnDeleteBoard"
+                v-show="checkAuth"
+              >
+                <v-icon>mdi-pencil</v-icon> delete
+              </v-btn>
+            </v-layout>
             <v-btn class="ma-4" icon @click.close="close">
               <v-icon>close</v-icon>
             </v-btn>
@@ -40,29 +40,26 @@
         <v-container fluid grid-list-md>
           <v-layout row wrap>
             <v-flex d-flex xs12 sm6 md5>
-              <v-card>
+              <v-card v-if="!boardEditSwitch">
                 <v-card-title primary class="title">
-                  {{ item.edit_title }}
+                  {{ itemTitle }}
                 </v-card-title>
-                <v-img :src="board_item.img" v-if="!imgState && imgUrl"></v-img>
+                <v-img :src="this.$store.state.item.img" v-if="this.$store.state.item_type === 'portfolios'"></v-img>
                 <v-card-text>
-                  {{ item.edit_body }}
+                  {{ itemBody }}
                 </v-card-text>
+              </v-card>
+              <v-card v-if="boardEditSwitch">
+                <BoardEdit
+                  v-if="boardEditSwitch === true"
+                  :boardItem="item"
+                >
+                </BoardEdit>
               </v-card>
             </v-flex>
             <v-flex d-flex xs12 sm6 md7 child-flex>
               <v-card>
-                <Comment
-                  :id="board_item.id"
-                  v-show="edit_state === false"
-                ></Comment>
-                <BoardEdit
-                  v-if="edit_state === true"
-                  v-model="item"
-                  :item_id="board_item.id"
-                  :board_type="board_type"
-                >
-                </BoardEdit>
+                <Comment></Comment>
               </v-card>
             </v-flex>
           </v-layout>
@@ -82,27 +79,23 @@ export default {
   name: "Board",
   data() {
     return {
-      edit_state: false,
-      item: {
-        edit_title: "",
-        edit_body: ""
-      }
+      itemTitle: "",
+      itemBody: "",
+      item:{
+        TitleEdit: "",
+        BodyEdit: "",
+        ImgEdit: ""
+      },
+      boardEditSwitch: false,
+      btnList: true
     };
   },
   props: {
     value: Boolean,
-    board_item: { type: Object },
-    board_type: { type: String }
   },
   components: {
     Comment,
     BoardEdit
-  },
-  watch: {
-    board_item: function() {
-      this.item.edit_title = this.board_item.title;
-      this.item.edit_body = this.board_item.body;
-    }
   },
   mounted() {
     this.init();
@@ -116,21 +109,8 @@ export default {
         this.$emit("input", value);
       }
     },
-    imgState: function() {
-      return this.edit_state;
-    },
-    imgUrl: function() {
-      if (!this.board_item.img) {
-        return false;
-      } else {
-        return true;
-      }
-    },
     checkAuth() {
-      return (
-        this.$store.state.user.uid == this.board_item.ownerId ||
-        this.$store.state.auth.userAuth == "admin"
-      );
+      return this.$store.getters.checkAuth;
     }
   },
   methods: {
@@ -144,19 +124,17 @@ export default {
       });
     },
     close() {
+      this.boardEditSwitch = false;
       this.show = false;
-      this.edit_state = false;
     },
-    eidt_board() {
-      if (this.edit_state == true) {
-        this.edit_state = false;
-      } else {
-        this.edit_state = true;
-      }
-      this.item.edit_title = this.board_item.title;
-      this.item.edit_body = this.board_item.body;
+    btnEditBoard() {
+      this.boardEditSwitch = true;
+      this.btnList = false;
+      this.item.titleEdit = this.$store.getters.getItem.title;
+      this.item.bodyEdit = this.$store.getters.getItem.body;
+      this.item.imgEdit = this.$store.getters.getItem.img;
     },
-    async delete_board() {
+    async btnDeleteBoard() {
       this.swalWithBootstrapButtons
         .fire({
           title: "삭제 확인",
@@ -168,24 +146,27 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            switch (this.board_type) {
-              case "post":
-                FirebaseService.removeItem(this.board_item.id, "posts");
-                break;
-              default:
-                FirebaseService.removeItem(this.board_item.id, "portfolios");
+              FirebaseService.removeItem(this.$store.getters.getItem.id, this.$store.getters.getItemType);
             }
             this.swalWithBootstrapButtons.fire("삭제되었습니다");
             this.$EventBus.$emit("refreshBoard");
             this.show = false;
-          }
         });
     }
   },
   created() {
-    this.$EventBus.$on("closeRoot", () => (this.show = false));
-    this.$EventBus.$on("close", () => (this.edit_state = false));
-    this.$EventBus.$on("refreshDetail", item => (this.item = item));
+    this.$EventBus.$on("clickedItem" , () => {
+      this.itemTitle = this.$store.getters.getItem.title;
+      this.itemBody = this.$store.getters.getItem.body;
+      this.btnList = true;
+      this.show = true;
+    })
+    this.$EventBus.$on("close", () => (this.close()));
+    this.$EventBus.$on("cancel", () =>{
+      this.boardEditSwitch = false;
+      this.btnList = true
+      }
+    )
   }
 };
 </script>

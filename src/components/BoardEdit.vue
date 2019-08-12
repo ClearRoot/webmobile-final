@@ -7,33 +7,19 @@
             <v-flex xs12>
               <v-text-field
                 label="title"
-                v-model="value.edit_title"
+                v-model = "boardItem.titleEdit"
                 required
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
+              <ImgList v-if="this.$store.getters.getItemType === 'portfolios'" :name="name"></ImgList>
+            <v-img v-if="imageFile" :src="imageFile"></v-img>
               <markdown-editor
                 :configs="options"
-                v-model="value.edit_body"
+                v-model = "boardItem.bodyEdit"
               ></markdown-editor>
             </v-flex>
-            <input
-              style="visibility:hidden"
-              type="text"
-              ref="item_title"
-              :value="value.edit_title"
-              @input="updateDate()"
-            />
-            <input
-              style="visibility:hidden"
-              type="text"
-              ref="item_body"
-              :value="value.edit_body"
-              @input="updateDate()"
-            />
           </v-layout>
-          <ImgList v-if="board_type === 'portfolio'" :name="name"></ImgList>
-          <v-img v-if="imageFile" :src="imageFile"></v-img>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -54,9 +40,7 @@ import Swal from "sweetalert2";
 export default {
   name: "Writer",
   props: {
-    board_type: { type: String },
-    item_id: { type: String },
-    value: { type: Object }
+    boardItem : { type: Object}
   },
   data() {
     return {
@@ -65,17 +49,16 @@ export default {
       saveBtn: true,
       title: "",
       body: "",
-      imageFile: "",
+      imageFile: this.boardItem.imgEdit,
       options: {
         spellChecker: false
       },
       item: {
+        id: "",
         title: "",
         body: "",
-        id: ""
-      },
-      origin_title: "",
-      origin_body: ""
+        Img: ""
+      }
     };
   },
   components: {
@@ -85,8 +68,6 @@ export default {
     this.$EventBus.$on("selectImgWriter", res => {
       this.imageFile = res;
     });
-    this.origin_title = this.value.edit_title;
-    this.origin_body = this.value.edit_body;
   },
   mounted() {
     this.init();
@@ -103,8 +84,8 @@ export default {
     },
     close() {
       if (
-        this.value.edit_title != this.origin_title ||
-        this.value.edit_body != this.origin_body
+        this.boardItem.titleEdit != this.$store.getters.getItem.title ||
+        this.boardItem.bodyEdit != this.$store.getters.getItem.body
       ) {
         this.swalWithBootstrapButtons
           .fire({
@@ -117,13 +98,13 @@ export default {
           })
           .then(result => {
             if (result.value) {
-              this.value.edit_title = this.origin_title;
-              this.value.edit_body = this.origin_body;
-              this.$EventBus.$emit("close");
+              this.boardItem.titleEdit = this.$store.getters.getItem.title;
+              this.boardItem.bodyEdit = this.$store.getters.getItem.body;
+              this.$EventBus.$emit("cancel");
             }
           });
       } else {
-        this.$EventBus.$emit("close");
+        this.$EventBus.$emit("cancel");
       }
     },
     async edit() {
@@ -138,34 +119,23 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            this.item.title = this.value.edit_title;
-            this.item.body = this.value.edit_body;
-            this.origin_title = this.value.edit_title
-            this.origin_body = this.value.edit_body;
-            this.item.id = this.item_id;
-            switch (this.board_type) {
-              case "post":
+            this.item.id = this.$store.getters.getItem.id;
+            this.item.title = this.boardItem.titleEdit;
+            this.item.body = this.boardItem.bodyEdit;
+            switch (this.$store.getters.getItemType) {
+              case "posts":
                 FirebaseService.updatePost(this.item);
                 break;
               default:
                 this.item.img = this.imageFile;
                 FirebaseService.updatePortfolio(this.item);
             }
-            this.$EventBus.$emit("closeRoot");
             this.$EventBus.$emit("close");
             this.$EventBus.$emit("refreshBoard");
-            this.$EventBus.$emit("refreshDetail",this.value);
             this.swalWithBootstrapButtons.fire("수정되었습니다");
           }
         });
-
     },
-    updateDate() {
-      this.$emit("input", {
-        edit_title: this.$refs.item_title.value,
-        edit_body: this.$refs.item_body.value
-      });
-    }
   }
 };
 </script>

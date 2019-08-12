@@ -52,22 +52,13 @@ export default {
   },
   data() {
     return {
-      item_id: "",
-      item: { type: Object }
+      item_id: ""
     };
   },
-  props: {
-    id: { type: String }
-  },
-  watch: {
-    item_id: function() {
-      this.loadComments();
-    }
-  },
   created() {
-    this.$EventBus.$on("item", res => {
-      this.item = res;
-      this.item_id = this.item.id;
+    this.$EventBus.$on("clickedItem", res => {
+      this.item_id = this.$store.getters.getItem.id;
+      this.loadComments();
     });
   }
 };
