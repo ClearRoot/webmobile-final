@@ -12,18 +12,7 @@
             </strong>
           </v-flex>
           <v-flex xs12 md3 my-2>
-            <v-layout justify-center>
-              <v-btn
-                v-for="item in items"
-                :href="item.link"
-                :key="item.title"
-                class="mx-3"
-                dark
-                icon
-              >
-                <v-icon medium>{{ item.icon }}</v-icon>
-              </v-btn>
-            </v-layout>
+            <v-layout justify-center> </v-layout>
           </v-flex>
         </v-layout>
       </v-card-title>

@@ -2,6 +2,7 @@
   <v-layout py-3 h-100>
     <v-flex>
       <v-hover>
+
         <v-card
           @click="clickedItem"
           slot-scope="{ hover }"
@@ -11,18 +12,31 @@
           dark
         >
           <v-toolbar card light dense>
-            <v-toolbar-title
-              v-if="!translateState"
-              class="headline font-weight-bold text-no-wrap text-truncate"
-            >
-              {{ data.title }}
-            </v-toolbar-title>
-            <v-toolbar-title
-              v-if="translateState"
-              class="headline font-weight-bold text-no-wrap text-truncate"
-            >
-              {{ titleEN }}
-            </v-toolbar-title>
+            <v-layout>
+              <v-layout justify-start mt-2>
+                <v-toolbar-title
+                  v-if="!translateState"
+                  class="headline font-weight-bold text-no-wrap text-truncate"
+                >
+                  {{ data.title }}
+                </v-toolbar-title>
+                <v-toolbar-title
+                  v-if="translateState"
+                  class="headline font-weight-bold text-no-wrap text-truncate"
+                >
+                  {{ titleEN }}
+                </v-toolbar-title>
+              </v-layout>
+              <v-chip
+                justify-end
+                label
+                v-if="isNew"
+                color="red"
+                text-color="white"
+              >
+                <v-icon left>bookmark</v-icon>New
+              </v-chip>
+            </v-layout>
           </v-toolbar>
           <v-card-text
             v-if="!translateState"
@@ -105,14 +119,22 @@ export default {
   },
   methods: {
     clickedItem() {
-      this.$store.commit("clickedItem", [this.data, "posts"])
+      this.$store.commit("clickedItem", [this.data, "posts"]);
       this.$EventBus.$emit("clickedItem", true);
     }
   },
   computed: {
     formatedDate() {
       const date = this.data.created_at;
-      return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
+      return `${date.getFullYear()}년 ${date.getMonth() +
+        1}월 ${date.getDate()}일`;
+    },
+    isNew() {
+      const date = this.data.created_at;
+      let curDate = new Date();
+      var diff = Math.abs(date.getTime() - curDate.getTime());
+      var res = Math.ceil(diff / (1000 * 3600 * 24));
+      return res <= 1;
     }
   },
   mounted() {
