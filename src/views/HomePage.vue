@@ -23,17 +23,17 @@
             <v-flex xs12 sm8 class="text-sm-left text-xs-center" align-baseline>
               <h2 class="headline mb-3">{{ item.name }}</h2>
               <p class="mr-4">{{ item.aboutMe }}</p>
-                <v-flex xs12 sm8 py-5 class="hidden-sm-and-down">
-                  <v-btn
-                    v-for="btn in item.buttons"
-                    :href="btn.link"
-                    :key="btn.title"
-                    class="mx-3"
-                    icon
-                  >
-                    <v-icon medium>{{ btn.icon }}</v-icon>
-                  </v-btn>
-                </v-flex>
+              <v-flex xs12 sm8 py-5 class="hidden-sm-and-down">
+                <v-btn
+                  v-for="btn in item.buttons"
+                  :href="btn.link"
+                  :key="btn.title"
+                  class="mx-3"
+                  icon
+                >
+                  <v-icon medium>{{ btn.icon }}</v-icon>
+                </v-btn>
+              </v-flex>
             </v-flex>
             <v-flex sm4 class="hidden-xs-only">
               <v-img

@@ -101,8 +101,6 @@ export default {
             }
           }
         });
-
-
         var dataChart3 = new gapi.analytics.googleCharts.DataChart({
           query: {
             dimensions: "ga:date",
