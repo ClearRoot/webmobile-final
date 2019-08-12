@@ -16,10 +16,7 @@
     </v-layout>
   </v-container>
 </template>
-
 <script>
-
-
 export default {
   name: "Repository",
 
@@ -36,7 +33,6 @@ export default {
     };
   }
 };
-
 </script>
 
 <style>

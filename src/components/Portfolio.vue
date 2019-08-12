@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     clickedItem() {
-      this.$store.commit("clickedItem", [this.data, "portfolios"])
+      this.$store.commit("clickedItem", [this.data, "portfolios"]);
       this.$EventBus.$emit("clickedItem", true);
     }
   },
