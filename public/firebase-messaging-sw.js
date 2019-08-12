@@ -28,7 +28,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
     const clickedNotification = event.notification;
     clickedNotification.close();
   });
-
   return self.registration.showNotification(
     notificationTitle,
     notificationOptions

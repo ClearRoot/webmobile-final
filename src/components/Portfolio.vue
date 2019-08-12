@@ -1,7 +1,7 @@
 <template>
   <v-hover>
     <v-card
-      @click.close="openBoard"
+      @click.close="clickedItem"
       slot-scope="{ hover }"
       :class="`elevation-${hover ? 12 : 2}`"
     >
@@ -59,8 +59,7 @@ export default {
       ddlTarget: "en",
       titleEN: "",
       bodyEN: "",
-      translateState: false,
-      showBoard: false
+      translateState: false
     };
   },
   created() {
@@ -86,8 +85,9 @@ export default {
     });
   },
   methods: {
-    openBoard() {
-      this.$EventBus.$emit("item", this.data);
+    clickedItem() {
+      this.$store.commit("clickedItem", [this.data, "portfolios"])
+      this.$EventBus.$emit("clickedItem", true);
     }
   },
   computed: {

@@ -6,7 +6,6 @@ import PortfolioPage from "./views/PortfolioPage.vue";
 import PortfolioDetail from "./views/PortfolioDetail.vue";
 import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
-import SignIn from "./components/SignIn.vue";
 import BackOfficePage from "./views/BackOfficePage.vue";
 import ErrorPage from "./views/ErrorPage.vue";
 Vue.use(Router);
@@ -40,18 +39,13 @@ export default new Router({
       path: "/portfoliodetail",
       name: "portfoliodetail",
       component: PortfolioDetail,
-      props:true
+      props: true
     },
     {
       path: "/postdetail",
       name: "postdetail",
       component: PostDetail,
-      props:true
-    },
-    {
-      path: "/signin",
-      name: "signin",
-      component: SignIn
+      props: true
     },
     {
       path: "/backoffice",
