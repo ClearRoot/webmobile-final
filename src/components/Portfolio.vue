@@ -83,7 +83,7 @@ export default {
             this.translateState = !this.translateState;
           })
           .catch(e => {
-            console.error(e)
+            console.error(e);
           });
       } else {
         this.translateState = !this.translateState;

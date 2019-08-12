@@ -186,7 +186,6 @@ export default {
         accessToken: "",
         auth: ""
       });
-
     },
 
     swal_alert: function() {
@@ -210,7 +209,7 @@ export default {
     FirebaseService.authChk();
     this.$EventBus.$on("clickedItem", () => {
       this.boardSwitch = true;
-    })
+    });
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

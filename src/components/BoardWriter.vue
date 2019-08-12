@@ -3,7 +3,8 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn outline color="#ff0000" dark v-on="on">
-          NEW {{ board_type }} </v-btn>
+          NEW {{ board_type }}
+        </v-btn>
       </template>
       <v-card>
         <v-card-text>
