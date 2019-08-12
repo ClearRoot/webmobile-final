@@ -1,6 +1,6 @@
 import Api from "@/services/Api";
 import axios from "axios";
-const WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
+const WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 const TRANSLATE_URL = "https://www.googleapis.com/language/translate/v2";
 
 export default {
