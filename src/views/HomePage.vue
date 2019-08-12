@@ -3,7 +3,7 @@
     <ImgBanner>
       <div class="imgbanner-title" slot="text">Just Do it.</div>
     </ImgBanner>
-    <v-container >
+    <v-container>
       <!-- About Me -->
       <v-carousel
         light
