@@ -3,7 +3,7 @@
     <v-flex>
       <v-hover>
         <v-card
-          @click = "clickedItem"
+          @click="clickedItem"
           slot-scope="{ hover }"
           :class="`elevation-${hover ? 12 : 2}`"
           class="mx-auto"
