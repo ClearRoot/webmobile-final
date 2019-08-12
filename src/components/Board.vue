@@ -110,7 +110,11 @@ export default {
       }
     },
     checkAuth() {
-      return this.$store.getters.checkAuth;
+      if (this.$store.state.user) {
+        return this.$store.getters.checkAuth;
+      } else {
+        return null;
+      }
     }
   },
   methods: {
