@@ -120,8 +120,6 @@ export default {
   data() {
     return {
       boardSwitch: false,
-      authLoad: false,
-      auth: false,
       btnShow: false,
       drawer: false,
       dialog: false,
@@ -182,11 +180,11 @@ export default {
     async logOut() {
       FirebaseService.logOut();
       this.swal_alert();
-      this.$store.state.user = "";
-      this.$store.state.accessToken = "";
-      this.$store.state.auth = "";
-      this.authLoad = false;
-      this.auth = null;
+      this.$store.commit("logout", {
+        user: "",
+        accessToken: "",
+        auth: ""
+      });
       this.$router.push("/");
     },
 

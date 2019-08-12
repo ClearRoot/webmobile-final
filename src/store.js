@@ -41,7 +41,6 @@ export default new Vuex.Store({
       state.user = payload.userVal;
       state.accessToken = payload.accessTokenVal;
       state.auth = payload.authVal;
-      state.loginChk = payload.loginChkVal;
     }
   },
   actions: {},
