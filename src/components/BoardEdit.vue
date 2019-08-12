@@ -130,10 +130,8 @@ export default {
                 this.item.img = this.imageFile;
                 FirebaseService.updatePortfolio(this.item);
             }
-            // this.$EventBus.$emit("closeRoot");
             this.$EventBus.$emit("close");
             this.$EventBus.$emit("refreshBoard");
-            // this.$EventBus.$emit("refreshDetail",this.value);
             this.swalWithBootstrapButtons.fire("수정되었습니다");
           }
         });
