@@ -58,6 +58,7 @@ export default {
           text: "권한이 없거나 비적인 접근입니다."
         });
         this.$router.push("/");
+        return;
       }
       gapi.analytics.auth.authorize({
         serverAuth: { ids: "ga:199222657", access_token: token }
