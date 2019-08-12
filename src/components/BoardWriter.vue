@@ -84,7 +84,7 @@ export default {
           text: "내용이 입력되지 않았습니다.",
           footer: "제목, 본문을 입력해주셔야합니다."
         });
-      } else if (this.imageFile === "") {
+      } else if (this.board_type === "portfolio" && this.imageFile === "") {
         Swal.fire({
           type: "error",
           title: "Oops...",
