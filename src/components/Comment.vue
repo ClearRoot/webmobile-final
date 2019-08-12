@@ -56,7 +56,7 @@ export default {
     };
   },
   created() {
-    this.$EventBus.$on("clickedItem", res => {
+    this.$EventBus.$on("clickedItem", () => {
       this.item_id = this.$store.getters.getItem.id;
       this.loadComments();
     });

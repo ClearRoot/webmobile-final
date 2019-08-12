@@ -42,6 +42,7 @@
 <script>
 import FirebaseService from "@/services/FirebaseService";
 import ImgList from "@/components/ImgList";
+import Swal from "sweetalert2";
 
 export default {
   name: "Writer",
@@ -76,21 +77,37 @@ export default {
       this.imageFile = "";
     },
     async write() {
-      if (!this.saveBtn) {
-        return 0;
-      }
-      this.saveBtn = false;
-      if (this.board_type === "portfolio") {
-        await FirebaseService.postPortfolio(
-          this.title,
-          this.body,
-          this.imageFile
-        );
+      if (this.title === "" || this.body === "") {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "내용이 입력되지 않았습니다.",
+          footer: "제목, 본문을 입력해주셔야합니다."
+        });
+      } else if (this.imageFile === "") {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "이미지를 첨부해주셔야 합니다.",
+          footer: "포트폴리오작성에는 이미지가 필요합니다."
+        });
       } else {
-        await FirebaseService.postPost(this.title, this.body);
+        if (!this.saveBtn) {
+          return 0;
+        }
+        this.saveBtn = false;
+        if (this.board_type === "portfolio") {
+          await FirebaseService.postPortfolio(
+            this.title,
+            this.body,
+            this.imageFile
+          );
+        } else {
+          await FirebaseService.postPost(this.title, this.body);
+        }
+        await this.$EventBus.$emit("refreshBoard");
+        await this.closeModal();
       }
-      await this.$EventBus.$emit("refreshBoard");
-      await this.closeModal();
     }
   }
 };

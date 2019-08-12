@@ -7,16 +7,19 @@
             <v-flex xs12>
               <v-text-field
                 label="title"
-                v-model = "boardItem.titleEdit"
+                v-model="boardItem.titleEdit"
                 required
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <ImgList v-if="this.$store.getters.getItemType === 'portfolios'" :name="name"></ImgList>
+              <ImgList
+                v-if="this.$store.getters.getItemType === 'portfolios'"
+                :name="name"
+              ></ImgList>
             <v-img v-if="imageFile" :src="imageFile"></v-img>
               <markdown-editor
                 :configs="options"
-                v-model = "boardItem.bodyEdit"
+                v-model="boardItem.bodyEdit"
               ></markdown-editor>
             </v-flex>
           </v-layout>
@@ -40,7 +43,7 @@ import Swal from "sweetalert2";
 export default {
   name: "Writer",
   props: {
-    boardItem : { type: Object}
+    boardItem: { type: Object }
   },
   data() {
     return {
