@@ -12,25 +12,6 @@
           dark
         >
           <v-toolbar card light dense>
-
-            <v-badge
-      color="red"
-      left
-      overlap
-    >
-      <template v-slot:badge>
-        <v-icon dark>
-          done
-        </v-icon>
-      </template>
-      <v-icon
-        color="grey lighten-1"
-        large
-      >
-        account_circle
-      </v-icon>
-    </v-badge>
-
             <v-toolbar-title
               v-if="!translateState"
               class="headline font-weight-bold text-no-wrap text-truncate"
@@ -43,6 +24,8 @@
             >
               {{ titleEN }}
             </v-toolbar-title>
+            <v-layout justify-end><v-chip v-if="isNew" color="red" text-color="white"> New </v-chip></v-layout>
+
           </v-toolbar>
           <v-card-text
             v-if="!translateState"
@@ -133,6 +116,13 @@ export default {
     formatedDate() {
       const date = this.data.created_at;
       return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
+    },
+    isNew() {
+      const date = this.data.created_at;
+      let curDate = new Date();
+      var diff = Math.abs(date.getTime() - curDate.getTime());
+      var res = Math.ceil(diff / (1000 * 3600 * 24));
+      return res <= 1;
     }
   },
   mounted() {

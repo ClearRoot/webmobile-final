@@ -5,11 +5,12 @@
       slot-scope="{ hover }"
       :class="`elevation-${hover ? 12 : 2}`"
     >
-      <v-img :src="data.img" height="200px"></v-img>
+
+      <v-img :src="data.img" height="200px"><v-layout justify-end><v-chip v-if="isNew" color="red" text-color="white"> New </v-chip></v-layout></v-img>
       <v-card-title primary-title>
         <div v-if="!translateState" class="headline text-no-wrap text-truncate">
           {{ data.title }}
-        </div>
+          </div>
         <div v-if="translateState" class="headline text-no-wrap text-truncate">
           {{ titleEN }}
         </div>
@@ -94,6 +95,13 @@ export default {
     formatedDate() {
       const date = this.data.created_at;
       return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
+    },
+    isNew() {
+      const date = this.data.created_at;
+      let curDate = new Date();
+      var diff = Math.abs(date.getTime() - curDate.getTime());
+      var res = Math.ceil(diff / (1000 * 3600 * 24));
+      return res <= 1;
     }
   }
 };
