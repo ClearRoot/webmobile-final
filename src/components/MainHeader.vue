@@ -56,7 +56,7 @@
         data-user="skrduq1260"
         data-init-key="value"
       ></div>
-
+      <Board v-model="boardSwitch"></Board>
       <v-navigation-drawer v-model="drawer" width="160" fixed temporary>
         <v-list class="pa-1 grey" dark>
           <v-list-tile avatar>
@@ -113,11 +113,13 @@
 import FirebaseService from "@/services/FirebaseService";
 import SignIn from "../components/SignIn";
 import Swal from "sweetalert2";
+import Board from "./Board";
 
 export default {
   name: "MainHeader",
   data() {
     return {
+      boardSwitch: false,
       authLoad: false,
       auth: false,
       btnShow: false,
@@ -152,7 +154,8 @@ export default {
     }
   },
   components: {
-    SignIn
+    SignIn,
+    Board
   },
   methods: {
     trans() {
@@ -186,6 +189,7 @@ export default {
       this.auth = null;
       this.$router.push("/");
     },
+
     swal_alert: function() {
       Swal.fire({
         title: "Logout 되었습니다.",
@@ -205,6 +209,9 @@ export default {
   created() {
     FirebaseService.loginChk();
     FirebaseService.authChk();
+    this.$EventBus.$on("clickedItem", () => {
+      this.boardSwitch = true;
+    })
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });
