@@ -10,7 +10,7 @@
         <v-toolbar dark color="#00002288">
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-layout v-show = "btnList">
+            <v-layout v-show="btnList">
               <v-btn
                 tile
                 outlined
@@ -44,16 +44,17 @@
                 <v-card-title primary class="title">
                   {{ itemTitle }}
                 </v-card-title>
-                <v-img :src="this.$store.state.item.img" v-if="this.$store.state.item_type === 'portfolios'"></v-img>
-                <v-card-text>
-                  {{ itemBody }}
-                </v-card-text>
+                <v-img
+                  :src="this.$store.state.item.img"
+                  v-if="this.$store.state.item_type === 'portfolios'"
+                ></v-img>
+                <vue-markdown
+                  class="v-card__text"
+                  :source="this.itemBody"
+                ></vue-markdown>
               </v-card>
               <v-card v-if="boardEditSwitch">
-                <BoardEdit
-                  v-if="boardEditSwitch === true"
-                  :boardItem="item"
-                >
+                <BoardEdit v-if="boardEditSwitch === true" :boardItem="item">
                 </BoardEdit>
               </v-card>
             </v-flex>
@@ -74,6 +75,7 @@ import FirebaseService from "../services/FirebaseService";
 import BoardEdit from "./BoardEdit";
 import Comment from "./Comment";
 import Swal from "sweetalert2";
+import VueMarkdown from "vue-markdown";
 
 export default {
   name: "Board",
@@ -81,7 +83,7 @@ export default {
     return {
       itemTitle: "",
       itemBody: "",
-      item:{
+      item: {
         TitleEdit: "",
         BodyEdit: "",
         ImgEdit: ""
@@ -91,11 +93,12 @@ export default {
     };
   },
   props: {
-    value: Boolean,
+    value: Boolean
   },
   components: {
     Comment,
-    BoardEdit
+    BoardEdit,
+    VueMarkdown
   },
   mounted() {
     this.init();
@@ -150,27 +153,31 @@ export default {
         })
         .then(result => {
           if (result.value) {
-              FirebaseService.removeItem(this.$store.getters.getItem.id, this.$store.getters.getItemType);
-            }
-            this.swalWithBootstrapButtons.fire("삭제되었습니다");
-            this.$EventBus.$emit("refreshBoard");
-            this.show = false;
+            FirebaseService.removeItem(
+              this.$store.getters.getItem.id,
+              this.$store.getters.getItemType
+            );
+          }
+          this.swalWithBootstrapButtons.fire("삭제되었습니다");
+          this.$EventBus.$emit("refreshBoard");
+          this.show = false;
         });
     }
   },
   created() {
-    this.$EventBus.$on("clickedItem" , () => {
+    this.$EventBus.$on("clickedItem", () => {
       this.itemTitle = this.$store.getters.getItem.title;
       this.itemBody = this.$store.getters.getItem.body;
       this.btnList = true;
       this.show = true;
-    })
-    this.$EventBus.$on("close", () => (this.close()));
-    this.$EventBus.$on("cancel", () =>{
+    });
+    this.$EventBus.$on("close", () => {
+      this.close();
+    });
+    this.$EventBus.$on("cancel", () => {
       this.boardEditSwitch = false;
-      this.btnList = true
-      }
-    )
+      this.btnList = true;
+    });
   }
 };
 </script>
