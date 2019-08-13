@@ -4,7 +4,7 @@
       <v-toolbar fixed flat dark :color="headerColor" height="65px">
         <v-toolbar-side-icon
           @click.stop="drawer = !drawer"
-          class="hidden-sm-and-up"
+          class="hidden-md-and-up"
         >
           <v-icon>menu</v-icon>
         </v-toolbar-side-icon>
@@ -13,13 +13,16 @@
         </router-link>
         <v-toolbar-title>SamJo Blog</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-xs-only">
+        <v-toolbar-items class="hidden-sm-and-down">
           <v-btn flat v-if="adminAuthStatus" to="/backoffice">BackOffice</v-btn>
           <v-btn flat to="/repository">Repository</v-btn>
           <v-btn flat to="/portfolio">Portfolio</v-btn>
           <v-btn flat to="/post">Post</v-btn>
           <v-btn flat v-if="!loginUserStatus" @click="dialog = true">
             Login
+          </v-btn>
+          <v-btn flat v-if="loginUserStatus" to="/memberModifyPage">
+            MyPage
           </v-btn>
           <v-btn flat v-if="loginUserStatus" @click="logOut">Logout</v-btn>
           <v-btn flat @click="trans">Translation</v-btn>
@@ -61,8 +64,10 @@
         <v-list class="pa-1 grey" dark>
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <v-gravatar :email="userEmail" :size="80" />
+              <v-gravatar v-if="!userPhotoURL" :email="userEmail" :size="80" />
+              <v-img v-if="userPhotoURL" :src="userPhotoURL"></v-img>
             </v-list-tile-avatar>
+
             <v-list-tile-content>
               <v-list-tile-title style="font-size: 0.8em;">
                 {{ userEmail }}
@@ -128,19 +133,35 @@ export default {
         { title: "Home", icon: "home", route: "/" },
         { title: "Repository", icon: "folder", route: "/repository" },
         { title: "Portfolio", icon: "art_track", route: "/portfolio" },
-        { title: "Post", icon: "create", route: "/post" }
+        { title: "Post", icon: "create", route: "/post" },
+        {
+          title: "MemberModifyPage",
+          icon: "folder",
+          route: "/memberModifyPage"
+        }
       ]
     };
   },
   computed: {
     loginUserStatus() {
-      return this.$store.state.user;
+      if (this.$store.state.user) {
+        return this.$store.state.user;
+      } else {
+        return false;
+      }
     },
     userEmail() {
       if (this.$store.state.user) {
         return this.$store.state.user.email;
       } else {
         return "Guest";
+      }
+    },
+    userPhotoURL() {
+      if (this.$store.state.user) {
+        return this.$store.state.user.photoURL;
+      } else {
+        return null;
       }
     },
     adminAuthStatus() {
@@ -177,7 +198,6 @@ export default {
       );
     },
     async logOut() {
-      this.$router.push("/");
       FirebaseService.logOut();
       this.swal_alert();
       this.$store.commit("logout", {
@@ -185,6 +205,7 @@ export default {
         accessToken: "",
         auth: ""
       });
+      this.$router.push("/");
     },
 
     swal_alert: function() {
