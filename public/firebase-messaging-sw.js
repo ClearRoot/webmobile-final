@@ -15,13 +15,13 @@ messaging.setBackgroundMessageHandler(function(payload) {
     notificationTitle = "게시물 '" + data.title + "'에 " + data.message;
     notificationOptions = {
       body: data.comment,
-      icon: "./img/icons/android-chrome-192x192.png"
+      icon: "/img/icons/android-chrome-192x192.png"
     };
   } else {
     notificationTitle = data.owner + "님이 " + data.message;
     notificationOptions = {
       body: data.title,
-      icon: "./img/icons/android-chrome-192x192.png"
+      icon: "/img/icons/android-chrome-192x192.png"
     };
   }
   self.addEventListener("notificationclick", function(event) {
