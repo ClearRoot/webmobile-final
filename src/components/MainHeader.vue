@@ -70,7 +70,7 @@
 
             <v-list-tile-content>
               <v-list-tile-title style="font-size: 0.8em;">
-                {{ userEmail }}
+                {{ userName }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -90,6 +90,15 @@
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile-content>
           </router-link>
+
+          <v-list-tile v-if="loginUserStatus" to="/memberModifyPage">
+            <v-list-tile-action>
+              <v-icon>account_box</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>MyPage</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
 
           <v-list-tile v-if="!loginUserStatus" @click="dialog = true">
             <v-list-tile-action>
@@ -133,12 +142,7 @@ export default {
         { title: "Home", icon: "home", route: "/" },
         { title: "Repository", icon: "folder", route: "/repository" },
         { title: "Portfolio", icon: "art_track", route: "/portfolio" },
-        { title: "Post", icon: "create", route: "/post" },
-        {
-          title: "MemberModifyPage",
-          icon: "folder",
-          route: "/memberModifyPage"
-        }
+        { title: "Post", icon: "create", route: "/post" }
       ]
     };
   },
@@ -153,6 +157,17 @@ export default {
     userEmail() {
       if (this.$store.state.user) {
         return this.$store.state.user.email;
+      } else {
+        return "Guest";
+      }
+    },
+    userName() {
+      if (this.$store.state.user) {
+        if (this.$store.state.user.displayName) {
+          return this.$store.state.user.displayName;
+        } else {
+          return this.$store.state.user.email;
+        }
       } else {
         return "Guest";
       }

@@ -260,16 +260,11 @@ export default {
         });
       } else if (code === "join") {
         Swal.fire({
+          position: "mid",
+          type: "success",
           title: "환영합니다.",
-          text: "가입되었습니다.",
-          type: "question",
-          customClass: {
-            icon: "swal2-arabic-question-mark"
-          },
-          confirmButtonText: "예",
-          cancelButtonText: "아니오",
-          showCancelButton: true,
-          showCloseButton: true
+          showConfirmButton: false,
+          timer: 1500
         });
       } else if (code === "social_login") {
         Swal.fire({
