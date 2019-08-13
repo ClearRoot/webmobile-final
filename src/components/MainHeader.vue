@@ -178,6 +178,7 @@ export default {
       );
     },
     async logOut() {
+      this.$router.push("/");
       FirebaseService.logOut();
       this.swal_alert();
       this.$store.commit("logout", {
@@ -185,7 +186,6 @@ export default {
         accessToken: "",
         auth: ""
       });
-      this.$router.push("/");
     },
 
     swal_alert: function() {
@@ -209,7 +209,7 @@ export default {
     FirebaseService.authChk();
     this.$EventBus.$on("clickedItem", () => {
       this.boardSwitch = true;
-    })
+    });
     this.$EventBus.$on("close", async () => {
       this.dialog = false;
     });

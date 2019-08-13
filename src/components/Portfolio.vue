@@ -5,7 +5,13 @@
       slot-scope="{ hover }"
       :class="`elevation-${hover ? 12 : 2}`"
     >
-      <v-img :src="data.img" height="200px"></v-img>
+      <v-img :src="data.img" height="200px"
+        ><v-layout justify-end>
+          <v-chip label v-if="isNew" color="red" text-color="white">
+            <v-icon left>bookmark</v-icon>New
+          </v-chip></v-layout
+        ></v-img
+      >
       <v-card-title primary-title>
         <div v-if="!translateState" class="headline text-no-wrap text-truncate">
           {{ data.title }}
@@ -77,7 +83,7 @@ export default {
             this.translateState = !this.translateState;
           })
           .catch(e => {
-            console.error(e)
+            console.error(e);
           });
       } else {
         this.translateState = !this.translateState;
@@ -93,7 +99,15 @@ export default {
   computed: {
     formatedDate() {
       const date = this.data.created_at;
-      return `${date.getFullYear()}년 ${date.getMonth() +1}월 ${date.getDate()}일`;
+      return `${date.getFullYear()}년 ${date.getMonth() +
+        1}월 ${date.getDate()}일`;
+    },
+    isNew() {
+      const date = this.data.created_at;
+      let curDate = new Date();
+      var diff = Math.abs(date.getTime() - curDate.getTime());
+      var res = Math.ceil(diff / (1000 * 3600 * 24));
+      return res <= 1;
     }
   }
 };

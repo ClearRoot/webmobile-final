@@ -36,7 +36,7 @@
 </template>
 <script>
 import ApiService from "@/services/ApiService";
-
+import Swal from "sweetalert2";
 export default {
   name: "AnalyticsTab",
   data() {
@@ -51,6 +51,15 @@ export default {
   methods: {
     async init() {
       let token = await ApiService.getRefreshToken();
+      if (!gapi.analytics.auth) {
+        Swal.fire({
+          type: "error",
+          title: "403 error",
+          text: "권한이 없거나 비적인 접근입니다."
+        });
+        this.$router.push("/");
+        return;
+      }
       gapi.analytics.auth.authorize({
         serverAuth: { ids: "ga:199222657", access_token: token }
       });
@@ -93,8 +102,6 @@ export default {
             }
           }
         });
-
-
         var dataChart3 = new gapi.analytics.googleCharts.DataChart({
           query: {
             dimensions: "ga:date",

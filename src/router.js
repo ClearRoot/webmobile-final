@@ -17,7 +17,8 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: HomePage
+      component: HomePage,
+      alias: "/index.html"
     },
     {
       path: "/post",
