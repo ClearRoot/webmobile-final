@@ -40,7 +40,7 @@
         </template>
         <template v-slot:no-results>
           <v-alert :value="true" color="error" icon="warning">
-            검색 결과가 없습니다.
+            "{{ search }}" 에 대한 검색결과가 없습니다.
           </v-alert>
         </template>
         <template v-slot:items="props">
@@ -164,7 +164,7 @@ export default {
           text: "Author",
           align: "left",
           sortable: true,
-          value: "author",
+          value: "ownerEmail",
           width: "20%"
         },
         {
@@ -195,13 +195,6 @@ export default {
   mounted() {
     this.getItems();
     this.init();
-  },
-  watch: {
-    tab: function(newVal, oldVal) {
-      if (newVal != oldVal) {
-        this.getItems();
-      }
-    }
   },
   methods: {
     init() {
