@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <ImgBanner>
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">
         BackOffice
       </div>
     </ImgBanner>
-    <v-container v-if="true">
+    <v-container>
       <template>
         <v-card
           class="pa-3"
@@ -71,7 +71,8 @@ export default {
       active: 0,
       posts: [],
       tabs: ["post", "portfolio", "user", "analytics"],
-      auth: null
+      auth: null,
+      loading: true
     };
   },
   beforeMount() {
@@ -85,6 +86,7 @@ export default {
       await FirebaseService.loginChk();
       await FirebaseService.authChk();
       if (this.$store.state.auth.userAuth === "admin") {
+        this.loading = false;
         return;
       }
       Swal.fire({
@@ -93,12 +95,6 @@ export default {
         text: "권한이 없거나 비정상적인 접근입니다."
       });
       this.$router.push("/");
-    }
-  },
-  computed: {
-    adminAuthStatus() {
-      if (this.auth.userAuth == "admin") return true;
-      return false;
     }
   }
 };
