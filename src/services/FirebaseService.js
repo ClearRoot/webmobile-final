@@ -169,6 +169,21 @@ export default {
         return { msg: error.message, code: error.code, errorCheck: true };
       });
   },
+  updateUser(nickName, photoURL) {
+    var user = firebase.auth().currentUser;
+    user
+      .updateProfile({
+        displayName: nickName,
+        photoURL: photoURL
+      })
+      .then(function() {
+        return true;
+      })
+      .catch(function(error) {
+        alert(error);
+        return false;
+      });
+  },
   async logOut() {
     await logoutUser({}).then(function() {});
     await firebase

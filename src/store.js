@@ -27,6 +27,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    changeUser: (state, payload) => {
+      state.user.displayName = payload[0];
+      state.user.photoURL = payload[1];
+    },
     clickedItem: (state, payload) => {
       state.item = payload[0];
       state.item_type = payload[1];

@@ -8,6 +8,7 @@ import PostDetail from "./views/PostDetail.vue";
 import RepositoryPage from "./views/RepositoryPage.vue";
 import BackOfficePage from "./views/BackOfficePage.vue";
 import ErrorPage from "./views/ErrorPage.vue";
+import MemberModifyPage from "./views/MemberModifyPage";
 Vue.use(Router);
 
 export default new Router({
@@ -17,8 +18,7 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: HomePage,
-      alias: "/index.html"
+      component: HomePage
     },
     {
       path: "/post",
@@ -56,6 +56,11 @@ export default new Router({
       path: "*",
       name: "error",
       component: ErrorPage
+    },
+    {
+      path: "/MemberModifyPage",
+      name: "memberModifyPage",
+      component: MemberModifyPage
     }
   ],
   scrollBehavior(to, from, savedPosition) {
