@@ -22,7 +22,8 @@
           <v-layout my-5>
             <v-flex xs12 sm8 class="text-sm-left text-xs-center" align-baseline>
               <h2 class="headline mb-3">{{ item.name }}</h2>
-              <p class="mr-4">{{ item.aboutMe }}</p>
+              <p v-if="!translateState" class="mr-4">{{ item.aboutMe }}</p>
+              <p v-if="translateState" class="mr-4">{{ item.aboutMeEN }}</p>
               <v-flex xs12 sm8 py-5 class="hidden-sm-and-down">
                 <v-btn
                   v-for="btn in item.buttons"
@@ -99,7 +100,8 @@ export default {
       items: [
         {
           aboutMe:
-            "안녕하세요. 축산학을 전공했지만 IT 개발을 좋아하고, 공부하는 예비 개발자입니다.주로 Python을 사용하며, Web으로는 Django, Bootstrap, Vue, Vuetify를 사용할 수 있습니다.",
+            "안녕하세요. 저는 축산학을 전공했지만 IT 개발을 좋아하고, 공부하는 예비 개발자입니다.",
+          aboutMeEN: "",
           img: "cat_profile.jpg",
           name: "조호근",
           buttons: [
@@ -127,6 +129,7 @@ export default {
         },
         {
           aboutMe: "지금 잠을 자면 꿈을 꾸지만, 지금 공부하면 꿈을 이룬다",
+          aboutMeEN: "",
           img: "profile.jpg",
           name: "김선일",
           buttons: [
@@ -150,6 +153,7 @@ export default {
         {
           aboutMe:
             "안녕하세요.컴퓨터공학을 전공했습니다. 알고리즘과 웹 개발을 공부하고있습니다. 반갑습니다.",
+          aboutMeEN: "",
           img: "kch_profile.png",
           name: "김초희",
           buttons: [
@@ -171,8 +175,8 @@ export default {
           ]
         },
         {
-          aboutMe:
-            "안녕하세요, 저는 Front-End 개발자를 목표로 하고있습니다. 아직 서투르지만 노력하고있습니다.",
+          aboutMe: "안녕하세요. Front-End 개발자를 목표로 하고 있습니다.",
+          aboutMeEN: "",
           img: "jdj_profile.png",
           name: "정동준",
           buttons: [
@@ -195,36 +199,35 @@ export default {
         }
       ],
       ddlSource: "ko",
-      ddlTarget: "en"
+      ddlTarget: "en",
+      translateState: false
     };
   },
 
   created() {
     this.$EventBus.$on("click-icon_aboutme", async () => {
-      ApiService.getTranslates(
-        this.ddlSource,
-        this.ddlTarget,
-        this.items[0].aboutMe,
-        this.items[1].aboutMe,
-        this.items[2].aboutMe,
-        this.items[3].aboutMe
-      )
-        .then(res => {
-          for (let i = 0; i < 4; i++) {
-            this.items[i].aboutMe =
-              res.data.data.translations[i].translatedText;
-          }
-          if (this.ddlSource == "en") {
-            this.ddlSource = "ko";
-            this.ddlTarget = "en";
-          } else {
-            this.ddlSource = "en";
-            this.ddlTarget = "ko";
-          }
-        })
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.items[0].aboutMeEN) {
+        ApiService.getTranslates(
+          this.ddlSource,
+          this.ddlTarget,
+          this.items[0].aboutMe,
+          this.items[1].aboutMe,
+          this.items[2].aboutMe,
+          this.items[3].aboutMe
+        )
+          .then(res => {
+            for (let i = 0; i < 4; i++) {
+              this.items[i].aboutMeEN =
+                res.data.data.translations[i].translatedText;
+            }
+            this.translateState = !this.translateState;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      } else {
+        this.translateState = !this.translateState;
+      }
     });
   },
 

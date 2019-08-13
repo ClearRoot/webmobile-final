@@ -37,7 +37,7 @@ export default {
           this.currentTemp = res.data.main.temp;
           this.cityName = res.data.name;
           this.weatherImgUrl =
-            "http://openweathermap.org/img/w/" +
+            "https://openweathermap.org/img/w/" +
             res.data.weather[0].icon +
             ".png";
         })

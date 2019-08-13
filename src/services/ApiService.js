@@ -1,7 +1,8 @@
 import Api from "@/services/Api";
 import axios from "axios";
-const WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
+const WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 const TRANSLATE_URL = "https://www.googleapis.com/language/translate/v2";
+const IMGBANNER_URL = "https://source.unsplash.com/random/1600x900";
 
 export default {
   getWeather() {
@@ -40,7 +41,10 @@ export default {
         return response.data.access_token;
       })
       .catch(error => {
-      console.log("refresh error" + error);
+        console.log("refresh error" + error);
       });
+  },
+  getImgBanner() {
+    return Api.normalApi(IMGBANNER_URL).get();
   }
 };
