@@ -19,13 +19,14 @@
 
 <script>
 import ImgList from "@/components/ImgList";
+import ApiService from "@/services/ApiService";
 
 export default {
   name: "ImgBanner",
   data() {
     return {
       name: "ImgBanner",
-      imgSrc: "https://source.unsplash.com/random/1600x900"
+      imgSrc: ""
     };
   },
   components: {
@@ -39,7 +40,20 @@ export default {
   props: {
     text: { type: String }
   },
-  methods: {}
+  mounted() {
+    this.getImgSrc();
+  },
+  methods: {
+    getImgSrc() {
+      ApiService.getImgBanner()
+        .then(res => {
+          this.imgSrc = res.request.responseURL;
+        })
+        .catch(() => {
+          this.imgSrc = require("../assets/offline.jpg");
+        });
+    }
+  }
 };
 </script>
 
