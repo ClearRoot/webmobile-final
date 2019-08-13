@@ -157,10 +157,12 @@ export default {
               this.$store.getters.getItem.id,
               this.$store.getters.getItemType
             );
+            this.swalWithBootstrapButtons.fire("삭제되었습니다");
+            this.$EventBus.$emit("refreshBoard");
+            this.show = false;
           }
-          this.swalWithBootstrapButtons.fire("삭제되었습니다");
-          this.$EventBus.$emit("refreshBoard");
-          this.show = false;
+
+
         });
     }
   },
