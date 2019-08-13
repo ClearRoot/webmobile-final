@@ -161,8 +161,6 @@ export default {
             this.$EventBus.$emit("refreshBoard");
             this.show = false;
           }
-
-
         });
     }
   },
