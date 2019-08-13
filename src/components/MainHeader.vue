@@ -134,7 +134,6 @@ export default {
         { title: "Repository", icon: "folder", route: "/repository" },
         { title: "Portfolio", icon: "art_track", route: "/portfolio" },
         { title: "Post", icon: "create", route: "/post" },
-        { title: "Comment", icon: "lock_open", route: "/comment" },
         {
           title: "MemberModifyPage",
           icon: "folder",

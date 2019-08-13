@@ -2,14 +2,14 @@
   <v-layout row wrap>
     <v-flex
       class="xs12"
-      v-for="i in posts.length > limits ? limits : posts.length"
+      v-for="i in posts.length > length ? length : posts.length"
       :key="i"
       :class="'sm' + 12 / column"
       px-3
     >
       <Post :data="posts[i - 1]"></Post>
     </v-flex>
-    <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
+    <v-flex xs12 text-xs-center round my-5 v-if="more">
       <v-btn outline color="black" dark v-on:click="loadMorePosts"
         ><v-icon size="25" class="mr-2">fa-plus</v-icon> 더 보기</v-btn
       >
@@ -30,7 +30,9 @@ export default {
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      length: this.limits,
+      more: this.loadMore
     };
   },
   components: {
@@ -44,7 +46,8 @@ export default {
       this.posts = await FirebaseService.getPosts();
     },
     loadMorePosts() {
-      this.limits += 6;
+      this.length += 6;
+      if (this.length >= this.posts.length) this.more = false;
     }
   },
   created() {

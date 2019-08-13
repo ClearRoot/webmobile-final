@@ -1,30 +1,10 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <ImgBanner>
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">
         BackOffice
       </div>
     </ImgBanner>
-    <v-container v-if="true">
-      <template>
-        <v-card
-          class="pa-3"
-          flat
-          height="15em"
-          color="orange"
-          img="https://www.gstatic.com/mobilesdk/190618_mobilesdk/dashboard_fore@2x.png"
-        >
-          <v-card-text class="white--text"
-            >Google 애널리틱스를 사용하면 광고 ROI를 측정할 수 있을 뿐만 아니라
-            플래시, 동영상 및 소셜 네트워크 사이트와 애플리케이션을 추적할 수
-            있습니다.
-          </v-card-text>
-          <v-btn @click="goURL('https://analytics.google.com/')" class="mt-3">
-            Google Analytics
-          </v-btn>
-        </v-card>
-      </template>
-    </v-container>
     <v-container>
       <v-layout>
         <v-flex xs12>
@@ -71,10 +51,11 @@ export default {
       active: 0,
       posts: [],
       tabs: ["post", "portfolio", "user", "analytics"],
-      auth: null
+      auth: null,
+      loading: true
     };
   },
-  beforeMount() {
+  mounted() {
     this.checkAuth();
   },
   methods: {
@@ -85,7 +66,14 @@ export default {
       await FirebaseService.loginChk();
       await FirebaseService.authChk();
       if (this.$store.state.auth.userAuth === "admin") {
-        return;
+        try {
+          if(gapi) {
+            this.loading = false;
+            return;
+          }
+        } catch (e) {
+          //
+        }
       }
       Swal.fire({
         type: "error",
@@ -93,12 +81,6 @@ export default {
         text: "권한이 없거나 비정상적인 접근입니다."
       });
       this.$router.push("/");
-    }
-  },
-  computed: {
-    adminAuthStatus() {
-      if (this.auth.userAuth == "admin") return true;
-      return false;
     }
   }
 };
