@@ -147,13 +147,12 @@ export default {
           if (result.value) {
             FirebaseService.updateUserAuth(uid, auth, origin.userEmail);
             this.swalWithBootstrapButtons.fire("권한이 변경되었습니다");
-          }else {
+          } else {
             const index = this.items.indexOf(origin);
             if (auth == "member") this.items[index].userAuth = "visitant";
             else this.items[index].userAuth = "member";
           }
         });
-
     },
     init() {
       this.swalWithBootstrapButtons = Swal.mixin({
