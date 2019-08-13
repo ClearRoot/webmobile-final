@@ -176,12 +176,6 @@ export default {
       this.items = [];
       this.search = "";
       this.items = await FirebaseService.getUsers();
-      for (var i = 0; i < this.items.length; i++) {
-        var temp = this.items[i].created_at;
-        this.items[
-          i
-        ].created_at = `${temp.getFullYear()}년 ${temp.getMonth()}월 ${temp.getDate()}일`;
-      }
       this.pagination = {
         page: 1,
         rowsPerPage: 5, // -1 for All",
