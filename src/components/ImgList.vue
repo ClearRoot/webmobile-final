@@ -13,11 +13,7 @@
             <v-spacer></v-spacer>
             <v-layout row mt-3>
               <v-flex xs6>
-                <v-btn
-                  color="blue darken-1"
-                  flat
-                  @click="selectImg('https://source.unsplash.com/random/1600x900')"
-                >
+                <v-btn color="blue darken-1" flat @click="getRandomImgSrc()">
                   Random
                 </v-btn>
               </v-flex>
@@ -46,6 +42,7 @@
 <script>
 import FirebaseService from "@/services/FirebaseService";
 import ImgUploader from "@/components/ImgUploader";
+import ApiService from "@/services/ApiService";
 
 export default {
   name: "ImgList",
@@ -84,6 +81,15 @@ export default {
         await this.$EventBus.$emit("selectImgBanner", url);
       }
       await this.closeModal();
+    },
+    getRandomImgSrc() {
+      ApiService.getImgBanner()
+        .then(res => {
+          this.selectImg(res.request.responseURL);
+        })
+        .catch(() => {
+          this.selectImg(require("../assets/offline.jpg"));
+        });
     }
   }
 };
