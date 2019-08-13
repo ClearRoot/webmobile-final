@@ -258,9 +258,8 @@ export default {
       this.dialog = false;
       for (var i = 0; i < temp.length; i++) {
         var d = temp[i].created_at;
-        temp[
-          i
-        ].created_at = `${d.getFullYear()}년 ${d.getMonth()}월 ${d.getDate()}일`;
+        temp[i].created_at = `${d.getFullYear()}년 ${d.getMonth() +
+          1}월 ${d.getDate()}일`;
       }
       this.pagination = {
         page: 1,
