@@ -9,18 +9,15 @@
           append-icon="search"
           label="Search"
           single-line
-          hide-details
         ></v-text-field>
       </v-card-title>
       <v-data-table
         :search="search"
-        v-model="selected"
         :headers="headers"
         :items="items"
         :loading="loading"
         hide-actions
         :pagination.sync="pagination"
-        item-key="id"
         class="elevation-1"
         expand
       >
@@ -36,7 +33,7 @@
         </template>
         <template v-slot:no-results>
           <v-alert :value="true" color="error" icon="warning">
-            검색 결과가 없습니다.
+            "{{ search }}" 에 대한 검색결과가 없습니다.
           </v-alert>
         </template>
         <template v-slot:items="props">
@@ -87,9 +84,6 @@ import Swal from "sweetalert2";
 
 export default {
   name: "UserTab",
-  props: {
-    tab: null
-  },
   data() {
     return {
       auth: ["member", "visitant"],
@@ -97,25 +91,25 @@ export default {
       ddlSource: "ko",
       ddlTarget: "en",
       loading: true,
-      selected: [],
       search: "",
       pagination: {},
       headers: [
         {
-          text: "",
+          text: "Gravatar",
           align: "center",
           value: "gravatar",
-          width: "10%"
+          width: "10%",
+          sortable: false
         },
         {
           text: "ID",
           align: "left",
           sortable: true,
-          value: "title",
+          value: "userEmail",
           width: "65%"
         },
-        { text: "권한", value: "auth", sortable: false, width: "10%" },
-        { text: "", sortable: false }
+        { text: "권한", value: "userAuth", sortable: false, width: "10%" },
+        { text: " ", sortable: false }
       ],
       items: [],
       swalWithBootstrapButtons: null
@@ -138,13 +132,6 @@ export default {
     this.getItems();
     this.init();
   },
-  watch: {
-    tab: function(newVal, oldVal) {
-      if (newVal != oldVal) {
-        this.getItems();
-      }
-    }
-  },
   methods: {
     changeEvt(uid, auth, origin) {
       this.swalWithBootstrapButtons
@@ -160,13 +147,12 @@ export default {
           if (result.value) {
             FirebaseService.updateUserAuth(uid, auth, origin.userEmail);
             this.swalWithBootstrapButtons.fire("권한이 변경되었습니다");
-          }else {
+          } else {
             const index = this.items.indexOf(origin);
             if (auth == "member") this.items[index].userAuth = "visitant";
             else this.items[index].userAuth = "member";
           }
         });
-
     },
     init() {
       this.swalWithBootstrapButtons = Swal.mixin({
@@ -190,12 +176,6 @@ export default {
       this.items = [];
       this.search = "";
       this.items = await FirebaseService.getUsers();
-      for (var i = 0; i < this.items.length; i++) {
-        var temp = this.items[i].created_at;
-        this.items[
-          i
-        ].created_at = `${temp.getFullYear()}년 ${temp.getMonth()}월 ${temp.getDate()}일`;
-      }
       this.pagination = {
         page: 1,
         rowsPerPage: 5, // -1 for All",

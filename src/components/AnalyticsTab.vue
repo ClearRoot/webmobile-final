@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-card>
-      <v-card-title> {{ date }}<v-spacer></v-spacer> </v-card-title>
+      <v-card-title>
+        {{ date }} 기준 분석 정보 <v-spacer></v-spacer>
+      </v-card-title>
       <div>
         <v-layout rows align-center justify-center>
           <v-flex>
@@ -36,7 +38,6 @@
 </template>
 <script>
 import ApiService from "@/services/ApiService";
-import Swal from "sweetalert2";
 export default {
   name: "AnalyticsTab",
   data() {
@@ -51,15 +52,6 @@ export default {
   methods: {
     async init() {
       let token = await ApiService.getRefreshToken();
-      if (!gapi.analytics.auth) {
-        Swal.fire({
-          type: "error",
-          title: "403 error",
-          text: "권한이 없거나 비적인 접근입니다."
-        });
-        this.$router.push("/");
-        return;
-      }
       gapi.analytics.auth.authorize({
         serverAuth: { ids: "ga:199222657", access_token: token }
       });

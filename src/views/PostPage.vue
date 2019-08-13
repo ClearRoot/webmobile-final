@@ -4,7 +4,7 @@
       <div style="line-height:1.2em;font-size:1.2em;" slot="text">Post</div>
     </ImgBanner>
     <v-container>
-    <BoardWriter :board_type="'post'" v-show="checkAuth"></BoardWriter>
+      <BoardWriter :board_type="'post'" v-show="checkAuth"></BoardWriter>
       <!-- Post -->
       <v-layout>
         <v-flex xs12>
